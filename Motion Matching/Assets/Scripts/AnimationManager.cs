@@ -20,7 +20,7 @@ public class AnimationManager : MonoBehaviour
 
     void Start()
     {
-        //ApplyFrameToJoints(AnimationClip.Frames[0]);
+        //ApplyFrameToJoints(AnimationClip.Frames[5]);
         StartCoroutine(PlayAnimationOnce());
     }
 
@@ -56,19 +56,31 @@ public class AnimationManager : MonoBehaviour
                 continue;
             }
 
-             
-            var negativeJointPoint = AnimationClip.Frames[0].JointPoints.First(x => x.Name == jointPoint.Name);
-
             var joint = SkeletonJoints[jointPoint.Name];
-            
-            // Based on negative joint
-            var newEulerRot = jointPoint.Rotation.eulerAngles - negativeJointPoint.Rotation.eulerAngles;
-            joint.rotation = Quaternion.Euler(newEulerRot);
-            joint.position = jointPoint.Position;
-
-            // Default
-            //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);
+            ApplyJointPointToJoint(jointPoint, joint);             
         } 
+    }
+
+    private void ApplyFrameToJointsInOrder(AnimationFrame frame, Transform trans) {
+        foreach (Transform child in trans) {
+            if (frame.JointPoints.Any(x => x.Name.Equals(child.name))) {
+                var jointPoint = frame.JointPoints.First(x => x.Name.Equals(child.name));
+
+                if (child.childCount > 0) ApplyFrameToJointsInOrder(frame, child);
+                ApplyJointPointToJoint(jointPoint, child);                
+            } 
+        }
+    }
+
+    private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint) {
+        var negativeJointPoint = AnimationClip.Frames[0].JointPoints.First(x => x.Name == jointPoint.Name);
+        
+        // Based on negative joint
+        var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(negativeJointPoint.Rotation);
+        joint.rotation = newEulerRot;
+        joint.position = jointPoint.Position;
+
+        //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);
     }
 
     private void GetAllChildren(Transform trans) {
