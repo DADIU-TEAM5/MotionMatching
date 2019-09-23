@@ -61,16 +61,6 @@ public class AnimationManager : MonoBehaviour
         } 
     }
 
-    private void ApplyFrameToJointsInOrder(AnimationFrame frame, Transform trans) {
-        foreach (Transform child in trans) {
-            if (frame.JointPoints.Any(x => x.Name.Equals(child.name))) {
-                var jointPoint = frame.JointPoints.First(x => x.Name.Equals(child.name));
-
-                if (child.childCount > 0) ApplyFrameToJointsInOrder(frame, child);
-                ApplyJointPointToJoint(jointPoint, child);                
-            } 
-        }
-    }
 
     private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint) {
         var negativeJointPoint = AnimationClip.Frames[0].JointPoints.First(x => x.Name == jointPoint.Name);
