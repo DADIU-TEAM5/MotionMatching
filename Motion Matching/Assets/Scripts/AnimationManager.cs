@@ -6,20 +6,15 @@ using UnityEngine.Assertions;
 
 public class AnimationManager : MonoBehaviour
 {
-    public TextAsset CSVFile;
+    public MotionClip AnimationClip;
 
     public Transform Skeleton;
-
-    private AnimationClip AnimationClip;
 
     private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
 
     private float localTimer = 0f;
 
     void Awake() {
-        AnimationCSVImporter importer = new AnimationCSVImporter(CSVFile);
-        AnimationClip = importer.ParseCSV();
-
         GetAllChildren(Skeleton);
     }
 
@@ -67,7 +62,7 @@ public class AnimationManager : MonoBehaviour
             var joint = SkeletonJoints[jointPoint.Name];
             
             // Based on negative joint
-            var newEulerRot = jointPoint.Rotation.eulerAngles + negativeJointPoint.Rotation.eulerAngles;
+            var newEulerRot = jointPoint.Rotation.eulerAngles - negativeJointPoint.Rotation.eulerAngles;
             joint.rotation = Quaternion.Euler(newEulerRot);
             joint.position = jointPoint.Position;
 

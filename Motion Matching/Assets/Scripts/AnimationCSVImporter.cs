@@ -17,7 +17,7 @@ public class AnimationCSVImporter
 
     private Dictionary<string, int> namesToHeader = new Dictionary<string, int>();
 
-    private AnimationClip AnimationClip = new AnimationClip();
+    private List<AnimationFrame> Frames;
 
     public AnimationCSVImporter (TextAsset csvFile) {
         fileLines = TextToLines(csvFile);
@@ -25,13 +25,12 @@ public class AnimationCSVImporter
         Debug.Log($"Number of lines in CSV: {fileLines?.Length}");
     }
 
-    public AnimationClip ParseCSV()
+    public List<AnimationFrame> ParseCSV()
     {
-        if (AnimationClip.Frames != null) return AnimationClip;
+        if (Frames != null) return Frames;
+        Frames = new List<AnimationFrame>();
 
-        AnimationClip.Frames = new List<AnimationFrame>();
-
-        if (fileLines == null) return AnimationClip;
+        if (fileLines == null) return Frames;
         
         // Read header to generate dictionary between joint names to index in csv line
         ParseHeader(); 
@@ -40,7 +39,7 @@ public class AnimationCSVImporter
             ParseLine(i);
         }
         
-        return AnimationClip;
+        return Frames;
     }
 
     private void ParseHeader() {
@@ -90,7 +89,7 @@ public class AnimationCSVImporter
             frame.JointPoints.Add(jointPoint);
         }
 
-        AnimationClip.Frames.Add(frame);
+        Frames.Add(frame);
     } 
 
     private void ParseJointPoint(string[] lineSplit, int jointIndex, ref AnimationJointPoint jointPoint) {
