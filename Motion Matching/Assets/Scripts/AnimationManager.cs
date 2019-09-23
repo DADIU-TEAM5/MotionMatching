@@ -42,14 +42,14 @@ public class AnimationManager : MonoBehaviour
 
         while (index < AnimationClip.Frames.Count) {
             localTimer += Time.deltaTime;
-            Debug.Log(localTimer);
+           // Debug.Log(localTimer);
 
             var frame = AnimationClip.Frames[index];
             if (localTimer * 1000 >= frame.Time) {
                 ApplyFrameToJoints(frame);
                 index++;
             }
-
+            
             yield return null;
         }        
     }

@@ -78,7 +78,7 @@ public class AnimationCSVImporter
         Assert.AreEqual(numberOfColumns, lineSplit.Length, $"Line does not contain {numberOfColumns} columns... It is line #{index}: \n {line}");
 
         var timeString = lineSplit[0];
-        var time = float.Parse(timeString);
+        var time = CheckForDotAndParse(timeString);
 
         var frame = new AnimationFrame { Time = time, JointPoints = new List<AnimationJointPoint>() };
         foreach (var nameIndex in namesToHeader) {
@@ -111,7 +111,6 @@ public class AnimationCSVImporter
         var ry = CheckForDotAndParse(ryString);
         var rz = CheckForDotAndParse(rzString);
         var rw = CheckForDotAndParse(rwString);
-
 
 
 
