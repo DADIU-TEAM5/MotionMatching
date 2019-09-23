@@ -103,15 +103,20 @@ public class AnimationCSVImporter
         var rzString = lineSplit[jointIndex + 5];
         var rwString = lineSplit[jointIndex + 6];
 
-        var px = float.Parse(pxString); 
-        var py = float.Parse(pyString);
-        var pz = float.Parse(pzString);
+        var px = CheckForDotAndParse(pxString); 
+        var py = CheckForDotAndParse(pyString);
+        var pz = CheckForDotAndParse(pzString);
 
-        var rx = float.Parse(rxString);
-        var ry = float.Parse(ryString);
-        var rz = float.Parse(rzString);
-        var rw = float.Parse(rwString);
+        var rx = CheckForDotAndParse(rxString);
+        var ry = CheckForDotAndParse(ryString);
+        var rz = CheckForDotAndParse(rzString);
+        var rw = CheckForDotAndParse(rwString);
 
+
+
+
+
+        /*
         Assert.AreEqual(pxString, px.ToString());
         Assert.AreEqual(pyString, py.ToString());
         Assert.AreEqual(pzString, pz.ToString());
@@ -119,7 +124,7 @@ public class AnimationCSVImporter
         Assert.AreEqual(ryString, ry.ToString());
         Assert.AreEqual(rzString, rz.ToString());
         Assert.AreEqual(rwString, rw.ToString());
-
+        */
         jointPoint.Position = new Vector3(px, py, pz);
         jointPoint.Rotation = new Quaternion(rx, ry, rz, rw);
     }
@@ -131,4 +136,33 @@ public class AnimationCSVImporter
 
         return lines;
     } 
+
+    float CheckForDotAndParse(string value)
+    {
+        float parsedValue;
+        if (value.Contains("."))
+        {
+            int valueLength = value.Length;
+            parsedValue = float.Parse(value);
+
+            int start = 0;
+            if (value.Contains("-"))
+            {
+                start++;
+            }
+
+            for (int j = start; j < valueLength - 2; j++)
+            {
+                parsedValue *= 0.1f;
+            }
+
+        }
+        else
+        {
+            parsedValue = float.Parse(value);
+        }
+
+        return parsedValue;
+    }
+
 }
