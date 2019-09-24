@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using System.Text.RegularExpressions;
 using UnityEngine.Assertions;
@@ -125,6 +126,16 @@ public class AnimationCSVImporter
         */
         jointPoint.Position = new Vector3(px, py, pz);
         jointPoint.Rotation = new Quaternion(rx, ry, rz, rw);
+
+        if (Frames.Count < 1) {
+            jointPoint.BaseRotation = jointPoint.Rotation;
+        } else {
+            var firstFrame = Frames[0];
+            var jpName = jointPoint.Name;
+            var baseJoint = firstFrame.JointPoints.First(x => x.Name.Equals(jpName));
+
+            jointPoint.BaseRotation = baseJoint.Rotation;
+        }
     }
      
     private string[] TextToLines(TextAsset text) {

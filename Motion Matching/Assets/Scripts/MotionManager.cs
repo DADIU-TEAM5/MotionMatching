@@ -25,6 +25,11 @@ public class MotionManager : MonoBehaviour
         }
     }
 
+    void Start() {
+        NextFrame.Value = MotionFrames[20];
+        GoalFrame.Value = MotionFrames[40];
+    }
+
     void Update()
     {
         // TODO: Update next frame 
@@ -34,13 +39,24 @@ public class MotionManager : MonoBehaviour
 
     private void FindNextFrame() {
         var currentFrame = NextFrame.Value;  
+        var maximumNeighbours = 20; 
+        //FindNearestNeighbours(currentFrame, maximumNeighbours);
     }
+
+    // Now we brute forcing ^^
+    //private void FindNearestNeighbours(MotionFrame current, int amountOfNeighbours) {
+    //    var neighbours = new List<MotionFrame>();
+
+    //    for (int i = 0; i < amountOfNeighbours; i++) {
+    //        var closest = MotionFrames.Min(x => CalculateCost(current, x));
+    //        neighbours.Add(closest);
+    //    }
+    //}
 
     private void ExtractMotionClips(AnimClip animationClip) {
         for (int i = 1; i < animationClip.Frames.Count; i++) {
             var frame = animationClip.Frames[i];
             var lastFrame = animationClip.Frames[i - 1]; 
-
             var motionFrame = new MotionFrame();
             
             var root = frame.JointPoints.First(x => x.Name.Equals(RootName));

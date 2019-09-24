@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct AnimationFrame  
+public class AnimationFrame  
 {
     public float Time;
     public List<AnimationJointPoint> JointPoints;

@@ -8,4 +8,6 @@ public struct AnimationJointPoint
     public Vector3 Position;
     public Quaternion Rotation;
     public string Name;
+
+    public Quaternion BaseRotation;
 }

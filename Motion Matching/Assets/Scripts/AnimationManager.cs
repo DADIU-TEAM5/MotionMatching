@@ -6,7 +6,6 @@ using UnityEngine.Assertions;
 
 public class AnimationManager : MonoBehaviour
 {
-    public AnimClip AnimationClip;
 
     public Transform Skeleton;
 
@@ -38,10 +37,8 @@ public class AnimationManager : MonoBehaviour
 
 
     private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint) {
-        var negativeJointPoint = AnimationClip.Frames[0].JointPoints.First(x => x.Name == jointPoint.Name);
-        
         // Based on negative joint
-        var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(negativeJointPoint.Rotation);
+        var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
         joint.rotation = newEulerRot;
         joint.position = jointPoint.Position;
 
