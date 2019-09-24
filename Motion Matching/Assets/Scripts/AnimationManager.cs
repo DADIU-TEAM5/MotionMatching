@@ -14,42 +14,17 @@ public class AnimationManager : MonoBehaviour
 
     private float localTimer = 0f;
 
+    public MotionFrameVariable NextFrame;
+
     void Awake() {
         GetAllChildren(Skeleton);
     }
 
-    void Start()
-    {
-        //ApplyFrameToJoints(AnimationClip.Frames[5]);
-        StartCoroutine(PlayAnimationOnce());
+    void Update() {
+        ApplyFrameToJoints(NextFrame.Value.AnimationFrame);
     }
 
-    private IEnumerator WaitThenPlay() {
-
-        yield return new WaitForSeconds(5);
-
-        StartCoroutine(PlayAnimationOnce());
-    }
-
-    public IEnumerator PlayAnimationOnce() {
-        localTimer = 0f;
-        var index = 0;
-
-        while (index < AnimationClip.Frames.Count) {
-            localTimer += Time.deltaTime;
-           // Debug.Log(localTimer);
-
-            var frame = AnimationClip.Frames[index];
-            if (localTimer * 1000 >= frame.Time) {
-                ApplyFrameToJoints(frame);
-                index++;
-            }
-            
-            yield return null;
-        }        
-    }
-
-    private void ApplyFrameToJoints(AnimationFrame frame) {
+    public void ApplyFrameToJoints(AnimationFrame frame) {
         foreach (var jointPoint in frame.JointPoints) {
             if (!SkeletonJoints.Keys.Contains(jointPoint.Name)) {
                 //Debug.LogError($"{jointPoint.Name} is not in the {Skeleton.name}");

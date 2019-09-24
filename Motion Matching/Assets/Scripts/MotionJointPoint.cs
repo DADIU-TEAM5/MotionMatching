@@ -5,6 +5,9 @@ using UnityEngine;
 public class MotionJointPoint 
 {
     public Vector3 Position;
-    public Vector4 Velocity;
-    public string name;
+    public Vector3 Velocity;
+
+    public float Angle;
+
+    public string Name;
 }

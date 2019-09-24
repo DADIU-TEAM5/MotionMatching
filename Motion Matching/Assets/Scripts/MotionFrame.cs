@@ -5,7 +5,7 @@ using UnityEngine;
 public class MotionFrame  
 {
     public MotionJointPoint Root;
-    public List<MotionJointPoint> EnderPoints = new List<MotionJointPoint>();
+    public List<MotionJointPoint> EndEffectors = new List<MotionJointPoint>();
 
     public AnimationFrame AnimationFrame;
 }
