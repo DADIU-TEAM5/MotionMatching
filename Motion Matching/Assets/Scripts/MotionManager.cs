@@ -21,6 +21,8 @@ public class MotionManager : MonoBehaviour
     public List<MotionFrame> NeighborsDebug;
     public List<float> CostList;
 
+    public float CostWeightPosition, CostWeightVelocity, CostWeightAngle;
+
     void Awake()
     {
         for (int i = 0; i < AnimationClips.Count; i++) {
@@ -54,21 +56,16 @@ public class MotionManager : MonoBehaviour
     private IEnumerable<MotionFrame> FindNearestNeighbours(int amountOfNeighbours) {
         CalculateAllCost(NextFrame.Value); 
 
-        var zeroIndex = CostList.FindIndex(0, CostList.Count, x => x == 0f);
-        CostList[zeroIndex] = int.MaxValue;
-
         for (int i = 0; i < amountOfNeighbours; i++) {
             var closest = CostList.Min();
             var index = CostList.IndexOf(closest);
             yield return MotionFrames[index];
-            CostList[index] = int.MaxValue;
+            CostList[index] = float.MaxValue;
         }
     }
 
     private MotionFrame ClosestNeighbour(IEnumerable<MotionFrame> neighbors) {
-        var calcost = new CalculateCost();
-
-        var orderedNeighbors = neighbors.OrderBy(x => calcost.CalculateFrameCost(x, GoalFrame.Value));
+        var orderedNeighbors = neighbors.OrderBy(x => CalculateFrameCost(x, GoalFrame.Value));
 
         return orderedNeighbors.First();
     }
@@ -81,10 +78,12 @@ public class MotionManager : MonoBehaviour
 
         for (int i = 0; i < MotionFrames.Count; i++)
         {
-            var calcost = new CalculateCost();
-            costeachFrame = calcost.CalculateFrameCost(currentFrame, MotionFrames[i]);
-            Debug.Log(costeachFrame);
-            CostList.Add(costeachFrame);
+            costeachFrame = CalculateFrameCost(currentFrame, MotionFrames[i]);
+            if (costeachFrame < 1f) {
+                CostList.Add(float.MaxValue);
+            }  else {
+                CostList.Add(costeachFrame);
+            }
         }
 
     }
@@ -136,4 +135,35 @@ public class MotionManager : MonoBehaviour
         Vector3 velocity = PositionCurrent - PositionLast;
         return velocity;
     }
+
+    public float CalculateFrameCost(MotionFrame CurrentFrame, MotionFrame GoalFrame)
+    {
+        var current = CurrentFrame.EndEffectors;
+        var goal = GoalFrame.EndEffectors;
+
+        float AllCost = 0;
+        for(int i=0; i<current.Count; i++)
+        {
+            AllCost += CalculateOneJointCost(
+                current[i].Position, goal[i].Position,
+                current[i].Velocity, goal[i].Velocity, 
+                current[i].Angle, goal[i].Angle);
+        }
+        return AllCost;
+    }
+
+    float CalculateOneJointCost(Vector3 CurrentP, Vector3 GoalP,
+        Vector3 CurrentV, Vector3 GoalV, float CurrentTheta, float GoalTheta)
+    {
+        var costP = Vector3.Distance(CurrentP, GoalP);
+
+        var costV = Vector3.Angle(CurrentV, GoalV);
+        
+        var costTheta = Mathf.Abs(CurrentTheta - GoalTheta);
+        return (
+            costP * CostWeightPosition 
+            + costV * CostWeightVelocity
+            );
+    } 
+
 }
