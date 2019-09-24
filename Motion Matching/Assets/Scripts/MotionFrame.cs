@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MotionClip : ScriptableObject
+public class MotionFrame : ScriptableObject
 {
     public MotionJointPoint Root;
     public List<MotionJointPoint> EnderPoints = new List<MotionJointPoint>();
