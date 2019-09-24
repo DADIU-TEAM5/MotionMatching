@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a018df49e4cb2f644b6f40537ca8e8d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimationClip: {fileID: 11400000, guid: ff5d06c990ffdb74c9faf65952fa3306, type: 2}
+  AnimationClip: {fileID: 11400000, guid: b73f1480c6ad4f349be5f146ebd16eac, type: 2}
   Skeleton: {fileID: 483920596}
 --- !u!4 &483920596 stripped
 Transform:

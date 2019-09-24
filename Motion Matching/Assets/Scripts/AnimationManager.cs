@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 
 public class AnimationManager : MonoBehaviour
 {
-    public MotionClip AnimationClip;
+    public AnimClip AnimationClip;
 
     public Transform Skeleton;
 
