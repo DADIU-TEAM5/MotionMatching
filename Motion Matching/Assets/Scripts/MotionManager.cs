@@ -18,6 +18,8 @@ public class MotionManager : MonoBehaviour
     public MotionFrameVariable NextFrame;
     public MotionFrameVariable GoalFrame;
 
+    public int NextIndex, GoalIndex;
+
     public List<MotionFrame> NeighborsDebug;
     public List<float> CostList;
 
@@ -32,8 +34,8 @@ public class MotionManager : MonoBehaviour
     }
 
     void Start() {
-        NextFrame.Value = MotionFrames[2000];
-        GoalFrame.Value = MotionFrames[2500];
+        NextFrame.Value = MotionFrames[NextIndex];
+        GoalFrame.Value = MotionFrames[GoalIndex];
     }
 
     void Update()
@@ -44,7 +46,7 @@ public class MotionManager : MonoBehaviour
     }
 
     private void FindNextFrame() {
-        var maximumNeighbours = 5; 
+        var maximumNeighbours = 2; 
         NeighborsDebug = FindNearestNeighbours(maximumNeighbours).ToList();
 
         var closest = ClosestNeighbour(NeighborsDebug);
@@ -157,12 +159,12 @@ public class MotionManager : MonoBehaviour
     {
         var costP = Vector3.Distance(CurrentP, GoalP);
 
-        var costV = Vector3.Angle(CurrentV, GoalV);
+        var costV = Vector3.Angle(CurrentV, (GoalP - CurrentP));
         
         var costTheta = Mathf.Abs(CurrentTheta - GoalTheta);
         return (
             costP * CostWeightPosition 
-            + costV * CostWeightVelocity
+            + costV * CostWeightVelocity 
             );
     } 
 
