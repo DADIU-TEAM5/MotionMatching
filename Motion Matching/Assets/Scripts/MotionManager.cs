@@ -10,6 +10,10 @@ public class MotionManager : MonoBehaviour
     // List of all frames from the animations, now more fit to motion matching
     public List<MotionFrame> MotionClips;
 
+    public Transform Skeleton;
+
+    public MotionFrameVariable NextFrame;
+
     void Awake()
     {
         foreach(var clip in AnimationClips) {
@@ -19,7 +23,7 @@ public class MotionManager : MonoBehaviour
 
     void Update()
     {
-        
+        // TODO: Update next frame 
     }
 
     private void ExtractMotionClips(AnimClip animationClip) {
