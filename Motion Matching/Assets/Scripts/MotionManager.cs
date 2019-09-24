@@ -28,8 +28,8 @@ public class MotionManager : MonoBehaviour
     }
 
     void Start() {
-        NextFrame.Value = MotionFrames[20];
-        GoalFrame.Value = MotionFrames[2000];
+        NextFrame.Value = MotionFrames[2000];
+        GoalFrame.Value = MotionFrames[2500];
     }
 
     void Update()
