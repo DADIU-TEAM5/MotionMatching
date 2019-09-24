@@ -5,12 +5,6 @@ using System.Linq;
 
 public class CalculateCost 
 {
-    public float CostP;
-    public float CostV;
-    public float CostV2;
-    public float CostTheta;
-
-
     public float CalculateFrameCost(MotionFrame CurrentFrame, MotionFrame GoalFrame)
     {
         var current = CurrentFrame.EndEffectors;
@@ -28,11 +22,12 @@ public class CalculateCost
     float CalculateOneJointCost(Vector3 CurrentP, Vector3 GoalP,
         Vector3 CurrentV, Vector3 GoalV, float CurrentTheta, float GoalTheta)
     {
-        CostP = (CurrentP - GoalP).sqrMagnitude;
-        CostV = Vector3.Angle(CurrentV, GoalV);
-        //do we need this?
-        CostV2 = Vector3.Angle(CurrentP - GoalP, GoalV);
-        CostTheta = Mathf.Abs(CurrentTheta - GoalTheta);
-        return (CostP + CostV + CostV2 + CostTheta) / 4;
-    }
+        var costP = Vector3.Distance(CurrentP, GoalP);
+
+        var costV = Vector3.Distance(CurrentV, GoalV);
+        
+        var costTheta = Mathf.Abs(CurrentTheta - GoalTheta);
+        return (costP + costV + costTheta);
+    } 
+
 }

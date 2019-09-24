@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7446706417477839116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7446706417477839219}
+  - component: {fileID: 7446706417477839218}
+  - component: {fileID: 7446706417477839217}
+  m_Layer: 0
+  m_Name: MotionMatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7446706417477839219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7446706417477839116}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7446706417477839218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7446706417477839116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a018df49e4cb2f644b6f40537ca8e8d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Skeleton: {fileID: 0}
+  NextFrame: {fileID: 11400000, guid: d05dce8f7bcd2ed46a50ecbbcd2de610, type: 2}
+--- !u!114 &7446706417477839217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7446706417477839116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7f7a03f1c5bdf64ab4cf78d311f034f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AnimationClips:
+  - {fileID: 11400000, guid: 8d3031c7db3215849ba641dc7c8e1249, type: 2}
+  - {fileID: 11400000, guid: ff5d06c990ffdb74c9faf65952fa3306, type: 2}
+  MotionFrames: []
+  RootName: Hips
+  CrucialJoints:
+  - Head
+  - Spine
+  - Hips
+  - RightLeg
+  - LeftLeg
+  - LeftHand
+  - RightHand
+  NextFrame: {fileID: 11400000, guid: d05dce8f7bcd2ed46a50ecbbcd2de610, type: 2}
+  GoalFrame: {fileID: 11400000, guid: ceed1937419dd3a4ba83f477174614c8, type: 2}
+  NeighborsDebug: []
+  CostList: []
