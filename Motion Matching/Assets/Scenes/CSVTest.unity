@@ -194,6 +194,16 @@ PrefabInstance:
       objectReference: {fileID: 483920596}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
+      propertyPath: CrucialJoints.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
+      propertyPath: AnimationClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
       propertyPath: CostWeightPosition
       value: 1
       objectReference: {fileID: 0}
@@ -207,6 +217,43 @@ PrefabInstance:
       propertyPath: CostWeightAngle
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
+      propertyPath: NextIndex
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
+      propertyPath: GoalIndex
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
+      propertyPath: CrucialJoints.Array.data[0]
+      value: Hips
+      objectReference: {fileID: 0}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
+      propertyPath: CrucialJoints.Array.data[1]
+      value: LeftHand
+      objectReference: {fileID: 0}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
+      propertyPath: CrucialJoints.Array.data[2]
+      value: RightHand
+      objectReference: {fileID: 0}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
+      propertyPath: AnimationClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: b73f1480c6ad4f349be5f146ebd16eac,
+        type: 2}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
+      propertyPath: AnimationClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b73f1480c6ad4f349be5f146ebd16eac,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 123ea57aa14980f48951516269f3bd99, type: 3}
 --- !u!4 &483920596 stripped
