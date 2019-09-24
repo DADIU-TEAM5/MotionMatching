@@ -162,7 +162,7 @@ public class MotionManager : MonoBehaviour
         var costTheta = Mathf.Abs(CurrentTheta - GoalTheta);
         return (
             costP * CostWeightPosition 
-            
+            + costV * CostWeightVelocity
             );
     } 
 
