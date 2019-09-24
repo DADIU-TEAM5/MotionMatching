@@ -16,6 +16,7 @@ public class MotionManager : MonoBehaviour
     public List<string> CrucialJoints;
 
     public MotionFrameVariable NextFrame;
+    public MotionFrameVariable GoalFrame;
 
     void Awake()
     {
@@ -27,8 +28,12 @@ public class MotionManager : MonoBehaviour
     void Update()
     {
         // TODO: Update next frame 
-        
+        FindNextFrame(); 
 
+    }
+
+    private void FindNextFrame() {
+        var currentFrame = NextFrame.Value;  
     }
 
     private void ExtractMotionClips(AnimClip animationClip) {
