@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class CalculateCost : MonoBehaviour
+public class CalculateCost 
 {
     public float CostP;
     public float CostV;

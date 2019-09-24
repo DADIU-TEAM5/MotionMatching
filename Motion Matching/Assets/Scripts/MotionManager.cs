@@ -17,8 +17,9 @@ public class MotionManager : MonoBehaviour
 
     public MotionFrameVariable NextFrame;
     public MotionFrameVariable GoalFrame;
+
     public List<float> CostList;
-    public  List<MotionFrame> neighbours;
+
     void Awake()
     {
         foreach(var clip in AnimationClips) {
@@ -28,7 +29,7 @@ public class MotionManager : MonoBehaviour
 
     void Start() {
         NextFrame.Value = MotionFrames[20];
-        GoalFrame.Value = MotionFrames[40];
+        GoalFrame.Value = MotionFrames[2000];
     }
 
     void Update()
@@ -39,35 +40,48 @@ public class MotionManager : MonoBehaviour
     }
 
     private void FindNextFrame() {
-        var maximumNeighbours = 20; 
-        FindNearestNeighbours(maximumNeighbours);
+        var maximumNeighbours = 2; 
+        var neighbors = FindNearestNeighbours(maximumNeighbours);
+
+        var closest = ClosestNeighbour(neighbors);
+
+        NextFrame.Value = closest;
     }
 
     // Now we brute forcing ^^
-    private void FindNearestNeighbours(int amountOfNeighbours) {
-        
-        int index;
-        
+    private IEnumerable<MotionFrame> FindNearestNeighbours(int amountOfNeighbours) {
+        var costList = CalculateAllCost(NextFrame.Value); 
+
         for (int i = 0; i < amountOfNeighbours; i++) {
             var closest = CostList.Min();
-            index = CostList.IndexOf(closest);
-            neighbours.Add(MotionFrames[index]);
-
+            var index = CostList.IndexOf(closest);
+            yield return MotionFrames[index];
             CostList[index] = int.MaxValue;
         }
-
     }
 
-    private void CalculateAllCost()
+    private MotionFrame ClosestNeighbour(IEnumerable<MotionFrame> neighbors) {
+        var calcost = new CalculateCost();
+
+        var orderedNeighbors = neighbors.OrderBy(x => calcost.CalculateFrameCost(x, GoalFrame.Value));
+
+        return orderedNeighbors.First();
+    }
+
+    private List<float> CalculateAllCost(MotionFrame currentFrame)
     {
-        
+        var costList = new List<float>();
+
         float costeachFrame;
+
         for (int i = 0; i < MotionFrames.Count; i++)
         {
             var calcost = new CalculateCost();
-            costeachFrame = calcost.CalculateFrameCost(NextFrame.Value, GoalFrame.Value);
+            costeachFrame = calcost.CalculateFrameCost(currentFrame, MotionFrames[i]);
             CostList.Add(costeachFrame);
         }
+
+        return costList;
     }
 
     private void ExtractMotionClips(AnimClip animationClip) {
