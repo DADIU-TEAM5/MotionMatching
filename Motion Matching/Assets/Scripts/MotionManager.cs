@@ -17,7 +17,8 @@ public class MotionManager : MonoBehaviour
 
     public MotionFrameVariable NextFrame;
     public MotionFrameVariable GoalFrame;
-
+    public List<float> CostList;
+    public  List<MotionFrame> neighbours;
     void Awake()
     {
         foreach(var clip in AnimationClips) {
@@ -38,20 +39,36 @@ public class MotionManager : MonoBehaviour
     }
 
     private void FindNextFrame() {
-        var currentFrame = NextFrame.Value;  
         var maximumNeighbours = 20; 
-        //FindNearestNeighbours(currentFrame, maximumNeighbours);
+        FindNearestNeighbours(maximumNeighbours);
     }
 
     // Now we brute forcing ^^
-    //private void FindNearestNeighbours(MotionFrame current, int amountOfNeighbours) {
-    //    var neighbours = new List<MotionFrame>();
+    private void FindNearestNeighbours(int amountOfNeighbours) {
+        
+        int index;
+        
+        for (int i = 0; i < amountOfNeighbours; i++) {
+            var closest = CostList.Min();
+            index = CostList.IndexOf(closest);
+            neighbours.Add(MotionFrames[index]);
 
-    //    for (int i = 0; i < amountOfNeighbours; i++) {
-    //        var closest = MotionFrames.Min(x => CalculateCost(current, x));
-    //        neighbours.Add(closest);
-    //    }
-    //}
+            CostList[index] = int.MaxValue;
+        }
+
+    }
+
+    private void CalculateAllCost()
+    {
+        
+        float costeachFrame;
+        for (int i = 0; i < MotionFrames.Count; i++)
+        {
+            var calcost = new CalculateCost();
+            costeachFrame = calcost.CalculateFrameCost(NextFrame.Value, GoalFrame.Value);
+            CostList.Add(costeachFrame);
+        }
+    }
 
     private void ExtractMotionClips(AnimClip animationClip) {
         for (int i = 1; i < animationClip.Frames.Count; i++) {

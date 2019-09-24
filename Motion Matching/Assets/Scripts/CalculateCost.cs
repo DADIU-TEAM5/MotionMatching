@@ -11,13 +11,13 @@ public class CalculateCost : MonoBehaviour
     public float CostTheta;
 
 
-    float CalculateAllCost(MotionFrame CurrentFrame, MotionFrame GoalFrame)
+    public float CalculateFrameCost(MotionFrame CurrentFrame, MotionFrame GoalFrame)
     {
         var current = CurrentFrame.EndEffectors;
         var goal = GoalFrame.EndEffectors;
 
         float AllCost = 0;
-        for(int i=0; i<current.Count(); i++)
+        for(int i=0; i<current.Count; i++)
         {
             AllCost += CalculateOneJointCost(current[i].Position, goal[i].Position,
                 current[i].Velocity, goal[i].Velocity, current[i].Angle, goal[i].Angle);
