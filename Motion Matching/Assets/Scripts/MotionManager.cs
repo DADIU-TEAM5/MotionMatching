@@ -42,7 +42,7 @@ public class MotionManager : MonoBehaviour
     void Update()
     {
         // TODO: Update next frame 
-        //FindNextFrame(); 
+        FindNextFrame(); 
     }
 
     private IEnumerator PlayAllFrames() {
@@ -56,7 +56,7 @@ public class MotionManager : MonoBehaviour
     }
 
     private void FindNextFrame() {
-        var maximumNeighbours = 2; 
+        var maximumNeighbours = 5; 
         NeighborsDebug = FindNearestNeighbours(maximumNeighbours).ToList();
 
         var closest = ClosestNeighbour(NeighborsDebug);
@@ -91,11 +91,23 @@ public class MotionManager : MonoBehaviour
         for (int i = 0; i < MotionFrames.Count; i++)
         {
             costeachFrame = CalculateFrameCost(currentFrame, MotionFrames[i]);
+
+            /*
+            var isSameLocation = Mathf.Abs(currentFrame.AnimationFrame.Time - MotionFrames[i].AnimationFrame.Time) < 0.2f;
+
+            if (!isSameLocation)
+                CostList.Add(costeachFrame);
+            else
+                CostList.Add(float.MaxValue);
+                */
+            
             if (costeachFrame < 1f) {
                 CostList.Add(float.MaxValue);
             }  else {
                 CostList.Add(costeachFrame);
             }
+            
+
         }
 
     }
@@ -150,11 +162,11 @@ public class MotionManager : MonoBehaviour
 
     public float CalculateFrameCost(MotionFrame CurrentFrame, MotionFrame GoalFrame)
     {
-        var current = CurrentFrame.EndEffectors;
-        var goal = GoalFrame.EndEffectors;
+        //var current = CurrentFrame.EndEffectors;
+        //var goal = GoalFrame.EndEffectors;
 
         var hipCost = CalculateHipCost(CurrentFrame.Root, GoalFrame.Root);
-
+        /*
         float AllCost = 0;
         for(int i=0; i<current.Count; i++)
         {
@@ -163,7 +175,10 @@ public class MotionManager : MonoBehaviour
                 current[i].Velocity, goal[i].Velocity, 
                 current[i].Angle, goal[i].Angle);
         }
-        return (AllCost / current.Count) + hipCost * 5;
+        */
+        //var poseCost = PoseMatch(CurrentFrame, GoalFrame);
+
+        return hipCost ; //poseCost; //+ 
     }
 
     private float CalculateOneJointCost(Vector3 CurrentP, Vector3 GoalP,
@@ -191,4 +206,25 @@ public class MotionManager : MonoBehaviour
         );
     }
 
+    private float PoseMatch(MotionFrame currentF, MotionFrame nextF)
+    {
+        float poseCost = 0;
+        float velocityCost = 0;
+        //position matching
+        for (int i=0; i< currentF.EndEffectors.Count; i++)
+        {
+            poseCost += (currentF.EndEffectors[i].Position - nextF.EndEffectors[i].Position).sqrMagnitude;
+            var deltaTime = nextF.AnimationFrame.Time - currentF.AnimationFrame.Time;
+            velocityCost += VelocityMatch(currentF.EndEffectors[i], nextF.EndEffectors[i], deltaTime);
+        }
+        return (poseCost+velocityCost);
+    }
+
+    private float VelocityMatch(MotionJointPoint currentJ, MotionJointPoint nextJ, float time)
+    {
+        var frameV = (nextJ.Position - currentJ.Position)/time;
+        var distanceV = (currentJ.Velocity - frameV).sqrMagnitude;
+        var angleV = Vector3.Angle(currentJ.Velocity, frameV);
+        return (distanceV + angleV);
+    }
 }
