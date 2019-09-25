@@ -11,7 +11,6 @@ public class AnimationManager : MonoBehaviour
 
     private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
 
-    private float localTimer = 0f;
 
     public MotionFrameVariable NextFrame;
 

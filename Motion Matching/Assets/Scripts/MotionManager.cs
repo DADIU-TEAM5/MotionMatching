@@ -51,7 +51,7 @@ public class MotionManager : MonoBehaviour
             Debug.Log(i);
             NextFrame.Value = frame;            
 
-            yield break;
+            yield return null;
         }
     }
 
@@ -171,7 +171,7 @@ public class MotionManager : MonoBehaviour
         //var current = CurrentFrame.EndEffectors;
         //var goal = GoalFrame.EndEffectors;
 
-        var hipCost = CalculateHipCost(CurrentFrame.Root, GoalFrame.Root);
+        //var hipCost = CalculateHipCost(CurrentFrame.Root, GoalFrame.Root);
         /*
         float AllCost = 0;
         for(int i=0; i<current.Count; i++)
@@ -184,7 +184,7 @@ public class MotionManager : MonoBehaviour
         */
         //var poseCost = PoseMatch(CurrentFrame, GoalFrame);
 
-        return hipCost ; //poseCost; //+ 
+        return 0 ; //poseCost; //+ 
     }
 
     private float CalculateOneJointCost(Vector3 CurrentP, Vector3 GoalP,
@@ -210,20 +210,6 @@ public class MotionManager : MonoBehaviour
             costY * CostWeightPosition
             + (180f - costV) * CostWeightVelocity 
         );
-    }
-
-    private float PoseMatch(MotionFrame currentF, MotionFrame nextF)
-    {
-        float poseCost = 0;
-        float velocityCost = 0;
-        //position matching
-        for (int i=0; i< currentF.EndEffectors.Count; i++)
-        {
-            poseCost += (currentF.EndEffectors[i].Position - nextF.EndEffectors[i].Position).sqrMagnitude;
-            var deltaTime = nextF.AnimationFrame.Time - currentF.AnimationFrame.Time;
-            velocityCost += VelocityMatch(currentF.EndEffectors[i], nextF.EndEffectors[i], deltaTime);
-        }
-        return (poseCost+velocityCost);
     }
 
     private float VelocityMatch(MotionJointPoint currentJ, MotionJointPoint nextJ, float time)
