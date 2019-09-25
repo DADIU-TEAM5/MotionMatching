@@ -40,7 +40,7 @@ public class AnimationManager : MonoBehaviour
         // Based on negative joint
         var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
         joint.rotation = newEulerRot;
-        joint.position = jointPoint.Position;
+        joint.position = Skeleton.position + jointPoint.Position;
 
         //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);
     }
