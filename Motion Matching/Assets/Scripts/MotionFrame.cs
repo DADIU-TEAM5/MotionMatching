@@ -5,8 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public class MotionFrame  
 {
-    public MotionJointPoint Root;
-    public List<MotionJointPoint> EndEffectors = new List<MotionJointPoint>();
+    public float Velocity;
 
-    public AnimationFrame AnimationFrame;
+    public float AngularVelocity;
+
+    public MotionJointPoint[] Joints;
+    //trajectory data ---
 }
+

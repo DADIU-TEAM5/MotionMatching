@@ -5,10 +5,15 @@ using UnityEngine;
 [System.Serializable]
 public class MotionJointPoint 
 {
-    public Vector3 Position;
+    public Vector3 LocalPosition;
+    public Quaternion LocalRotation;
+
     public Vector3 Velocity;
 
-    public float Angle;
 
+    // DEBUG
     public string Name;
+    public int BoneIndex;
+    public Vector3 Position;
+    public Quaternion Rotation;
 }
