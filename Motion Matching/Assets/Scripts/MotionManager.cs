@@ -113,25 +113,33 @@ public class MotionManager : MonoBehaviour
     }
 
     private void ExtractMotionClips(AnimClip animationClip) {
+        // The very first frame
+        var firstMotionFrame = new MotionFrame();
+        var firstFrame = animationClip.Frames[0];
+        var stubAnimationjointPoint = new AnimationJointPoint { Position = Vector3.zero };
+
+        firstMotionFrame.Joints = (from jp in firstFrame.JointPoints
+                                    select MakeMotionJoint(jp, stubAnimationjointPoint)).ToArray();
+
+        var rootMotionJoint = firstMotionFrame.Joints.First(x => x.Name.Equals(RootName));
+        firstMotionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, rootMotionJoint.Velocity) / 180f;
+        firstMotionFrame.Velocity = rootMotionJoint.Velocity.sqrMagnitude;
+        
+        // All the other ones
         for (int i = 1; i < animationClip.Frames.Count; i++) {
             var frame = animationClip.Frames[i];
             var lastFrame = animationClip.Frames[i - 1]; 
             var motionFrame = new MotionFrame();
             
-            var root = frame.JointPoints.First(x => x.Name.Equals(RootName));
-            var rootLast = lastFrame.JointPoints.First(x => x.Name.Equals(RootName));
-            motionFrame.Root = MakeMotionJoint(root, rootLast);
-
-            var crucialJoints = new List<MotionJointPoint>(); 
-            foreach(var jointname in CrucialJoints) {
-                var current = frame.JointPoints.First(x => x.Name.Equals(jointname));
-                var last = lastFrame.JointPoints.First(x => x.Name.Equals(jointname));
-                var mjp = MakeMotionJoint(current, last);
-                crucialJoints.Add(mjp);
-            }
-            motionFrame.EndEffectors = crucialJoints;
-
-            motionFrame.AnimationFrame = frame;
+            var joints = (from jp in frame.JointPoints 
+                          from jp2 in lastFrame.JointPoints
+                          where jp.Name.Equals(jp2.Name)
+                          select MakeMotionJoint(jp, jp2)).ToArray();
+            motionFrame.Joints = joints;
+        
+            var root = joints.First(x => x.Name.Equals(RootName));
+            motionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, root.Velocity) / 180f;
+            motionFrame.Velocity = root.Velocity.sqrMagnitude;
 
             MotionFrames.Add(motionFrame);
         }
@@ -139,25 +147,15 @@ public class MotionManager : MonoBehaviour
 
     private MotionJointPoint MakeMotionJoint(AnimationJointPoint current, AnimationJointPoint last) {
         var motionJointPoint = new MotionJointPoint { 
+            LocalPosition = current.Position,
+            LocalRotation = current.Rotation,
+            Rotation = current.Rotation,
             Name = current.Name, 
             Position = current.Position, 
-            Velocity = PointVelocity(current.Position, last.Position), Angle = PointAngle(current.Rotation, last.Rotation)
+            Velocity = current.Position - last.Position 
         };
 
         return motionJointPoint;
-    }
-
-    float PointAngle(Quaternion RotationCurrent, Quaternion RotationLast)
-    {
-        var angle = Quaternion.Angle(RotationCurrent, RotationLast);
-        //Debug.Log(angle);
-        return angle;
-    }
-
-    Vector3 PointVelocity(Vector3 PositionCurrent, Vector3 PositionLast)
-    {
-        Vector3 velocity = PositionCurrent - PositionLast;
-        return velocity;
     }
 
     public float CalculateFrameCost(MotionFrame CurrentFrame, MotionFrame GoalFrame)
