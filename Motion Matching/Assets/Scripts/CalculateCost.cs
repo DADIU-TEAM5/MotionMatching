@@ -5,29 +5,54 @@ using System.Linq;
 
 public class CalculateCost 
 {
-    public float CalculateFrameCost(MotionFrame CurrentFrame, MotionFrame GoalFrame)
-    {
-        var current = CurrentFrame.EndEffectors;
-        var goal = GoalFrame.EndEffectors;
 
-        float AllCost = 0;
-        for(int i=0; i<current.Count; i++)
+    public float CalculateAllCost(List<MotionFrame> motionFrames, MotionFrame currentFrame,
+                                    PlayerSetting playerSetting)
+    {
+        float allCost = 0;
+        for (int i=0; i < motionFrames.Count; i++)
         {
-            AllCost += CalculateOneJointCost(current[i].Position, goal[i].Position,
-                current[i].Velocity, goal[i].Velocity, current[i].Angle, goal[i].Angle);
+            allCost += RootMotionCost(motionFrames[i], currentFrame, playerSetting);
+            for(int j = 0; j< motionFrames[i].Joints.Length; j ++)
+            {
+                allCost += BoneCost(motionFrames[i].Joints[j], currentFrame.Joints[j], playerSetting);
+            }
         }
-        return AllCost;
+        return allCost;
+    }
+       // the frame is from clips
+    private float RootMotionCost(MotionFrame frame, MotionFrame current, 
+        PlayerSetting playerSetting)
+    {
+        var velocity = Mathf.Abs(frame.Velocity - current.Velocity);
+        return (playerSetting.RootMotionCostFactor * velocity);
     }
 
-    float CalculateOneJointCost(Vector3 CurrentP, Vector3 GoalP,
-        Vector3 CurrentV, Vector3 GoalV, float CurrentTheta, float GoalTheta)
+
+    //frameBone is the bone we look at, which is from animation clips
+    private float BoneCost(MotionJointPoint frameBone, MotionJointPoint currentBone, 
+                            PlayerSetting playerSetting)
     {
-        var costP = Vector3.Distance(CurrentP, GoalP);
+        var rotationCost = RotationCost(frameBone, currentBone);
+        var posCost = PosCost(frameBone, currentBone);
+        return playerSetting.BoneRotFactor * rotationCost + playerSetting.BonePosFactor * posCost;
+    }
 
-        var costV = Vector3.Distance(CurrentV, GoalV);
-        
-        var costTheta = Mathf.Abs(CurrentTheta - GoalTheta);
-        return (costP + costV + costTheta);
-    } 
+    private float PosCost(MotionJointPoint frameBone, MotionJointPoint currentBone)
+    {
+        var posCost = (frameBone.LocalPosition - currentBone.LocalPosition).sqrMagnitude;
+        return posCost;
+    }
 
+    private float RotationCost(MotionJointPoint frameBone, MotionJointPoint currentBone)
+    {
+        var bonePosRotation = Quaternion.Inverse(frameBone.LocalRotation) * currentBone.LocalRotation;
+        var rotationCost = Mathf.Abs(bonePosRotation.x) + Mathf.Abs(bonePosRotation.x)
+                        + Mathf.Abs(bonePosRotation.y) + (1 - Mathf.Abs(bonePosRotation.w));
+        return rotationCost;
+    }
+
+
+    //private float Trajectory(MotionJointPoint FrameBone, MotionJointPoint CurrentBone,
+    // PlayerSetting PlayerSettings)
 }
