@@ -36,13 +36,23 @@ public class MotionManager : MonoBehaviour
     void Start() {
         NextFrame.Value = MotionFrames[NextIndex];
         GoalFrame.Value = MotionFrames[GoalIndex];
+        StartCoroutine(PlayAllFrames()); 
     }
 
     void Update()
     {
         // TODO: Update next frame 
-        FindNextFrame(); 
+        //FindNextFrame(); 
+    }
 
+    private IEnumerator PlayAllFrames() {
+        for (int i = 0; i < MotionFrames.Count; i++) {
+            var frame = MotionFrames[i];
+            Debug.Log(i);
+            NextFrame.Value = frame;            
+
+            yield break;
+        }
     }
 
     private void FindNextFrame() {
