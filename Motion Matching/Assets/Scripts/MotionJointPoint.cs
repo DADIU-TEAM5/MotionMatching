@@ -13,7 +13,6 @@ public class MotionJointPoint
 
     // DEBUG
     public string Name;
-    public int BoneIndex;
     public Vector3 Position;
     public Quaternion Rotation;
 }
