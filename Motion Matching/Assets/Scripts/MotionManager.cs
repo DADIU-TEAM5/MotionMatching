@@ -120,6 +120,9 @@ public class MotionManager : MonoBehaviour
 
         firstMotionFrame.Joints = (from jp in firstFrame.JointPoints
                                     select MakeMotionJoint(jp, stubAnimationjointPoint)).ToArray();
+        foreach (var jt in firstMotionFrame.Joints) {
+            jt.BaseRotation = jt.Rotation;
+        }
 
         var rootMotionJoint = firstMotionFrame.Joints.First(x => x.Name.Equals(RootName));
         firstMotionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, rootMotionJoint.Velocity) / 180f;
@@ -135,12 +138,17 @@ public class MotionManager : MonoBehaviour
                           from jp2 in lastFrame.JointPoints
                           where jp.Name.Equals(jp2.Name)
                           select MakeMotionJoint(jp, jp2)).ToArray();
+            
+            foreach (var jt in joints) {
+                var firstJt = firstMotionFrame.Joints.First(x => x.Name.Equals(jt.Name));
+                jt.BaseRotation = firstJt.Rotation;
+            }
+
             motionFrame.Joints = joints;
         
             var root = joints.First(x => x.Name.Equals(RootName));
             motionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, root.Velocity) / 180f;
             motionFrame.Velocity = root.Velocity.sqrMagnitude;
-
             MotionFrames.Add(motionFrame);
         }
     }

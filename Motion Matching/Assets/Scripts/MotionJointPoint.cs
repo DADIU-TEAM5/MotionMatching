@@ -15,4 +15,5 @@ public class MotionJointPoint
     public string Name;
     public Vector3 Position;
     public Quaternion Rotation;
+    public Quaternion BaseRotation;
 }

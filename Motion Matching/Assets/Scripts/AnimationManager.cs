@@ -24,11 +24,11 @@ public class AnimationManager : MonoBehaviour
     }
 
     void Start() {
-        ApplyFrameToJoints(NextFrame.Value.AnimationFrame);
+        ApplyFrameToJoints(NextFrame.Value);
     }
 
-    public void ApplyFrameToJoints(AnimationFrame frame) {
-        foreach (var jointPoint in frame.JointPoints) {
+    public void ApplyFrameToJoints(MotionFrame frame) {
+        foreach (var jointPoint in frame.Joints) {
             if (!SkeletonJoints.Keys.Contains(jointPoint.Name)) {
                 //Debug.LogError($"{jointPoint.Name} is not in the {Skeleton.name}");
                 continue;
@@ -40,11 +40,12 @@ public class AnimationManager : MonoBehaviour
     }
 
 
-    private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint) {
+    private void ApplyJointPointToJoint(MotionJointPoint jointPoint, Transform joint) {
         // Based on negative joint
         var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
         //var newEulerRot = jointPoint.Rotation * jointPoint.BaseRotation;
-        joint.rotation = newEulerRot;
+        //joint.rotation = newEulerRot;
+        joint.rotation = Skeleton.rotation * (newEulerRot);
         joint.position = Skeleton.position + jointPoint.Position;
 
         //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);
