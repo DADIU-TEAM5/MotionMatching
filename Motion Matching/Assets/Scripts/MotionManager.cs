@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class MotionManager : MonoBehaviour
 {
+    public PlayerInput PlayerInput;
+
     // List of all the recorded mo-cap animation
     public List<AnimClip> AnimationClips;
 
     // List of all frames from the animations, now more fit to motion matching
     public List<MotionClipData> MotionClips;
 
-
     public string RootName;
-    public List<string> CrucialJoints;
 
     public MotionFrameVariable NextFrame;
     public MotionFrameVariable GoalFrame;
+    
+    private MotionFrame PlayerMotionFrame;
 
     public int NextIndex, GoalIndex;
 
@@ -41,6 +44,45 @@ public class MotionManager : MonoBehaviour
     void Update()
     {
         // TODO: Update next frame 
+    }
+
+    public void GetPlayerMotion(string motionName, float normalizedTime, MotionClipType clipType) {
+        var motionFrame = GetBakedMotionFrame(motionName, normalizedTime, clipType); 
+
+        PlayerMotionFrame.Velocity = PlayerInput.Velocity;
+        PlayerMotionFrame.Joints = motionFrame.Joints;
+        PlayerMotionFrame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
+
+        for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
+            var timeStamp = MotionTrajectoryData.TimeStamps[i];
+
+            var trajectoryData = new MotionTrajectoryData();
+            trajectoryData.LocalPosition = PlayerInput.Velocity * PlayerInput.Direction * timeStamp;
+            trajectoryData.Velocity = PlayerInput.Velocity * PlayerInput.Direction;
+
+            if (PlayerInput.AngularVelocity != 0f) {
+                trajectoryData.Direction = Quaternion.Euler(0, PlayerInput.AngularVelocity * timeStamp, 0) * Vector3.forward;
+            }
+        }
+    }
+
+    private MotionFrame GetBakedMotionFrame(string motionName, float normalizedTime, MotionClipType clipType)
+    {
+        for (int i = 0; i < MotionClips.Count; i++) {
+            var clip = MotionClips[i];
+            
+            if (clipType != null) {
+                if (clipType == clip.ClipType) {
+                    return clip.MotionFrames[0];
+                }
+            } else if (clip.Name.Equals(motionName)) {
+                int frameBasedOnTime = Mathf.FloorToInt(clip.MotionFrames.Length * normalizedTime);
+
+                return clip.MotionFrames[frameBasedOnTime];
+            }
+        }
+
+        return null;
     }
 
     private void ExtractMotionClips(AnimClip animationClip) {
