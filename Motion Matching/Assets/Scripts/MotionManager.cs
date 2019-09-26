@@ -165,6 +165,7 @@ public class MotionManager : MonoBehaviour
         firstMotionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, rootMotionJoint.Velocity) / 180f;
         firstMotionFrame.Velocity = rootMotionJoint.Velocity.sqrMagnitude;
         firstMotionFrame.Direction = rootMotionJoint.Velocity.normalized;
+        firstMotionFrame.Time = firstFrame.Time;
         GetClipTrajectoryData(firstMotionFrame);
 
         motionClip.MotionFrames[0] = firstMotionFrame;
@@ -174,6 +175,8 @@ public class MotionManager : MonoBehaviour
             var frame = animationClip.Frames[i];
             var lastFrame = animationClip.Frames[i - 1]; 
             var motionFrame = new MotionFrame();
+
+            motionFrame.Time = frame.Time;
             
             var joints = (from jp in frame.JointPoints 
                           from jp2 in lastFrame.JointPoints
