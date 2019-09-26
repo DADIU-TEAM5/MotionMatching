@@ -7,6 +7,8 @@ public class MotionFrame
 {
     public float Velocity;
 
+    public float Time;
+
     public float AngularVelocity;
     
     public Vector3 Direction;
