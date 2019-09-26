@@ -49,7 +49,7 @@ public class MotionManager : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
+        timer += (Time.deltaTime * 1000);
         // TODO: Update next frame 
         GetNextFrame();
     }
@@ -64,7 +64,7 @@ public class MotionManager : MonoBehaviour
 
         for (int i =0; i < MotionClips.Count; i++)
         {
-            var normalizedTime = 0.1f;//(timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
+            var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
             GetPlayerMotion(MotionClips[i].Name, normalizedTime, MotionClips[i].ClipType);
 
             for (int j = 10; j < MotionClips[i].MotionFrames.Length; j++)
@@ -72,7 +72,7 @@ public class MotionManager : MonoBehaviour
                 var thisMotionScore = calCulateCost.CalculateAllCost(MotionClips[i].MotionFrames[j],
                                                                      PlayerMotionFrame, 
                                                                      playerSetting);
-                //isSamePosition = 
+                //var isSameFram = (Motion)
                 if (thisMotionScore < bestScore)
                 {
                     bestScore = thisMotionScore;
