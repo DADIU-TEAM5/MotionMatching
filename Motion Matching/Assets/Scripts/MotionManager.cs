@@ -44,13 +44,14 @@ public class MotionManager : MonoBehaviour
     void Start() {
         //NextFrame.Value = MotionFrames[NextIndex];
         //GoalFrame.Value = MotionFrames[GoalIndex];
+        PlayerMotionFrame =new MotionFrame();
     }
 
     void Update()
     {
         timer += Time.deltaTime;
         // TODO: Update next frame 
-
+        GetNextFrame();
     }
 
     //
@@ -63,14 +64,15 @@ public class MotionManager : MonoBehaviour
 
         for (int i =0; i < MotionClips.Count; i++)
         {
-            var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
+            var normalizedTime = 0.1f;//(timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
             GetPlayerMotion(MotionClips[i].Name, normalizedTime, MotionClips[i].ClipType);
 
-            for (int j = 0; j < MotionClips[i].MotionFrames.Length; j++)
+            for (int j = 10; j < MotionClips[i].MotionFrames.Length; j++)
             {        
-                var thisMotionScore = calCulateCost.CalculateAllCost(MotionClips[i].MotionFrames[i],
+                var thisMotionScore = calCulateCost.CalculateAllCost(MotionClips[i].MotionFrames[j],
                                                                      PlayerMotionFrame, 
                                                                      playerSetting);
+                //isSamePosition = 
                 if (thisMotionScore < bestScore)
                 {
                     bestScore = thisMotionScore;
