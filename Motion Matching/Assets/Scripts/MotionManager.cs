@@ -59,7 +59,7 @@ public class MotionManager : MonoBehaviour
             trajectoryData.Velocity = frame.Velocity * frame.Direction;
 
             if (frame.AngularVelocity != 0f) {
-                trajectoryData.Direction = Quaternion.Euler(0, PlayerInput.AngularVelocity * timeStamp, 0) * Vector3.forward;
+                trajectoryData.Direction = Quaternion.Euler(0, frame.AngularVelocity * timeStamp, 0) * Vector3.forward;
             }
  
         }
