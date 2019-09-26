@@ -16,4 +16,4 @@ MonoBehaviour:
   ClipLengthInMilliseconds: 0
   ClipType: {fileID: 0}
   Frames: []
-  CSVFile: {fileID: 0}
+  CSVFile: {fileID: 4900000, guid: f89437ee7a49a614596f4e0fef3d2b9b, type: 3}

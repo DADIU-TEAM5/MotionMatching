@@ -50,10 +50,11 @@ public class MotionManager : MonoBehaviour
     {
         timer += Time.deltaTime;
         // TODO: Update next frame 
+
     }
 
     //
-    public void NextFrameIndex()
+    public void GetNextFrame()
     {
         var calCulateCost = new CalculateCost();
         float bestScore = float.MaxValue;
