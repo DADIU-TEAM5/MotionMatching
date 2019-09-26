@@ -6,19 +6,17 @@ using System.Linq;
 public class CalculateCost 
 {
 
-    public float CalculateAllCost(List<MotionFrame> motionFrames, MotionFrame currentFrame,
+    public float CalculateAllCost(MotionFrame motionFrame, MotionFrame currentFrame,
                                     PlayerSetting playerSetting)
     {
         float allCost = 0;
-        for (int i=0; i < motionFrames.Count; i++)
+        for(int j = 0; j< motionFrame.Joints.Length; j ++)
         {
-            for(int j = 0; j< motionFrames[i].Joints.Length; j ++)
-            {
-                allCost += BoneCost(motionFrames[i].Joints[j], currentFrame.Joints[j], playerSetting);
-            }
-            allCost += RootMotionCost(motionFrames[i], currentFrame, playerSetting);
-            allCost += TrajectoryCost(motionFrames[i], currentFrame, playerSetting);
+            allCost += BoneCost(motionFrame.Joints[j], currentFrame.Joints[j], playerSetting);
         }
+        allCost += RootMotionCost(motionFrame, currentFrame, playerSetting);
+        allCost += TrajectoryCost(motionFrame, currentFrame, playerSetting);
+        
         return allCost;
     }
        // the frame is from clips

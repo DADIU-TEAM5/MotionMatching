@@ -27,9 +27,14 @@ public class MotionManager : MonoBehaviour
     public List<float> CostList;
 
     public float CostWeightPosition, CostWeightVelocity, CostWeightAngle;
+    public PlayerSetting playerSetting;
+
+    private float timer;
+
 
     void Awake()
     {
+        MotionClips = new List<MotionClipData>();
         for (int i = 0; i < AnimationClips.Count; i++) {
             var clip = AnimationClips[i];
             ExtractMotionClips(clip);
@@ -43,7 +48,39 @@ public class MotionManager : MonoBehaviour
 
     void Update()
     {
+        timer += Time.deltaTime;
         // TODO: Update next frame 
+    }
+
+    //
+    public void NextFrameIndex()
+    {
+        var calCulateCost = new CalculateCost();
+        float bestScore = float.MaxValue;
+        int bestScoreClipIndex = 0;
+        int bestScoreFrameIndex = 0;
+
+        for (int i =0; i < MotionClips.Count; i++)
+        {
+            var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
+            GetPlayerMotion(MotionClips[i].Name, normalizedTime, MotionClips[i].ClipType);
+
+            for (int j = 0; j < MotionClips[i].MotionFrames.Length; j++)
+            {        
+                var thisMotionScore = calCulateCost.CalculateAllCost(MotionClips[i].MotionFrames[i],
+                                                                     PlayerMotionFrame, 
+                                                                     playerSetting);
+                if (thisMotionScore < bestScore)
+                {
+                    bestScore = thisMotionScore;
+                    bestScoreClipIndex = i;
+                    bestScoreFrameIndex = j;
+                }
+                
+            }
+        }
+
+        NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
     }
 
     public void GetClipTrajectoryData(MotionFrame frame) {
@@ -105,9 +142,10 @@ public class MotionManager : MonoBehaviour
         return null;
     }
 
-    private void ExtractMotionClips(AnimClip animationClip) {
+    public void ExtractMotionClips(AnimClip animationClip) {
         var motionClip = new MotionClipData();
         motionClip.Name = animationClip.name;
+        motionClip.MotionClipLengthInMilliseconds = animationClip.ClipLengthInMilliseconds;
         motionClip.ClipType = animationClip.ClipType;
         motionClip.MotionFrames = new MotionFrame[animationClip.Frames.Count];
 
@@ -156,6 +194,8 @@ public class MotionManager : MonoBehaviour
 
             motionClip.MotionFrames[i] = motionFrame;
         }
+
+        MotionClips.Add(motionClip);
     }
 
     private MotionJointPoint MakeMotionJoint(AnimationJointPoint current, AnimationJointPoint last) {
