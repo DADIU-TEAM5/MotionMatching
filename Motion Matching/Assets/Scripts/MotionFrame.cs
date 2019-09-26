@@ -11,5 +11,6 @@ public class MotionFrame
 
     public MotionJointPoint[] Joints;
     //trajectory data ---
+    public MotionTrajectoryData[] TrajectoryDatas;
 }
 

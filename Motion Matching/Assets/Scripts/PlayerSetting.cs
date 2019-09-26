@@ -13,5 +13,8 @@ public class PlayerSetting
     public float RootMotionCostFactor;
 
     //trajectory things
+    public float trajectoryPosFactor;
+    public float trajectoryRotFactor;
+    public float trajectoryVelFactor;
 }
 

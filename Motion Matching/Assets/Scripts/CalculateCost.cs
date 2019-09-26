@@ -52,7 +52,28 @@ public class CalculateCost
         return rotationCost;
     }
 
+    
+    private float Trajectory(MotionFrame frame, MotionFrame current,
+     PlayerSetting playerSetting)
+    {
+        float trajectoryCost = 0;
+        for(int i = 0; i < frame.TrajectoryDatas.Length; i++)
+        {
+            //position cost
+            var traPos = frame.TrajectoryDatas[i].LocalPosition - current.TrajectoryDatas[i].LocalPosition;
+            var traPosCost = traPos.sqrMagnitude * playerSetting.trajectoryPosFactor;
 
-    //private float Trajectory(MotionJointPoint FrameBone, MotionJointPoint CurrentBone,
-    // PlayerSetting PlayerSettings)
+            //rotation cost
+            var traRot = Vector3.Dot(frame.TrajectoryDatas[i].Direction,current.TrajectoryDatas[i].Direction);
+            var traRotCost = traRot * playerSetting.trajectoryRotFactor;
+
+            //velocity cost
+            var traVel = frame.TrajectoryDatas[i].Velocity - current.TrajectoryDatas[i].Velocity;
+            var traVelCost = traVel.sqrMagnitude * playerSetting.trajectoryVelFactor;
+
+            trajectoryCost += (traPosCost + traRotCost + traVelCost);
+        }
+
+        return trajectoryCost;
+    }
 }
