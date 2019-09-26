@@ -46,13 +46,11 @@ public class MotionManager : MonoBehaviour
         // TODO: Update next frame 
     }
 
-    public MotionTrajectoryData[] GetClipTrajectoryData(MotionClipData clipData) {
-        var trajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
+    public void GetClipTrajectoryData(MotionFrame frame) {
+        frame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
 
         for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
-            var timeStamp = 1f / i;
-            var timeFrame = Mathf.FloorToInt(timeStamp * clipData.MotionFrames.Length);
-            var frame = clipData.MotionFrames[timeFrame];
+            var timeStamp = 1f / (float) i;
 
             var trajectoryData = new MotionTrajectoryData();
             trajectoryData.LocalPosition = frame.Velocity * frame.Direction * timeStamp;
@@ -61,10 +59,9 @@ public class MotionManager : MonoBehaviour
             if (frame.AngularVelocity != 0f) {
                 trajectoryData.Direction = Quaternion.Euler(0, frame.AngularVelocity * timeStamp, 0) * Vector3.forward;
             }
- 
-        }
 
-        return trajectoryDatas;
+            PlayerMotionFrame.TrajectoryDatas[i] = trajectoryData;
+        }
     }
 
     public void GetPlayerMotion(string motionName, float normalizedTime, MotionClipType clipType) {
@@ -75,7 +72,7 @@ public class MotionManager : MonoBehaviour
         PlayerMotionFrame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
 
         for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
-            var timeStamp = MotionTrajectoryData.TimeStamps[i];
+            var timeStamp = 1f / (float) i;
 
             var trajectoryData = new MotionTrajectoryData();
             trajectoryData.LocalPosition = PlayerInput.Velocity * PlayerInput.Direction * timeStamp;
@@ -84,6 +81,8 @@ public class MotionManager : MonoBehaviour
             if (PlayerInput.AngularVelocity != 0f) {
                 trajectoryData.Direction = Quaternion.Euler(0, PlayerInput.AngularVelocity * timeStamp, 0) * Vector3.forward;
             }
+
+            PlayerMotionFrame.TrajectoryDatas[i] = trajectoryData;
         }
     }
 
@@ -127,7 +126,7 @@ public class MotionManager : MonoBehaviour
         firstMotionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, rootMotionJoint.Velocity) / 180f;
         firstMotionFrame.Velocity = rootMotionJoint.Velocity.sqrMagnitude;
         firstMotionFrame.Direction = rootMotionJoint.Velocity.normalized;
-
+        GetClipTrajectoryData(firstMotionFrame);
 
         motionClip.MotionFrames[0] = firstMotionFrame;
         
@@ -153,6 +152,7 @@ public class MotionManager : MonoBehaviour
             motionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, root.Velocity) / 180f;
             motionFrame.Velocity = root.Velocity.sqrMagnitude;
             motionFrame.Direction = root.Velocity.normalized;
+            GetClipTrajectoryData(motionFrame);
 
             motionClip.MotionFrames[i] = motionFrame;
         }
