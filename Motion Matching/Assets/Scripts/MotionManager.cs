@@ -27,6 +27,8 @@ public class MotionManager : MonoBehaviour
     public List<float> CostList;
 
     public float CostWeightPosition, CostWeightVelocity, CostWeightAngle;
+    public PlayerSetting playerSetting;
+
 
     void Awake()
     {
@@ -44,6 +46,37 @@ public class MotionManager : MonoBehaviour
     void Update()
     {
         // TODO: Update next frame 
+    }
+
+    //
+    public void NextFrameIndex(float normalizedTime)
+    {
+        var calCulateCost = new CalculateCost();
+        float bestScore = float.MaxValue;
+        int bestScoreClipIndex = 0;
+        int bestScoreFrameIndex = 0;
+
+        for (int i =0; i < MotionClips.Count; i++)
+        {
+            GetPlayerMotion(MotionClips[i].Name, normalizedTime, MotionClips[i].ClipType);
+            for (int j = 0; j < MotionClips[i].MotionFrames.Length; j++)
+            {        
+                var thisMotionScore = calCulateCost.CalculateAllCost(MotionClips[i].MotionFrames[i],
+                                                                     PlayerMotionFrame, 
+                                                                     playerSetting);
+                if (thisMotionScore < bestScore)
+                {
+                    bestScore = thisMotionScore;
+                    bestScoreClipIndex = i;
+                    bestScoreFrameIndex = j;
+                }
+                
+            }
+        }
+        /////equals to this motion frame????
+        PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
+
+
     }
 
     public void GetClipTrajectoryData(MotionFrame frame) {
