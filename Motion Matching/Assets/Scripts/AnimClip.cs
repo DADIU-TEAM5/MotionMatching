@@ -5,5 +5,9 @@ using UnityEngine;
 [CreateAssetMenu]
 public class AnimClip : ScriptableObject
 {
+    public string Name;
+
+    public MotionClipType ClipType;
+
     public List<AnimationFrame> Frames;
 }

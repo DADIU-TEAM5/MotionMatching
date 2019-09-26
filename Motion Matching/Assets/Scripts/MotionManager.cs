@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class MotionManager : MonoBehaviour
 {
+    public PlayerInput PlayerInput;
+
     // List of all the recorded mo-cap animation
     public List<AnimClip> AnimationClips;
 
     // List of all frames from the animations, now more fit to motion matching
-    public List<MotionFrame> MotionFrames;
-
+    public List<MotionClipData> MotionClips;
 
     public string RootName;
-    public List<string> CrucialJoints;
 
     public MotionFrameVariable NextFrame;
     public MotionFrameVariable GoalFrame;
+    
+    private MotionFrame PlayerMotionFrame;
 
     public int NextIndex, GoalIndex;
 
@@ -34,161 +37,137 @@ public class MotionManager : MonoBehaviour
     }
 
     void Start() {
-        NextFrame.Value = MotionFrames[NextIndex];
-        GoalFrame.Value = MotionFrames[GoalIndex];
-        StartCoroutine(PlayAllFrames()); 
+        //NextFrame.Value = MotionFrames[NextIndex];
+        //GoalFrame.Value = MotionFrames[GoalIndex];
     }
 
     void Update()
     {
         // TODO: Update next frame 
-        //FindNextFrame(); 
     }
 
-    private IEnumerator PlayAllFrames() {
-        for (int i = 0; i < MotionFrames.Count; i++) {
-            var frame = MotionFrames[i];
-            Debug.Log(i);
-            NextFrame.Value = frame;            
+    public void GetClipTrajectoryData(MotionFrame frame) {
+        frame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
 
-            yield break;
+        for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
+            var timeStamp = 1f / (float) i;
+
+            var trajectoryData = new MotionTrajectoryData();
+            trajectoryData.LocalPosition = frame.Velocity * frame.Direction * timeStamp;
+            trajectoryData.Velocity = frame.Velocity * frame.Direction;
+
+            if (frame.AngularVelocity != 0f) {
+                trajectoryData.Direction = Quaternion.Euler(0, frame.AngularVelocity * timeStamp, 0) * Vector3.forward;
+            }
+
+            PlayerMotionFrame.TrajectoryDatas[i] = trajectoryData;
         }
     }
 
-    private void FindNextFrame() {
-        var maximumNeighbours = 2; 
-        NeighborsDebug = FindNearestNeighbours(maximumNeighbours).ToList();
+    public void GetPlayerMotion(string motionName, float normalizedTime, MotionClipType clipType) {
+        var motionFrame = GetBakedMotionFrame(motionName, normalizedTime, clipType); 
 
-        var closest = ClosestNeighbour(NeighborsDebug);
+        PlayerMotionFrame.Velocity = PlayerInput.Velocity;
+        PlayerMotionFrame.Joints = motionFrame.Joints;
+        PlayerMotionFrame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
 
-        NextFrame.Value = closest;
-    }
+        for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
+            var timeStamp = 1f / (float) i;
 
-    // Now we brute forcing ^^
-    private IEnumerable<MotionFrame> FindNearestNeighbours(int amountOfNeighbours) {
-        CalculateAllCost(NextFrame.Value); 
+            var trajectoryData = new MotionTrajectoryData();
+            trajectoryData.LocalPosition = PlayerInput.Velocity * PlayerInput.Direction * timeStamp;
+            trajectoryData.Velocity = PlayerInput.Velocity * PlayerInput.Direction;
 
-        for (int i = 0; i < amountOfNeighbours; i++) {
-            var closest = CostList.Min();
-            var index = CostList.IndexOf(closest);
-            yield return MotionFrames[index];
-            CostList[index] = float.MaxValue;
+            if (PlayerInput.AngularVelocity != 0f) {
+                trajectoryData.Direction = Quaternion.Euler(0, PlayerInput.AngularVelocity * timeStamp, 0) * Vector3.forward;
+            }
+
+            PlayerMotionFrame.TrajectoryDatas[i] = trajectoryData;
         }
     }
 
-    private MotionFrame ClosestNeighbour(IEnumerable<MotionFrame> neighbors) {
-        var orderedNeighbors = neighbors.OrderBy(x => CalculateFrameCost(x, GoalFrame.Value));
-
-        return orderedNeighbors.First();
-    }
-
-    private void CalculateAllCost(MotionFrame currentFrame)
+    private MotionFrame GetBakedMotionFrame(string motionName, float normalizedTime, MotionClipType clipType)
     {
-        CostList = new List<float>(MotionFrames.Count);
+        for (int i = 0; i < MotionClips.Count; i++) {
+            var clip = MotionClips[i];
+            
+            if (clipType != null) {
+                if (clipType == clip.ClipType) {
+                    return clip.MotionFrames[0];
+                }
+            } else if (clip.Name.Equals(motionName)) {
+                int frameBasedOnTime = Mathf.FloorToInt(clip.MotionFrames.Length * normalizedTime);
 
-        float costeachFrame;
-
-        for (int i = 0; i < MotionFrames.Count; i++)
-        {
-            costeachFrame = CalculateFrameCost(currentFrame, MotionFrames[i]);
-            if (costeachFrame < 1f) {
-                CostList.Add(float.MaxValue);
-            }  else {
-                CostList.Add(costeachFrame);
+                return clip.MotionFrames[frameBasedOnTime];
             }
         }
 
+        return null;
     }
 
     private void ExtractMotionClips(AnimClip animationClip) {
+        var motionClip = new MotionClipData();
+        motionClip.Name = animationClip.name;
+        motionClip.ClipType = animationClip.ClipType;
+        motionClip.MotionFrames = new MotionFrame[animationClip.Frames.Count];
+
+        // The very first frame
+        var firstMotionFrame = new MotionFrame();
+        var firstFrame = animationClip.Frames[0];
+        var stubAnimationjointPoint = new AnimationJointPoint { Position = Vector3.zero };
+
+        firstMotionFrame.Joints = (from jp in firstFrame.JointPoints
+                                    select MakeMotionJoint(jp, stubAnimationjointPoint)).ToArray();
+        foreach (var jt in firstMotionFrame.Joints) {
+            jt.BaseRotation = jt.Rotation;
+        }
+
+        var rootMotionJoint = firstMotionFrame.Joints.First(x => x.Name.Equals(RootName));
+        firstMotionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, rootMotionJoint.Velocity) / 180f;
+        firstMotionFrame.Velocity = rootMotionJoint.Velocity.sqrMagnitude;
+        firstMotionFrame.Direction = rootMotionJoint.Velocity.normalized;
+        GetClipTrajectoryData(firstMotionFrame);
+
+        motionClip.MotionFrames[0] = firstMotionFrame;
+        
+        // All the other ones
         for (int i = 1; i < animationClip.Frames.Count; i++) {
             var frame = animationClip.Frames[i];
             var lastFrame = animationClip.Frames[i - 1]; 
             var motionFrame = new MotionFrame();
             
-            var root = frame.JointPoints.First(x => x.Name.Equals(RootName));
-            var rootLast = lastFrame.JointPoints.First(x => x.Name.Equals(RootName));
-            motionFrame.Root = MakeMotionJoint(root, rootLast);
-
-            var crucialJoints = new List<MotionJointPoint>(); 
-            foreach(var jointname in CrucialJoints) {
-                var current = frame.JointPoints.First(x => x.Name.Equals(jointname));
-                var last = lastFrame.JointPoints.First(x => x.Name.Equals(jointname));
-                var mjp = MakeMotionJoint(current, last);
-                crucialJoints.Add(mjp);
+            var joints = (from jp in frame.JointPoints 
+                          from jp2 in lastFrame.JointPoints
+                          where jp.Name.Equals(jp2.Name)
+                          select MakeMotionJoint(jp, jp2)).ToArray();
+            
+            foreach (var jt in joints) {
+                var firstJt = firstMotionFrame.Joints.First(x => x.Name.Equals(jt.Name));
+                jt.BaseRotation = firstJt.Rotation;
             }
-            motionFrame.EndEffectors = crucialJoints;
 
-            motionFrame.AnimationFrame = frame;
+            motionFrame.Joints = joints;
+        
+            var root = joints.First(x => x.Name.Equals(RootName));
+            motionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, root.Velocity) / 180f;
+            motionFrame.Velocity = root.Velocity.sqrMagnitude;
+            motionFrame.Direction = root.Velocity.normalized;
+            GetClipTrajectoryData(motionFrame);
 
-            MotionFrames.Add(motionFrame);
+            motionClip.MotionFrames[i] = motionFrame;
         }
     }
 
     private MotionJointPoint MakeMotionJoint(AnimationJointPoint current, AnimationJointPoint last) {
         var motionJointPoint = new MotionJointPoint { 
+            LocalPosition = current.Position,
+            LocalRotation = current.Rotation,
+            Rotation = current.Rotation,
             Name = current.Name, 
             Position = current.Position, 
-            Velocity = PointVelocity(current.Position, last.Position), Angle = PointAngle(current.Rotation, last.Rotation)
+            Velocity = current.Position - last.Position 
         };
 
         return motionJointPoint;
     }
-
-    float PointAngle(Quaternion RotationCurrent, Quaternion RotationLast)
-    {
-        var angle = Quaternion.Angle(RotationCurrent, RotationLast);
-        //Debug.Log(angle);
-        return angle;
-    }
-
-    Vector3 PointVelocity(Vector3 PositionCurrent, Vector3 PositionLast)
-    {
-        Vector3 velocity = PositionCurrent - PositionLast;
-        return velocity;
-    }
-
-    public float CalculateFrameCost(MotionFrame CurrentFrame, MotionFrame GoalFrame)
-    {
-        var current = CurrentFrame.EndEffectors;
-        var goal = GoalFrame.EndEffectors;
-
-        var hipCost = CalculateHipCost(CurrentFrame.Root, GoalFrame.Root);
-
-        float AllCost = 0;
-        for(int i=0; i<current.Count; i++)
-        {
-            AllCost += CalculateOneJointCost(
-                current[i].Position, goal[i].Position,
-                current[i].Velocity, goal[i].Velocity, 
-                current[i].Angle, goal[i].Angle);
-        }
-        return (AllCost / current.Count) + hipCost * 5;
-    }
-
-    private float CalculateOneJointCost(Vector3 CurrentP, Vector3 GoalP,
-        Vector3 CurrentV, Vector3 GoalV, float CurrentTheta, float GoalTheta)
-    {
-        var costP = Vector3.Distance(CurrentP, GoalP);
-
-        var costV = Vector3.Angle(CurrentV.normalized, (GoalP - CurrentP).normalized);
-        
-        var costTheta = Mathf.Abs(CurrentTheta - GoalTheta);
-        return (
-            costP * CostWeightPosition 
-            + (180f - costV) * CostWeightVelocity 
-            );
-    } 
-
-    private float CalculateHipCost(MotionJointPoint currentHip, MotionJointPoint goalHip) {
-        var costY = goalHip.Position.y - currentHip.Position.y;
-        
-        var costV = Vector3.Angle(currentHip.Velocity.normalized, (goalHip.Position - currentHip.Position).normalized);
-
-        return (
-            costY * CostWeightPosition
-            + (180f - costV) * CostWeightVelocity 
-        );
-    }
-
 }
