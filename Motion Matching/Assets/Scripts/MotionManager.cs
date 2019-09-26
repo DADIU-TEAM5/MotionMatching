@@ -34,6 +34,7 @@ public class MotionManager : MonoBehaviour
 
     void Awake()
     {
+        MotionClips = new List<MotionClipData>();
         for (int i = 0; i < AnimationClips.Count; i++) {
             var clip = AnimationClips[i];
             ExtractMotionClips(clip);
@@ -141,7 +142,7 @@ public class MotionManager : MonoBehaviour
         return null;
     }
 
-    private void ExtractMotionClips(AnimClip animationClip) {
+    public void ExtractMotionClips(AnimClip animationClip) {
         var motionClip = new MotionClipData();
         motionClip.Name = animationClip.name;
         motionClip.MotionClipLengthInMilliseconds = animationClip.ClipLengthInMilliseconds;
@@ -193,6 +194,8 @@ public class MotionManager : MonoBehaviour
 
             motionClip.MotionFrames[i] = motionFrame;
         }
+
+        MotionClips.Add(motionClip);
     }
 
     private MotionJointPoint MakeMotionJoint(AnimationJointPoint current, AnimationJointPoint last) {
