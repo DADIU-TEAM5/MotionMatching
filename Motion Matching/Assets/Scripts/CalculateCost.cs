@@ -12,11 +12,12 @@ public class CalculateCost
         float allCost = 0;
         for (int i=0; i < motionFrames.Count; i++)
         {
-            allCost += RootMotionCost(motionFrames[i], currentFrame, playerSetting);
             for(int j = 0; j< motionFrames[i].Joints.Length; j ++)
             {
                 allCost += BoneCost(motionFrames[i].Joints[j], currentFrame.Joints[j], playerSetting);
             }
+            allCost += RootMotionCost(motionFrames[i], currentFrame, playerSetting);
+            allCost += TrajectoryCost(motionFrames[i], currentFrame, playerSetting);
         }
         return allCost;
     }
@@ -53,7 +54,7 @@ public class CalculateCost
     }
 
     
-    private float Trajectory(MotionFrame frame, MotionFrame current,
+    private float TrajectoryCost(MotionFrame frame, MotionFrame current,
      PlayerSetting playerSetting)
     {
         float trajectoryCost = 0;
