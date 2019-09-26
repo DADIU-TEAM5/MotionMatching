@@ -28,7 +28,7 @@ public class AnimationManager : MonoBehaviour
     }
 
     public void ApplyFrameToJoints(MotionFrame frame) {
-        Debug.Log(frame.Velocity);
+        //Debug.Log(frame.Velocity);
         foreach (var jointPoint in frame.Joints) {
             if (!SkeletonJoints.Keys.Contains(jointPoint.Name)) {
                 //Debug.LogError($"{jointPoint.Name} is not in the {Skeleton.name}");
