@@ -8,6 +8,8 @@ public class MotionFrame
     public float Velocity;
 
     public float AngularVelocity;
+    
+    public Vector3 Direction;
 
     public MotionJointPoint[] Joints;
     //trajectory data ---

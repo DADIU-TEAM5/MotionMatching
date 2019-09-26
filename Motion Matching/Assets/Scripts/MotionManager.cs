@@ -46,6 +46,27 @@ public class MotionManager : MonoBehaviour
         // TODO: Update next frame 
     }
 
+    public MotionTrajectoryData[] GetClipTrajectoryData(MotionClipData clipData) {
+        var trajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
+
+        for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
+            var timeStamp = 1f / i;
+            var timeFrame = Mathf.FloorToInt(timeStamp * clipData.MotionFrames.Length);
+            var frame = clipData.MotionFrames[timeFrame];
+
+            var trajectoryData = new MotionTrajectoryData();
+            trajectoryData.LocalPosition = frame.Velocity * frame.Direction * timeStamp;
+            trajectoryData.Velocity = frame.Velocity * frame.Direction;
+
+            if (frame.AngularVelocity != 0f) {
+                trajectoryData.Direction = Quaternion.Euler(0, PlayerInput.AngularVelocity * timeStamp, 0) * Vector3.forward;
+            }
+ 
+        }
+
+        return trajectoryDatas;
+    }
+
     public void GetPlayerMotion(string motionName, float normalizedTime, MotionClipType clipType) {
         var motionFrame = GetBakedMotionFrame(motionName, normalizedTime, clipType); 
 
@@ -105,6 +126,8 @@ public class MotionManager : MonoBehaviour
         var rootMotionJoint = firstMotionFrame.Joints.First(x => x.Name.Equals(RootName));
         firstMotionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, rootMotionJoint.Velocity) / 180f;
         firstMotionFrame.Velocity = rootMotionJoint.Velocity.sqrMagnitude;
+        firstMotionFrame.Direction = rootMotionJoint.Velocity.normalized;
+
 
         motionClip.MotionFrames[0] = firstMotionFrame;
         
@@ -129,6 +152,7 @@ public class MotionManager : MonoBehaviour
             var root = joints.First(x => x.Name.Equals(RootName));
             motionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, root.Velocity) / 180f;
             motionFrame.Velocity = root.Velocity.sqrMagnitude;
+            motionFrame.Direction = root.Velocity.normalized;
 
             motionClip.MotionFrames[i] = motionFrame;
         }
