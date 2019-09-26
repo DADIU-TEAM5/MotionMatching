@@ -10,10 +10,3 @@ public class MotionClipData
 
     public MotionFrame[] MotionFrames;
 }
-
-
-public enum MotionClipType {
-    Jump,
-    Crouch,
-    Walking,
-}
