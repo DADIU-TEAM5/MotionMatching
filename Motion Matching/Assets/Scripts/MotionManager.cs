@@ -29,6 +29,8 @@ public class MotionManager : MonoBehaviour
     public float CostWeightPosition, CostWeightVelocity, CostWeightAngle;
     public PlayerSetting playerSetting;
 
+    private float timer;
+
 
     void Awake()
     {
@@ -45,11 +47,12 @@ public class MotionManager : MonoBehaviour
 
     void Update()
     {
+        timer += Time.deltaTime;
         // TODO: Update next frame 
     }
 
     //
-    public void NextFrameIndex(float normalizedTime)
+    public void NextFrameIndex()
     {
         var calCulateCost = new CalculateCost();
         float bestScore = float.MaxValue;
@@ -58,7 +61,9 @@ public class MotionManager : MonoBehaviour
 
         for (int i =0; i < MotionClips.Count; i++)
         {
+            var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
             GetPlayerMotion(MotionClips[i].Name, normalizedTime, MotionClips[i].ClipType);
+
             for (int j = 0; j < MotionClips[i].MotionFrames.Length; j++)
             {        
                 var thisMotionScore = calCulateCost.CalculateAllCost(MotionClips[i].MotionFrames[i],
@@ -73,10 +78,8 @@ public class MotionManager : MonoBehaviour
                 
             }
         }
-        /////equals to this motion frame????
-        PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
 
-
+        NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
     }
 
     public void GetClipTrajectoryData(MotionFrame frame) {
@@ -141,6 +144,7 @@ public class MotionManager : MonoBehaviour
     private void ExtractMotionClips(AnimClip animationClip) {
         var motionClip = new MotionClipData();
         motionClip.Name = animationClip.name;
+        motionClip.MotionClipLengthInMilliseconds = animationClip.ClipLengthInMilliseconds;
         motionClip.ClipType = animationClip.ClipType;
         motionClip.MotionFrames = new MotionFrame[animationClip.Frames.Count];
 

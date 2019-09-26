@@ -6,6 +6,8 @@ public class MotionClipData
 {
     public string Name;
 
+    public float MotionClipLengthInMilliseconds;
+
     public MotionClipType ClipType;
 
     public MotionFrame[] MotionFrames;
