@@ -196,6 +196,8 @@ public class MotionManager : MonoBehaviour
             motionClip.MotionFrames[i] = motionFrame;
         }
 
+        motionClip.MotionClipLengthInMilliseconds = animationClip.Frames.Last().Time;
+
         MotionClips.Add(motionClip);
     }
 
