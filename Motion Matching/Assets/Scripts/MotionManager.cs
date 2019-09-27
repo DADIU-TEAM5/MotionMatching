@@ -19,12 +19,15 @@ public class MotionManager : MonoBehaviour
     public MotionFrameVariable NextFrame;
     
     private MotionFrame PlayerMotionFrame;
-
-
+    
     public float CostWeightPosition, CostWeightVelocity, CostWeightAngle;
     public PlayerSetting playerSetting;
 
     private float timer;
+    private string MotionName = "dash";
+
+    public bool isJump;
+
 
 
     void Awake()
@@ -44,7 +47,7 @@ public class MotionManager : MonoBehaviour
 
     void Update()
     {
-        timer += (Time.deltaTime * 1000);
+        timer += Time.deltaTime;
         // TODO: Update next frame 
         GetNextFrame();
     }
@@ -58,10 +61,13 @@ public class MotionManager : MonoBehaviour
         int bestScoreClipIndex = 0;
         int bestScoreFrameIndex = 0;
 
+        float normalizedTime = timer%60;
+        GetPlayerMotion(PlayerInput, normalizedTime);
+
         for (int i =0; i < MotionClips.Count; i++)
         {
-            var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
-            GetPlayerMotion(MotionClips[i].Name, normalizedTime, MotionClips[i].ClipType);
+            //var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
+            
 
             for (int j = 0; j < MotionClips[i].MotionFrames.Length; j++)
             {        
@@ -103,11 +109,12 @@ public class MotionManager : MonoBehaviour
         }
     }
 
-    public void GetPlayerMotion(string motionName, float normalizedTime, MotionClipType clipType) {
-        var motionFrame = GetBakedMotionFrame(motionName, normalizedTime, clipType);
+    public void GetPlayerMotion(PlayerInput playerInput, float normalizedTime) {
+        var motionFrame = GetBakedMotionFrame(playerInput, normalizedTime);
         PlayerMotionFrame.Velocity = PlayerInput.Velocity;
+        //PlayerMotionFrame.Joints = motionFrame.Joints;
         PlayerMotionFrame.Joints = motionFrame.Joints;
-       
+
         PlayerMotionFrame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
 
         for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
@@ -125,28 +132,37 @@ public class MotionManager : MonoBehaviour
         }
     }
 
-    private MotionFrame GetBakedMotionFrame(string motionName, float normalizedTime, MotionClipType clipType)
+    private MotionFrame GetBakedMotionFrame(PlayerInput playerInput , 
+                                            float normalizedTime)//, MotionClipType motionClipType)
     {
+        
         MotionFrame motionFrame = null;
         for(int i = 0; i < MotionClips.Count; i++)
         {
             MotionClipData motionClipData = MotionClips[i];
-            if(clipType != null)
+            if (isJump && motionClipData.Name.Contains("jump"))
             {
-                if(motionClipData.ClipType == clipType)
-                {
-                    motionFrame = motionClipData.MotionFrames[0];
-                    break;
-                }
+                motionFrame = motionClipData.MotionFrames[0];
+                break;
             }
-            else if( motionClipData.Name == motionName)
+            else if (playerInput.Crouch && motionClipData.Name.Contains("crouch"))
+            {
+                motionFrame = motionClipData.MotionFrames[0];
+                break;
+            }
+            else if (motionClipData.Name == MotionName)
             {
                 int frame = Mathf.FloorToInt(motionClipData.MotionFrames.Length * normalizedTime);
                 motionFrame = motionClipData.MotionFrames[frame];
+                break;
             }
         }
         return motionFrame;
+        
+
     }
+
+
 
     /*
     private MotionFrame GetBakedMotionFrame(string motionName, float normalizedTime, MotionClipType clipType)
