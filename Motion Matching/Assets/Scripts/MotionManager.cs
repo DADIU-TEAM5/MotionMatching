@@ -24,7 +24,7 @@ public class MotionManager : MonoBehaviour
     public PlayerSetting playerSetting;
 
     private float timer;
-    private string MotionName = "dash";
+    private string MotionName = "test_dash";
 
     public bool isJump;
 
@@ -61,8 +61,8 @@ public class MotionManager : MonoBehaviour
         int bestScoreClipIndex = 0;
         int bestScoreFrameIndex = 0;
 
-        float normalizedTime = timer%60;
-        GetPlayerMotion(PlayerInput, normalizedTime);
+       
+        GetPlayerMotion(PlayerInput, timer);
 
         for (int i =0; i < MotionClips.Count; i++)
         {
@@ -132,33 +132,42 @@ public class MotionManager : MonoBehaviour
         }
     }
 
-    private MotionFrame GetBakedMotionFrame(PlayerInput playerInput , 
-                                            float normalizedTime)//, MotionClipType motionClipType)
+    private MotionFrame GetBakedMotionFrame(PlayerInput playerInput,
+                                            float timer)//, MotionClipType motionClipType)
     {
-        
+
         MotionFrame motionFrame = null;
-        for(int i = 0; i < MotionClips.Count; i++)
+        for (int i = 0; i < MotionClips.Count; i++)
         {
             MotionClipData motionClipData = MotionClips[i];
-            if (isJump && motionClipData.Name.Contains("jump"))
+            var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
+            if (isJump)
             {
-                motionFrame = motionClipData.MotionFrames[0];
-                break;
+                if (motionClipData.Name.Contains("jump"))
+                {
+                    MotionName = motionClipData.Name;
+                    motionFrame = motionClipData.MotionFrames[0];
+                    break;
+                }
             }
-            else if (playerInput.Crouch && motionClipData.Name.Contains("crouch"))
-            {
-                motionFrame = motionClipData.MotionFrames[0];
-                break;
-            }
-            else if (motionClipData.Name == MotionName)
+            else if(motionClipData.Name == MotionName)
             {
                 int frame = Mathf.FloorToInt(motionClipData.MotionFrames.Length * normalizedTime);
                 motionFrame = motionClipData.MotionFrames[frame];
                 break;
             }
+    
         }
         return motionFrame;
-        
+
+        /*
+         else if (playerInput.Crouch && motionClipData.Name.Contains("crouch"))
+        {
+            MotionName = motionClipData.Name;
+            motionFrame = motionClipData.MotionFrames[0];
+            break;
+        }
+         */
 
     }
 
