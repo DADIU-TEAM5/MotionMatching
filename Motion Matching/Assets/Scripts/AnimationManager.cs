@@ -15,7 +15,7 @@ public class AnimationManager : MonoBehaviour
     public MotionFrameVariable NextFrame;
 
     void Awake() {
-        GetAllChildren(Skeleton);
+        
     }
 
     void Update() {
@@ -24,10 +24,11 @@ public class AnimationManager : MonoBehaviour
     }
 
     void Start() {
+        GetAllChildren(Skeleton);
     }
 
     public void ApplyFrameToJoints(MotionFrame frame) {
-        Debug.Log(frame.Velocity);
+        //Debug.Log(frame.Velocity);
         foreach (var jointPoint in frame.Joints) {
             if (!SkeletonJoints.Keys.Contains(jointPoint.Name)) {
                 //Debug.LogError($"{jointPoint.Name} is not in the {Skeleton.name}");
@@ -45,7 +46,8 @@ public class AnimationManager : MonoBehaviour
         var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
         //var newEulerRot = jointPoint.Rotation * jointPoint.BaseRotation;
         //joint.rotation = newEulerRot;
-        joint.rotation = Skeleton.rotation * (newEulerRot);
+        joint.rotation = Skeleton.rotation * jointPoint.LocalRotation;
+        //joint.rotation = Skeleton.rotation * (newEulerRot);
         joint.position = Skeleton.position + jointPoint.Position;
 
         //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);

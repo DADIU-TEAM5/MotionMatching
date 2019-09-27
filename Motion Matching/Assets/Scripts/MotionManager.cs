@@ -17,14 +17,8 @@ public class MotionManager : MonoBehaviour
     public string RootName;
 
     public MotionFrameVariable NextFrame;
-    public MotionFrameVariable GoalFrame;
     
     private MotionFrame PlayerMotionFrame;
-
-    public int NextIndex, GoalIndex;
-
-    public List<MotionFrame> NeighborsDebug;
-    public List<float> CostList;
 
     public float CostWeightPosition, CostWeightVelocity, CostWeightAngle;
     public PlayerSetting playerSetting;
@@ -44,16 +38,18 @@ public class MotionManager : MonoBehaviour
     void Start() {
         //NextFrame.Value = MotionFrames[NextIndex];
         //GoalFrame.Value = MotionFrames[GoalIndex];
+        PlayerMotionFrame =new MotionFrame();
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
+        timer += (Time.deltaTime * 1000);
         // TODO: Update next frame 
+        GetNextFrame();
     }
 
     //
-    public void NextFrameIndex()
+    public void GetNextFrame()
     {
         var calCulateCost = new CalculateCost();
         float bestScore = float.MaxValue;
@@ -65,11 +61,13 @@ public class MotionManager : MonoBehaviour
             var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
             GetPlayerMotion(MotionClips[i].Name, normalizedTime, MotionClips[i].ClipType);
 
-            for (int j = 0; j < MotionClips[i].MotionFrames.Length; j++)
+            for (int j = 10; j < MotionClips[i].MotionFrames.Length; j++)
             {        
-                var thisMotionScore = calCulateCost.CalculateAllCost(MotionClips[i].MotionFrames[i],
+                var thisMotionScore = calCulateCost.CalculateAllCost(MotionClips[i].MotionFrames[j],
                                                                      PlayerMotionFrame, 
                                                                      playerSetting);
+                if (thisMotionScore < 1)
+                    continue;
                 if (thisMotionScore < bestScore)
                 {
                     bestScore = thisMotionScore;
@@ -79,7 +77,7 @@ public class MotionManager : MonoBehaviour
                 
             }
         }
-
+        PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
         NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
     }
 
@@ -164,6 +162,7 @@ public class MotionManager : MonoBehaviour
         firstMotionFrame.AngularVelocity = Vector3.Angle(Vector3.forward, rootMotionJoint.Velocity) / 180f;
         firstMotionFrame.Velocity = rootMotionJoint.Velocity.sqrMagnitude;
         firstMotionFrame.Direction = rootMotionJoint.Velocity.normalized;
+        firstMotionFrame.Time = firstFrame.Time;
         GetClipTrajectoryData(firstMotionFrame);
 
         motionClip.MotionFrames[0] = firstMotionFrame;
@@ -173,6 +172,8 @@ public class MotionManager : MonoBehaviour
             var frame = animationClip.Frames[i];
             var lastFrame = animationClip.Frames[i - 1]; 
             var motionFrame = new MotionFrame();
+
+            motionFrame.Time = frame.Time;
             
             var joints = (from jp in frame.JointPoints 
                           from jp2 in lastFrame.JointPoints
@@ -194,6 +195,8 @@ public class MotionManager : MonoBehaviour
 
             motionClip.MotionFrames[i] = motionFrame;
         }
+
+        motionClip.MotionClipLengthInMilliseconds = animationClip.Frames.Last().Time;
 
         MotionClips.Add(motionClip);
     }

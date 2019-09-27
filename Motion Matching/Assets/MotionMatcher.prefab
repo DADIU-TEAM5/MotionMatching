@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7446706417477839219}
   - component: {fileID: 7446706417477839218}
   - component: {fileID: 7446706417477839217}
+  - component: {fileID: 1732862214}
   m_Layer: 0
   m_Name: MotionMatcher
   m_TagString: Untagged
@@ -58,16 +59,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f7a03f1c5bdf64ab4cf78d311f034f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 11400000, guid: 591f48fb9ad8d0243baaff7b6d9ae7bd, type: 2}
   AnimationClips:
-  - {fileID: 11400000, guid: ff5d06c990ffdb74c9faf65952fa3306, type: 2}
-  MotionFrames: []
+  - {fileID: 11400000, guid: 0272ed9b536b44b43a003d402c8c2fab, type: 2}
   RootName: Hips
-  CrucialJoints:
-  - Hips
-  - LeftHand
-  - RightHand
-  - RightLeg
-  - LeftLeg
   NextFrame: {fileID: 11400000, guid: d05dce8f7bcd2ed46a50ecbbcd2de610, type: 2}
   GoalFrame: {fileID: 11400000, guid: ceed1937419dd3a4ba83f477174614c8, type: 2}
   NextIndex: 400
@@ -77,3 +72,23 @@ MonoBehaviour:
   CostWeightPosition: 0
   CostWeightVelocity: 1
   CostWeightAngle: 0
+  playerSetting:
+    BoneRotFactor: 1
+    BonePosFactor: 1
+    RootMotionCostFactor: 1
+    trajectoryPosFactor: 1
+    trajectoryRotFactor: 1
+    trajectoryVelFactor: 1
+--- !u!114 &1732862214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7446706417477839116}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6772cef379bf797408b92e9f09739bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MotionManager: {fileID: 7446706417477839217}
