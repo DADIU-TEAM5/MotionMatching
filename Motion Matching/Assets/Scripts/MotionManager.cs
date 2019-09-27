@@ -17,14 +17,9 @@ public class MotionManager : MonoBehaviour
     public string RootName;
 
     public MotionFrameVariable NextFrame;
-    public MotionFrameVariable GoalFrame;
     
     private MotionFrame PlayerMotionFrame;
 
-    public int NextIndex, GoalIndex;
-
-    public List<MotionFrame> NeighborsDebug;
-    public List<float> CostList;
 
     public float CostWeightPosition, CostWeightVelocity, CostWeightAngle;
     public PlayerSetting playerSetting;
