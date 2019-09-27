@@ -54,7 +54,7 @@ public class MotionManager : MonoBehaviour
         GetNextFrame();
     }
 
-    //
+
     public void GetNextFrame()
     {
         var calCulateCost = new CalculateCost();
