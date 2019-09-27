@@ -27,7 +27,7 @@ public class MotionManager : MonoBehaviour
     private string MotionName = "test_dash";
 
     public bool isJump;
-
+    public bool isDash;
 
 
     void Awake()
@@ -75,8 +75,8 @@ public class MotionManager : MonoBehaviour
                                                                      PlayerMotionFrame, 
                                                                      playerSetting);
 
-                //Debug.Log(MotionClips[i].MotionFrames[j].Joints[17].Position);
-                if (thisMotionScore < 1)
+               
+                if (thisMotionScore < 0)
                     continue;
                 if (thisMotionScore < bestScore)
                 {
@@ -88,6 +88,7 @@ public class MotionManager : MonoBehaviour
             }
         }
         //PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
+        Debug.Log(bestScore);
         NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
     }
 
@@ -141,9 +142,15 @@ public class MotionManager : MonoBehaviour
         {
             MotionClipData motionClipData = MotionClips[i];
             var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
-            if (isJump)
+            if (isJump || isDash)
             {
-                if (motionClipData.Name.Contains("jump"))
+                if (isJump && motionClipData.Name.Contains("jump"))
+                {
+                    MotionName = motionClipData.Name;
+                    motionFrame = motionClipData.MotionFrames[0];
+                    break;
+                }
+                if (isDash && motionClipData.Name.Contains("dash"))
                 {
                     MotionName = motionClipData.Name;
                     motionFrame = motionClipData.MotionFrames[0];
