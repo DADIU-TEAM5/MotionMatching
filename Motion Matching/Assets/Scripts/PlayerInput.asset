@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c25b9a5d963f1ce4bb54c9a5bdfd8663, type: 3}
   m_Name: PlayerInput
   m_EditorClassIdentifier: 
-  Velocity: 16.44
-  Acceleration: 1.63
-  Brake: 0.94
+  Velocity: 8.2
+  Acceleration: 13.9
+  Brake: 1.9
   Turn: 2.57
   Crouch: 0
   Jump: 0
-  Direction: {x: 0, y: 1, z: 0}
+  Direction: {x: 7.42, y: 2.51, z: 3.3}
   AngularVelocity: 1.12
   m_TurnSpeed: 2.48
   m_ForwardAmount: 10.59
