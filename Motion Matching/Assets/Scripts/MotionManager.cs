@@ -72,7 +72,8 @@ public class MotionManager : MonoBehaviour
                 var thisMotionScore = calCulateCost.CalculateAllCost(MotionClips[i].MotionFrames[j],
                                                                      PlayerMotionFrame, 
                                                                      playerSetting);
-                //var isSameFram = (Motion)
+                if (thisMotionScore < 1)
+                    continue;
                 if (thisMotionScore < bestScore)
                 {
                     bestScore = thisMotionScore;
@@ -82,7 +83,7 @@ public class MotionManager : MonoBehaviour
                 
             }
         }
-
+        PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
         NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
     }
 
