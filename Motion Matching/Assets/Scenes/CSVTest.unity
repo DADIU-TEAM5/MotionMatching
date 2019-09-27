@@ -195,7 +195,7 @@ PrefabInstance:
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
@@ -213,7 +213,7 @@ PrefabInstance:
         type: 3}
       propertyPath: AnimationClips.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 0272ed9b536b44b43a003d402c8c2fab,
+      objectReference: {fileID: 11400000, guid: 147cbd73cb30a1c4684b7e4f90502998,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
@@ -299,6 +299,11 @@ PrefabInstance:
       propertyPath: playerSetting.BonePosFactor
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
+        type: 3}
+      propertyPath: m_Animator
+      value: 
+      objectReference: {fileID: 430374363}
     - target: {fileID: 1732862214, guid: 123ea57aa14980f48951516269f3bd99, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -393,6 +398,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MixamoSkeleton: {fileID: 430374364}
+--- !u!95 &430374363 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: f451b4ea87052cd47b0287dfceac4b4a,
+    type: 3}
+  m_PrefabInstance: {fileID: 233143545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &430374364 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: f451b4ea87052cd47b0287dfceac4b4a,
