@@ -19,7 +19,7 @@ public class PlayAnimation : MonoBehaviour
 
     private IEnumerator Play() {
         for (int i = 0; i < ClipToPlay.MotionFrames.Length; i++) {
-            Debug.Log(i);
+            //Debug.Log(i);
             MotionManager.NextFrame.Value = ClipToPlay.MotionFrames[i];
             yield return null;
         }
