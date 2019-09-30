@@ -195,13 +195,13 @@ PrefabInstance:
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.size
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 9faee2f1b1fbf3d4c8d5e8f749ecceb2,
+      objectReference: {fileID: 11400000, guid: 8c49756fed32de94badec7fad86b6d17,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
@@ -213,49 +213,49 @@ PrefabInstance:
         type: 3}
       propertyPath: AnimationClips.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 147cbd73cb30a1c4684b7e4f90502998,
+      objectReference: {fileID: 11400000, guid: 85b0933d5397a8340bbfc695ed86f165,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 63e04ec6d04547244bc3a034b5480cb5,
+      objectReference: {fileID: 11400000, guid: 3435ce9b12d35c14ca7c396d9792437f,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: fbf79d0e8f7babb488679bd5325a77c9,
+      objectReference: {fileID: 11400000, guid: 9fef7dc4a37274045b5859fce28fa453,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: 9fef7dc4a37274045b5859fce28fa453,
+      objectReference: {fileID: 11400000, guid: 622976e14ce491c46bca66d6cfa0b772,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.data[6]
       value: 
-      objectReference: {fileID: 11400000, guid: 3435ce9b12d35c14ca7c396d9792437f,
+      objectReference: {fileID: 11400000, guid: 6c6122a645134d54a892854b5abd4bd3,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.data[7]
       value: 
-      objectReference: {fileID: 11400000, guid: 622976e14ce491c46bca66d6cfa0b772,
+      objectReference: {fileID: 11400000, guid: 25291a983bb0370499161c47eae3fee1,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.data[8]
       value: 
-      objectReference: {fileID: 11400000, guid: 6c6122a645134d54a892854b5abd4bd3,
+      objectReference: {fileID: 11400000, guid: c782faaf0d6263e46a0196075c3d685d,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: AnimationClips.Array.data[9]
       value: 
-      objectReference: {fileID: 11400000, guid: 6c6122a645134d54a892854b5abd4bd3,
+      objectReference: {fileID: 11400000, guid: e96945208d9146f4da81df4a8165a241,
         type: 2}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
