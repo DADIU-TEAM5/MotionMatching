@@ -103,10 +103,10 @@ public class MotionManager : MonoBehaviour
             trajectoryData.Velocity = frame.Velocity * frame.Direction;
 
             if (frame.AngularVelocity != 0f) {
-                trajectoryData.Direction = Quaternion.Euler(0, frame.AngularVelocity * timeStamp, 0) * Vector3.forward;
+                trajectoryData.Direction = (Quaternion.Euler(0, frame.AngularVelocity * timeStamp, 0) * Vector3.forward).normalized;
             }
 
-            PlayerMotionFrame.TrajectoryDatas[i] = trajectoryData;
+            frame.TrajectoryDatas[i] = trajectoryData;
         }
     }
 
@@ -273,5 +273,17 @@ public class MotionManager : MonoBehaviour
         };
 
         return motionJointPoint;
+    }
+
+    public void OnDrawGizmos() {
+        Gizmos.color = Color.green;
+
+        Debug.Log(PlayerMotionFrame.TrajectoryDatas.Length);
+        for (var i = 0; i < PlayerMotionFrame.TrajectoryDatas.Length; i++) {
+            var trajectoryData = PlayerMotionFrame.TrajectoryDatas[i];
+
+            Gizmos.DrawCube(PlayerInput.Position + trajectoryData.LocalPosition, trajectoryData.Velocity * 100f);
+        }
+        
     }
 }

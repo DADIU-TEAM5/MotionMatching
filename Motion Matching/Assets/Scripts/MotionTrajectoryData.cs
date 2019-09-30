@@ -5,8 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class MotionTrajectoryData
 {
-    public static List<float> TimeStamps;
-    public static int Length() => TimeStamps?.Count ?? 0;
+    public static int Length() => 5;
 
     public Vector3 LocalPosition;
     public Vector3 Position;

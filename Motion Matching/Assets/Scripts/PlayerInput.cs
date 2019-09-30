@@ -11,4 +11,6 @@ public class PlayerInput : ScriptableObject
 
     public Vector3 Direction;
     public float AngularVelocity;
+
+    public Vector3 Position;
 }

@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviour
         PlayerInputVar.Direction = velocity.normalized;
         PlayerInputVar.Jump = inAir;
         PlayerInputVar.Dash = isDashing;
+        PlayerInputVar.Position = transform.position;
 
         float angleInDegrees;
         Vector3 rotationAxis;
