@@ -76,7 +76,7 @@ public class MotionManager : MonoBehaviour
                                                                      playerSetting);
 
                
-                if (thisMotionScore < 0)
+                if (thisMotionScore < 1)
                     continue;
                 if (thisMotionScore < bestScore)
                 {
@@ -88,7 +88,7 @@ public class MotionManager : MonoBehaviour
             }
         }
         //PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
-        //Debug.Log(bestScore);
+        Debug.Log(bestScore);
         NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
     }
 
@@ -96,7 +96,7 @@ public class MotionManager : MonoBehaviour
         frame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
 
         for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
-            var timeStamp = 1f / (float) i;
+            var timeStamp = 1f / (float) (i+1);
 
             var trajectoryData = new MotionTrajectoryData();
             trajectoryData.LocalPosition = frame.Velocity * frame.Direction * timeStamp;
@@ -119,7 +119,7 @@ public class MotionManager : MonoBehaviour
         PlayerMotionFrame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
 
         for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
-            var timeStamp = 1f / (float) i;
+            var timeStamp = 1f / (float) (i+1);
 
             var trajectoryData = new MotionTrajectoryData();
             trajectoryData.LocalPosition = PlayerInput.Velocity * PlayerInput.Direction * timeStamp;

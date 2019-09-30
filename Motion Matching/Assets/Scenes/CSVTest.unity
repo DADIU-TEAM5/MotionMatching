@@ -282,17 +282,17 @@ PrefabInstance:
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: playerSetting.trajectoryRotFactor
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: playerSetting.trajectoryPosFactor
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
       propertyPath: playerSetting.trajectoryVelFactor
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7446706417477839217, guid: 123ea57aa14980f48951516269f3bd99,
         type: 3}
