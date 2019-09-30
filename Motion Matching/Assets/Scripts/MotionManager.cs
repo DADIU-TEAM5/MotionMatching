@@ -24,7 +24,7 @@ public class MotionManager : MonoBehaviour
     public PlayerSetting playerSetting;
 
     private float timer;
-    private string MotionName = "test_dash";
+    private string MotionName = "dash";
 
     public bool isJump;
     public bool isDash;
@@ -88,7 +88,6 @@ public class MotionManager : MonoBehaviour
             }
         }
         //PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
-        Debug.Log(bestScore);
         NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
         MotionName = MotionClips[bestScoreClipIndex].Name;
     }
@@ -100,8 +99,9 @@ public class MotionManager : MonoBehaviour
             var timeStamp = 1f / (float) (i+1);
 
             var trajectoryData = new MotionTrajectoryData();
-            trajectoryData.LocalPosition = frame.Velocity * frame.Direction * timeStamp;
-            trajectoryData.Velocity = frame.Velocity * frame.Direction;
+            trajectoryData.LocalPosition = 1000000f * frame.Velocity * frame.Direction * timeStamp;
+            trajectoryData.Velocity = 1000000f * frame.Velocity * frame.Direction;
+
 
             if (frame.AngularVelocity != 0f) {
                 trajectoryData.Direction = (Quaternion.Euler(0, frame.AngularVelocity * timeStamp, 0) * Vector3.forward).normalized;
@@ -207,7 +207,7 @@ public class MotionManager : MonoBehaviour
         motionClip.Name = animationClip.name;
         motionClip.MotionClipLengthInMilliseconds = animationClip.ClipLengthInMilliseconds;
         motionClip.ClipType = animationClip.ClipType;
-        motionClip.MotionFrames = new MotionFrame[animationClip.Frames.Count];
+        motionClip.MotionFrames = new MotionFrame[animationClip.Frames.Count - 10];
 
         // The very first frame
         var firstMotionFrame = new MotionFrame();
@@ -227,10 +227,10 @@ public class MotionManager : MonoBehaviour
         firstMotionFrame.Time = firstFrame.Time;
         GetClipTrajectoryData(firstMotionFrame);
 
-        motionClip.MotionFrames[0] = firstMotionFrame;
+        //motionClip.MotionFrames[0] = firstMotionFrame;
         
         // All the other ones
-        for (int i = 1; i < animationClip.Frames.Count; i++) {
+        for (int i = 10; i < animationClip.Frames.Count; i++) {
             var frame = animationClip.Frames[i];
             var lastFrame = animationClip.Frames[i - 1]; 
             var motionFrame = new MotionFrame();
@@ -255,7 +255,7 @@ public class MotionManager : MonoBehaviour
             motionFrame.Direction = root.Velocity.normalized;
             GetClipTrajectoryData(motionFrame);
 
-            motionClip.MotionFrames[i] = motionFrame;
+            motionClip.MotionFrames[i-10] = motionFrame;
         }
 
         motionClip.MotionClipLengthInMilliseconds = animationClip.Frames.Last().Time;
@@ -278,12 +278,23 @@ public class MotionManager : MonoBehaviour
 
     public void OnDrawGizmos() {
         Gizmos.color = Color.green;
+        var trajectoryMagnifier = 2f;
 
-        Debug.Log(PlayerMotionFrame.TrajectoryDatas.Length);
         for (var i = 0; i < PlayerMotionFrame.TrajectoryDatas.Length; i++) {
             var trajectoryData = PlayerMotionFrame.TrajectoryDatas[i];
 
-            Gizmos.DrawCube(PlayerInput.Position + trajectoryData.LocalPosition * 10f, new Vector3(.1f, .1f, .1f));
+            Gizmos.DrawCube(PlayerInput.Position + trajectoryData.LocalPosition * trajectoryMagnifier, new Vector3(.1f, .1f, .1f));
+        }
+
+        Gizmos.color = Color.red;
+
+        Debug.Log(NextFrame.Value.TrajectoryDatas.Length);
+        for (var i = 0; i < NextFrame.Value.TrajectoryDatas.Length; i++) {
+            var trajectoryData = NextFrame.Value.TrajectoryDatas[i];
+
+            Debug.Log($"Frame: {trajectoryData.LocalPosition}");
+
+            Gizmos.DrawCube(PlayerInput.Position + new Vector3(trajectoryData.LocalPosition.x, 0, trajectoryData.LocalPosition.z) * trajectoryMagnifier, new Vector3(.1f, .1f, .1f));
         }
         
     }
