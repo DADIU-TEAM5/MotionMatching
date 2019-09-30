@@ -103,7 +103,9 @@ public class PlayerController : MonoBehaviour
         var velocity = transform.position - PreviousPosition; 
 
         PlayerInputVar.Velocity = velocity.sqrMagnitude;
-        PlayerInputVar.Direction = velocity.normalized;
+        var newDir = transform.InverseTransformDirection(velocity);
+        Debug.Log($"{velocity} - {newDir}");
+        PlayerInputVar.Direction = newDir.normalized;
         PlayerInputVar.Jump = inAir;
         PlayerInputVar.Dash = isDashing;
         PlayerInputVar.Position = transform.position;
