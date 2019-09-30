@@ -24,7 +24,7 @@ public class MotionManager : MonoBehaviour
     public PlayerSetting playerSetting;
 
     private float timer;
-    private string MotionName = "test_dash";
+    private string MotionName = "dash";
 
     public bool isJump;
     public bool isDash;
@@ -76,7 +76,7 @@ public class MotionManager : MonoBehaviour
                                                                      playerSetting);
 
                
-                if (thisMotionScore < 1)
+                if (thisMotionScore < Mathf.Epsilon)
                     continue;
                 if (thisMotionScore < bestScore)
                 {
@@ -100,8 +100,8 @@ public class MotionManager : MonoBehaviour
             var timeStamp = 1f / (float) (i+1);
 
             var trajectoryData = new MotionTrajectoryData();
-            trajectoryData.LocalPosition = frame.Velocity * frame.Direction * timeStamp;
-            trajectoryData.Velocity = frame.Velocity * frame.Direction;
+            trajectoryData.LocalPosition = frame.Velocity *100 * frame.Direction * timeStamp;
+            trajectoryData.Velocity = frame.Velocity *100 * frame.Direction;
 
             if (frame.AngularVelocity != 0f) {
                 trajectoryData.Direction = (Quaternion.Euler(0, frame.AngularVelocity * timeStamp, 0) * Vector3.forward).normalized;
