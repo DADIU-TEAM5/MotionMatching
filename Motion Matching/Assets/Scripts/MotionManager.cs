@@ -282,7 +282,7 @@ public class MotionManager : MonoBehaviour
         for (var i = 0; i < PlayerMotionFrame.TrajectoryDatas.Length; i++) {
             var trajectoryData = PlayerMotionFrame.TrajectoryDatas[i];
 
-            Gizmos.DrawCube(PlayerInput.Position + trajectoryData.LocalPosition, trajectoryData.Velocity * 100f);
+            Gizmos.DrawCube(PlayerInput.Position + trajectoryData.LocalPosition * 10f, new Vector3(.1f, .1f, .1f));
         }
         
     }
