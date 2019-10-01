@@ -61,8 +61,10 @@ public class MotionManager : MonoBehaviour
         float bestScore = float.MaxValue;
         int bestScoreClipIndex = 0;
         int bestScoreFrameIndex = 0;
+        float normalizedTime = 0;
+        MotionClipData motionClipData = MotionClips[0];
+        int frameIndex = 0;
 
-       
         GetPlayerMotion(PlayerInput, timer);
 
         for (int i =0; i < MotionClips.Count; i++)
@@ -85,16 +87,36 @@ public class MotionManager : MonoBehaviour
                     bestScore = thisMotionScore;
                     bestScoreClipIndex = i;
                     bestScoreFrameIndex = j;
+                    normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
+                    frameIndex = Mathf.FloorToInt(MotionClips[i].MotionFrames.Length * normalizedTime);
+                    motionClipData = MotionClips[i];
                 }
                 
             }
         }
-        Debug.Log("best frame");
-        Debug.Log(bestScoreFrameIndex);
+        // Debug.Log("best frame");
+        // Debug.Log(bestScoreFrameIndex);
         //PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
-        NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
-        MotionName = MotionClips[bestScoreClipIndex].Name;
+        // NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
+        test_playAnimation(frameIndex, motionClipData);
+        MotionName = motionClipData.Name;
     }
+
+    private void test_playAnimation(int frameIndex, MotionClipData motionClipData)
+    {
+        if (MotionName == motionClipData.Name)
+        {
+
+            NextFrame.Value = motionClipData.MotionFrames[frameIndex];
+        }
+        else
+        {
+            timer = 0;
+            NextFrame.Value = motionClipData.MotionFrames[0];
+        }
+        
+    }
+
 
     public void GetClipTrajectoryData(MotionFrame frame) {
         frame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
@@ -136,7 +158,7 @@ public class MotionManager : MonoBehaviour
 
             //direction based on AngularyVelocity
             if (PlayerInput.AngularVelocity != 0f) {
-                trajectoryData.Direction = Quaternion.Euler(0, PlayerInput.AngularVelocity * timeStamp, 0) * Vector3.forward;
+                trajectoryData.Direction = Quaternion.Euler(0, PlayerInput.AngularVelocity * timeStamp, 0) * Vector3.forward.normalized;
             }
 
             PlayerMotionFrame.TrajectoryDatas[i] = trajectoryData;
