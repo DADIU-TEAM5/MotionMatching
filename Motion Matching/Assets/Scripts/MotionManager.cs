@@ -25,6 +25,7 @@ public class MotionManager : MonoBehaviour
 
     private float timer;
     private string MotionName = "dash";
+    private MotionClipType NowClipType;
 
     public bool isJump;
     public bool isDash;
@@ -67,7 +68,8 @@ public class MotionManager : MonoBehaviour
         for (int i =0; i < MotionClips.Count; i++)
         {
             //var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
-            
+            if (MotionClips[i].ClipType != NowClipType)
+                continue;
 
             for (int j = 0; j < MotionClips[i].MotionFrames.Length; j++)
             {        
@@ -76,7 +78,7 @@ public class MotionManager : MonoBehaviour
                                                                      playerSetting);
 
                
-                if (thisMotionScore < Mathf.Epsilon)
+                if (thisMotionScore < Mathf.Epsilon)// Mathf.Epsilon
                     continue;
                 if (thisMotionScore < bestScore)
                 {
@@ -87,6 +89,8 @@ public class MotionManager : MonoBehaviour
                 
             }
         }
+        Debug.Log("best frame");
+        Debug.Log(bestScoreFrameIndex);
         //PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
         NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
         MotionName = MotionClips[bestScoreClipIndex].Name;
@@ -96,12 +100,13 @@ public class MotionManager : MonoBehaviour
         frame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
 
         for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
-            var timeStamp = 1f / (float) (i+1);
+            var timeStamp = 1f / (float)(MotionTrajectoryData.Length() - i);
 
             var trajectoryData = new MotionTrajectoryData();
-            trajectoryData.LocalPosition = 1000000f * frame.Velocity * frame.Direction * timeStamp;
-            trajectoryData.Velocity = 1000000f * frame.Velocity * frame.Direction;
-
+            //trajectoryData.LocalPosition = 1000000f * frame.Velocity * frame.Direction * timeStamp;
+            //trajectoryData.Velocity = 1000000f * frame.Velocity * frame.Direction;
+            trajectoryData.LocalPosition = 1000f* frame.Velocity * frame.Direction * timeStamp;
+            trajectoryData.Velocity = 1000f * frame.Velocity * frame.Direction;
 
             if (frame.AngularVelocity != 0f) {
                 trajectoryData.Direction = (Quaternion.Euler(0, frame.AngularVelocity * timeStamp, 0) * Vector3.forward).normalized;
@@ -120,12 +125,16 @@ public class MotionManager : MonoBehaviour
         PlayerMotionFrame.TrajectoryDatas = new MotionTrajectoryData[MotionTrajectoryData.Length()];
 
         for (var i = 0; i < MotionTrajectoryData.Length(); i++) {
-            var timeStamp = 1f / (float) (i+1);
+            //var timeStamp = 1f / (float) (i+1);  // it is wired
+            var timeStamp = 1f / (float)(MotionTrajectoryData.Length() - i);//non-linear
 
             var trajectoryData = new MotionTrajectoryData();
-            trajectoryData.LocalPosition = PlayerInput.Velocity * PlayerInput.Direction * timeStamp;
-            trajectoryData.Velocity = PlayerInput.Velocity * PlayerInput.Direction;
+            //?? local = float velocity * (Vector 3) direction??
+            //player trajectory Data
+            trajectoryData.LocalPosition = PlayerInput.Velocity * PlayerInput.Direction * timeStamp;//mark the localPosition always a straight line
+            trajectoryData.Velocity = PlayerInput.Velocity * PlayerInput.Direction; // velocity for each trajectory is always the same
 
+            //direction based on AngularyVelocity
             if (PlayerInput.AngularVelocity != 0f) {
                 trajectoryData.Direction = Quaternion.Euler(0, PlayerInput.AngularVelocity * timeStamp, 0) * Vector3.forward;
             }
@@ -137,31 +146,34 @@ public class MotionManager : MonoBehaviour
     private MotionFrame GetBakedMotionFrame(PlayerInput playerInput,
                                             float timer)//, MotionClipType motionClipType)
     {
-
+        //does motionFrame have cliptype?
         MotionFrame motionFrame = null;
         for (int i = 0; i < MotionClips.Count; i++)
         {
             MotionClipData motionClipData = MotionClips[i];
-            var normalizedTime = (timer % MotionClips[i].MotionClipLengthInMilliseconds) / MotionClips[i].MotionClipLengthInMilliseconds;
+            var normalizedTime = (timer % motionClipData.MotionClipLengthInMilliseconds) / motionClipData.MotionClipLengthInMilliseconds;
             if (isJump || isDash)
             {
                 if (isJump && motionClipData.Name.Contains("jump"))
                 {
                     MotionName = motionClipData.Name;
                     motionFrame = motionClipData.MotionFrames[0];
+                    NowClipType = motionClipData.ClipType;
                     break;
                 }
                 if (isDash && motionClipData.Name.Contains("dash"))
                 {
                     MotionName = motionClipData.Name;
                     motionFrame = motionClipData.MotionFrames[0];
+                    NowClipType = motionClipData.ClipType;
                     break;
                 }
             }
             else if(motionClipData.Name == MotionName)
             {
                 int frame = Mathf.FloorToInt(motionClipData.MotionFrames.Length * normalizedTime);
-                motionFrame = motionClipData.MotionFrames[frame];
+                motionFrame = motionClipData.MotionFrames[frame];//PlayerMotionFrame;
+                NowClipType = motionClipData.ClipType;
                 break;
             }
     
@@ -205,7 +217,7 @@ public class MotionManager : MonoBehaviour
     public void ExtractMotionClips(AnimClip animationClip) {
         var motionClip = new MotionClipData();
         motionClip.Name = animationClip.name;
-        motionClip.MotionClipLengthInMilliseconds = animationClip.ClipLengthInMilliseconds;
+        //motionClip.MotionClipLengthInMilliseconds = animationClip.ClipLengthInMilliseconds; //no value for animationClip.ClipLengthInMilliseconds
         motionClip.ClipType = animationClip.ClipType;
         motionClip.MotionFrames = new MotionFrame[animationClip.Frames.Count - 10];
 
