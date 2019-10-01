@@ -53,6 +53,12 @@ public class CalculateCost
     }
 
 
-    //private float Trajectory(MotionJointPoint FrameBone, MotionJointPoint CurrentBone,
-    // PlayerSetting PlayerSettings)
+    private float TrajectoryCost(MotionFrame frame, MotionFrame current,
+                                    PlayerSetting PlayerSettings)
+    {
+        
+
+    }
+
+
 }
