@@ -6,18 +6,17 @@ using System.Linq;
 public class CalculateCost 
 {
 
-    public float CalculateAllCost(List<MotionFrame> motionFrames, MotionFrame currentFrame,
+    public float CalculateAllCost(MotionFrame motionFrame, MotionFrame currentFrame,
                                     PlayerSetting playerSetting)
     {
         float allCost = 0;
-        for (int i=0; i < motionFrames.Count; i++)
+        for(int j = 0; j< motionFrame.Joints.Length; j ++)
         {
-            allCost += RootMotionCost(motionFrames[i], currentFrame, playerSetting);
-            for(int j = 0; j< motionFrames[i].Joints.Length; j ++)
-            {
-                allCost += BoneCost(motionFrames[i].Joints[j], currentFrame.Joints[j], playerSetting);
-            }
+            allCost += BoneCost(motionFrame.Joints[j], currentFrame.Joints[j], playerSetting);
         }
+        allCost += RootMotionCost(motionFrame, currentFrame, playerSetting);
+        allCost += TrajectoryCost(motionFrame, currentFrame, playerSetting);
+        
         return allCost;
     }
        // the frame is from clips
@@ -52,13 +51,28 @@ public class CalculateCost
         return rotationCost;
     }
 
-
+    
     private float TrajectoryCost(MotionFrame frame, MotionFrame current,
-                                    PlayerSetting PlayerSettings)
+     PlayerSetting playerSetting)
     {
-        
+        float trajectoryCost = 0;
+        for(int i = 0; i < frame.TrajectoryDatas.Length; i++)
+        {
+            //position cost
+            var traPos = frame.TrajectoryDatas[i].LocalPosition - current.TrajectoryDatas[i].LocalPosition;
+            var traPosCost = traPos.sqrMagnitude * playerSetting.trajectoryPosFactor;
 
+            //rotation cost
+            var traRot = Vector3.Dot(frame.TrajectoryDatas[i].Direction,current.TrajectoryDatas[i].Direction);
+            var traRotCost = traRot * playerSetting.trajectoryRotFactor;
+
+            //velocity cost
+            var traVel = frame.TrajectoryDatas[i].Velocity - current.TrajectoryDatas[i].Velocity;
+            var traVelCost = traVel.sqrMagnitude * playerSetting.trajectoryVelFactor;
+
+            trajectoryCost += (traPosCost + traRotCost + traVelCost);
+        }
+
+        return trajectoryCost;
     }
-
-
 }

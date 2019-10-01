@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class MotionTrajectoryData
 {
+    public static int Length() => 5;
+
     public Vector3 LocalPosition;
     public Vector3 Position;
     public Vector3 Velocity;
