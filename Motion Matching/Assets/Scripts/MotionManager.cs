@@ -98,7 +98,7 @@ public class MotionManager : MonoBehaviour
         // Debug.Log(bestScoreFrameIndex);
         //PlayerMotionFrame = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
         // NextFrame.Value = MotionClips[bestScoreClipIndex].MotionFrames[bestScoreFrameIndex];
-        test_playAnimation(frameIndex, motionClipData);
+        //test_playAnimation(frameIndex, motionClipData);
         MotionName = motionClipData.Name;
     }
 
