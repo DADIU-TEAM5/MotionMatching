@@ -13,6 +13,7 @@ public class ClipsFetch : MonoBehaviour
     public AnimClip AnimationClip;
     public Transform Skeleton;
     public float value;
+    public int index;
     private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
 
     void Awake()
@@ -25,8 +26,8 @@ public class ClipsFetch : MonoBehaviour
     public void GetFrame()
 
     {
-        var i = (int)(value * AnimationClip.Frames.Count);
-        FrameToJoints(AnimationClip.Frames[i]);
+        index = (int)(value * AnimationClip.Frames.Count);
+        FrameToJoints(AnimationClip.Frames[index]);
     }
 
     public void FrameToJoints(AnimationFrame frame)
