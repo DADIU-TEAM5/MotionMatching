@@ -11,9 +11,14 @@ public class ClipsFetch : MonoBehaviour
 {
     
     public AnimClip AnimationClip;
+    //public AnimClipCSV OriginalClip;
+    public AnimClip NewClip;
     public Transform Skeleton;
+    public int StartFrame, EndFrame;
     public float value;
     public int index;
+    public string ClipName;
+    public string ClipPath = "Assets/TestNew.asset";
     private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
 
     void Awake()
@@ -22,7 +27,26 @@ public class ClipsFetch : MonoBehaviour
         GetAllChildren(Skeleton);
     }
 
-   
+    public void CutAnimation()
+    {
+        //AnimClip NewClip = ScriptableObject.CreateInstance<AnimClip>();
+        //UnityEditor.AssetDatabase.CreateAsset(NewClip, ClipPath);
+        //Object o = UnityEditor.AssetDatabase.LoadAssetAtPath(ClipPath, typeof(AnimClip));
+        NewClip.Name = ClipName;
+        NewClip.Frames.RemoveRange(0, NewClip.Frames.Count);
+        for (int i = StartFrame; i < EndFrame; i++)
+        {
+            if (i < 0)
+                break;
+            if (i >= AnimationClip.Frames.Count)
+                break;
+
+            NewClip.Frames.Add(AnimationClip.Frames[i]);
+        }
+        
+    }
+    
+
     public void GetFrame()
 
     {
@@ -81,5 +105,6 @@ public class ClipsFetch : MonoBehaviour
             SkeletonJoints.Add(child.name, child);
         }
     }
+
 
 }
