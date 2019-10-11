@@ -12,7 +12,9 @@ public class SplineCreater: MonoBehaviour
 
     public void DrawTrajectory()
         {
-        //_splineNumber = 0;
+        //SplineScript.points = new Vector3[AnimClip.Frames.Count / NodeInterval + 1];
+        _splineNumber = 0;
+        
         //SplineScript.points.Initialize();
             for (int i = 0; i < AnimClip.Frames.Count; i++)
             {

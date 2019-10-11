@@ -57,7 +57,7 @@ public class ClipsFetch : MonoBehaviour
     public void FrameToJoints(AnimationFrame frame)
     {
         //Debug.Log(frame.Velocity);
-        Debug.Log((int)(value * AnimationClip.Frames.Count));
+        //Debug.Log((int)(value * AnimationClip.Frames.Count));
         foreach (var jointPoint in frame.JointPoints)
         {
             if (!SkeletonJoints.Keys.Contains(jointPoint.Name))
