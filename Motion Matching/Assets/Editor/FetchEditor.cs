@@ -17,7 +17,12 @@ public class FetchEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        clipsFetch.value = EditorGUILayout.Slider("frame", clipsFetch.value, 0f, 0.9999f);
+        clipsFetch.value = EditorGUILayout.Slider("start frame", clipsFetch.value, 0f, 0.9999f);
         clipsFetch.GetFrame();
+
+        if (GUILayout.Button("Cut Animation"))
+        {
+            clipsFetch.CutAnimation();
+        }
     }
 }
