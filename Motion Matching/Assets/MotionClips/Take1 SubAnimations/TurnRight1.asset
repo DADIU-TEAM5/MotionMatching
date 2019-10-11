@@ -9,6 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 887ddcfbf01af9543aa2027f8c613004, type: 3}
-  m_Name: GoalFrame
+  m_Script: {fileID: 11500000, guid: 3aef8388a3b13d44f9a45927e75d4fc0, type: 3}
+  m_Name: TurnRight1
   m_EditorClassIdentifier: 
+  Name: 
+  ClipLengthInMilliseconds: 0
+  ClipType: {fileID: 0}
+  Frames: []
