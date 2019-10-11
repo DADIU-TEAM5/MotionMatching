@@ -332,7 +332,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498185043}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -6.26, y: 0.0001, z: 2.32}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 583503105}
@@ -495,7 +495,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 583503104}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.455505, y: 0, z: -2.29625}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 498185044}
@@ -592,7 +592,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679529595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.79, y: 1.711, z: 0}
+  m_LocalPosition: {x: 0, y: 1.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 82165492}
@@ -634,17 +634,18 @@ MonoBehaviour:
   showHist: 1
   numberOfFramesInTrajectory: 10
   trajectoryLimitInSeconds: 4
-  dotPred: {fileID: 5405355923030462927, guid: 6e1061e5fa79a0044a8714938199daf3, type: 3}
-  dotHist: {fileID: 5405355923030462927, guid: ceb46ac6dc350614899f0433bba93cbd, type: 3}
-  dotTemp: {fileID: 5405355923030462927, guid: 8f08dd06a8e424643b9c793ff10cae35, type: 3}
+  dotPred: {fileID: 4933431531381019290, guid: 39cb3ae3782cda54aa53632410b2be49, type: 3}
+  dotHist: {fileID: 4933431531381019290, guid: 9b329fdb98ac40541a36b2e1b6ca5430, type: 3}
+  dotTemp: {fileID: 4933431531381019290, guid: 461f3fff5a8ab1141bff5ce5513b7042, type: 3}
   predictedPosition: {fileID: 11400000, guid: 0cf14ce2e1dcfc84f9464b0e9fcda80d, type: 2}
   currentPosition: {fileID: 11400000, guid: df161282f1bd73c4f82ce0433b1e4750, type: 2}
   historyPosition: {fileID: 11400000, guid: d3526140704efa048a98bf6cc9e03307, type: 2}
+  predictedTarget: {fileID: 583503104}
   predictedPointTemp: []
   offsetY: -0.01
   velocity: {x: 0, y: 0, z: 0}
   predictedPoint: {x: 0, y: 0, z: 0}
-  testingTarget: {fileID: 0}
+  testingTarget: {fileID: 583503104}
   _prevPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &759699652
 GameObject:
