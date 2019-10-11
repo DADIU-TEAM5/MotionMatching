@@ -1,52 +1,43 @@
-﻿
-
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SplineCreater : MonoBehaviour
+
+public class SplineCreater: MonoBehaviour
 {
     public AnimClipCSV AnimClip;
     public int NodeInterval;
     public BezierSpline SplineScript;
-    private int _splineNumber = 0;
+    private int _splineNumber;
 
-
-    void Start()
-    {
-        //SplineScript.CurveCount = SplineNodes;
-        
-
-        for (int i = 0; i < AnimClip.Frames.Count; i++)
+    public void DrawTrajectory()
         {
-            if (i % NodeInterval == 0)
+        //_splineNumber = 0;
+        //SplineScript.points.Initialize();
+            for (int i = 0; i < AnimClip.Frames.Count; i++)
             {
-                for (int j = 0; j < AnimClip.Frames[i].JointPoints.Count; j++)
+                if (i % NodeInterval == 0)
                 {
-                    // Avoid hardcoded name if possible?
-                    if(AnimClip.Frames[i].JointPoints[j].Name == "Hips")
+                    for (int j = 0; j < AnimClip.Frames[i].JointPoints.Count; j++)
                     {
-                        Debug.Log("Found Root");
-                        SplineScript.points[_splineNumber] = AnimClip.Frames[i].JointPoints[j].Position;
-                        _splineNumber++;
-
-                        if(_splineNumber >= SplineScript.points.Length)
+                        // Avoid hardcoded name if possible?
+                        if(AnimClip.Frames[i].JointPoints[j].Name == "Hips")
                         {
-                            SplineScript.AddCurve();
+                            //Debug.Log("Found Root");
+                            SplineScript.points[_splineNumber] = AnimClip.Frames[i].JointPoints[j].Position;
+                            _splineNumber++;
+
+                            if(_splineNumber >= SplineScript.points.Length)
+                            {
+                                SplineScript.AddCurve();
+                            }
                         }
                     }
+                   // AnimClip.Frames[i].JointPoints.
                 }
-               // AnimClip.Frames[i].JointPoints.
-            }
             
+            }
+            //Debug.Log("SplineCreator done. SplineCount: " + _splineNumber);
         }
-        Debug.Log("SplineCreator done. SplineCount: " + _splineNumber);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 }
