@@ -4,38 +4,53 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float Speed = 5f;
+    public float Speed = 3f;
+    public float RotationSpeed = 0.25f;
     public float GroundDistance = 0.2f;
     public bool showPred = true;
     public bool showHist = true;
 
     private bool CoolDownOver;
     private bool Once;
-    private int maxCountPred;
-    private int maxCountHist;
+    private int maxCountPred = 0;
+    private int maxCountHist = 0;
 
     public float numberOfFramesInTrajectory = 3;
     public float trajectoryLimitInSeconds = 1;
 
     public GameObject dotPred;
     public GameObject dotHist;
+    public GameObject dotTemp;
     private List<GameObject> dotInstPred = new List<GameObject>();
     private List<GameObject> dotInstHist = new List<GameObject>();
     public Vector3VariableList predictedPosition;
     public Vector3VariableList currentPosition;
     public Vector3VariableList historyPosition;
 
-    public float offsetY = -0.01f;
+    //public Vector3 predictedPoint;
+    public Vector3[] predictedPointTemp;
 
-    private Rigidbody _body;
+    public float offsetY = -0.01f;
+    const float fps = 30f;
+    private float targetLinearVelocity;
+
+    public Vector3 velocity;
+    public Vector3 predictedPoint;
+
+    private Vector3 test;
+
+    public GameObject testingTarget;
+
+    private GameObject _body;
     private Vector3 _inputs;
     private bool _isGrounded;
     private Transform _groundChecker;
-    
+
+    public Vector3 _prevPosition;
+
     // Start is called before the first frame update
     void Start()
     {
-        _body = GetComponent<Rigidbody>();
         //_groundChecker = transform.GetChild(0);
 
         predictedPosition.List.Clear();
@@ -50,29 +65,82 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+
+    void FixedUpdate()
+    {
+
+    }
+
+
     private void Update()
     {
-        //_isGrounded = Physics.CheckSphere(_groundChecker.position, GroundDistance, 8, QueryTriggerInteraction.Ignore);
-        CreateInstPred();
 
         _inputs = Vector3.zero;
-        _inputs.x = Input.GetAxis("Horizontal");
         _inputs.z = Input.GetAxis("Vertical");
-        if (_inputs != Vector3.zero)
-            transform.forward = _inputs;
- 
+
+        transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
+        transform.Translate(_inputs * Speed * Time.fixedDeltaTime);
+
         currentPosition.List[0] = transform.position;
 
+        test = PredictPosition();
+
+        CreateInstPred();
+
+        //testingTarget.transform.position = test.position;
+
+    }
+
+
+    private Vector3 PredictPosition()
+    {
+        Vector3 currentPos = currentPosition.List[0];
+        Vector3 predictedTransform = currentPos;
+        //float linearVelocity = _inputs.z;
+        float linearVelocityDecay;
+        Vector3 linearVelocity;
+        Vector3 _prevZ = currentPos;
+
+        linearVelocity = transform.position - _prevZ;
+        _prevZ = transform.position;
+        
+
+        float elapsedTime = 0.0f;
+        const float timeHorizon = 1.0f;
+
+        while (elapsedTime<timeHorizon)
+        {
+            predictedTransform += linearVelocity * Time.deltaTime;
+
+            linearVelocityDecay = ExponentialDecay(linearVelocity.magnitude, targetLinearVelocity, Time.deltaTime / (timeHorizon - elapsedTime));
+            Debug.Log(linearVelocity);
+
+            elapsedTime += Time.deltaTime;
+        }
+
+
+        return predictedTransform;
+    }
+
+    private float ExponentialDecay(float current, float target, float lambda)
+    {
+        return target + (current - target) / (1.0f + lambda + 0.5f * lambda * lambda);
     }
 
 
     private void CreateInstPred()
     {
-        if (CoolDownOver == true && Once == true && showPred)
+        if (CoolDownOver && Once && showPred)
         {
-            dotInstPred.Add(Instantiate(dotPred, transform.position + (transform.forward * Speed) - (transform.up*(transform.position.y+offsetY)), Quaternion.identity));
+            GameObject tempDot = Instantiate(dotTemp, new Vector3(test.x, 0.01f, test.z), Quaternion.identity);
 
-            predictedPosition.List.Add(dotInstPred[maxCountHist].transform.localPosition);
+            dotInstPred.Add(Instantiate(dotPred, transform.position - (transform.up * (transform.position.y + offsetY)), Quaternion.identity));
+            predictedPosition.List.Add(dotInstPred[maxCountPred].transform.position);
+
+            if(dotInstPred.Count > 1)
+            { 
+            dotInstPred[maxCountPred - 1].transform.position = predictedPosition.List[maxCountHist - 1];
+            }
 
             maxCountPred++;
 
@@ -96,20 +164,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (CoolDownOver == true && Once == true && showHist)
         {
-            /*if (dotInstHist.Count == 0)
-            {
-                dotInstHist.Add(Instantiate(dotHist, transform.position - (transform.up * transform.position.y), Quaternion.identity, transform));
-                histPos[maxCountHist] = new Vector3();
-                histPos[maxCountHist] = dotInstHist[maxCountHist].transform.position;
-                Debug.Log(histPos[maxCountHist]);
-            } else
-            {
-                dotInstHist.Add(Instantiate(dotHist, transform.position - (transform.up * transform.position.y), Quaternion.identity, transform));
-                histPos[maxCountHist] = dotInstHist[maxCountHist].transform.position;
-
-                dotInstHist[maxCountHist - 1].transform.position = histPos[maxCountHist - 1];
-            }*/
-
             dotInstHist.Add(Instantiate(dotHist, transform.position - (transform.up * (transform.position.y+offsetY)), Quaternion.identity));
 
             historyPosition.List.Add(dotInstHist[maxCountHist].transform.localPosition);
@@ -132,11 +186,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-
-    void FixedUpdate()
-    {
-        _body.MovePosition(_body.position + _inputs * Speed * Time.fixedDeltaTime);
-    }
 
     IEnumerator KillPrediction()
     {
