@@ -7,6 +7,7 @@ public class MotionMatcher : MonoBehaviour
     CalculateCost calculateCost = new CalculateCost();
     public AnimationCapsules animationCapsules;
     public CapsuleScriptObject current;
+    public AnimationClips animationClips;
     public Result result;
     private float timer;
 
@@ -37,12 +38,13 @@ public class MotionMatcher : MonoBehaviour
 
     private void GetMotionAndFrame()
     {
-        var BestFrameIndex = calculateCost.GetBestFrameIndex(animationCapsules, current.Capsule);
+        var BestFrameIndex = calculateCost.GetBestFrameIndex(animationCapsules, current.Capsule, animationClips);
         var bestFrame = animationCapsules.FrameCapsules[BestFrameIndex];
         //Debug.Log(bestFrame.AnimClipName);
         //Debug.Log(bestFrame.FrameNum);
         result.ClipName = bestFrame.AnimClipName;
         result.FrameNum = bestFrame.FrameNum;
         result.CapsuleNum = BestFrameIndex;
+        result.AnimClipIndex = bestFrame.AnimClipIndex;
     }
 }

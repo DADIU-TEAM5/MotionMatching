@@ -6,6 +6,7 @@ public class Capsule
 {
     public string AnimClipName;
     public int FrameNum;
+    public int AnimClipIndex;
 
     public Vector3 CurrentPosition;
     public Vector3[] TrajectoryFuture;

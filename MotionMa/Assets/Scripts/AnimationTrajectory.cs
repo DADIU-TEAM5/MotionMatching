@@ -6,7 +6,7 @@ public class AnimationTrajectory : MonoBehaviour
 {
     public AnimationCapsules animationCapsules;
     public CapsuleScriptObject capsule;
-    public List<AnimClip> animClips;
+    public AnimationClips animationClips;
     public float Second = 1f;
     public int SaveInSecond = 10;
     public int Speed = 5;
@@ -22,8 +22,8 @@ public class AnimationTrajectory : MonoBehaviour
     {
         SaveGap = (int)(Second * FrameRate / SaveInSecond);
         capsules = new List<Capsule>();
-        for (int i = 0; i < animClips.Count; i++)
-            ObtainRootFromAnim(animClips[i]);
+        for (int i = 0; i < animationClips.AnimClips.Count; i++)
+            ObtainRootFromAnim(animationClips.AnimClips[i],i);
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class AnimationTrajectory : MonoBehaviour
         
     }
 
-    private void ObtainRootFromAnim(AnimClip animClip)
+    private void ObtainRootFromAnim(AnimClip animClip, int animIndex)
     {
         var startFrame = SaveGap * SaveInSecond;
         var endFrame = animClip.Frames.Count - SaveGap * SaveInSecond;
@@ -58,6 +58,7 @@ public class AnimationTrajectory : MonoBehaviour
             capsule.Capsule.TrajectoryHistory = historypositions.ToArray();
             capsule.Capsule.AnimClipName = animClip.Name;
             capsule.Capsule.FrameNum = index;
+            capsule.Capsule.AnimClipIndex = animIndex;
 
             capsules.Add(capsule.Capsule);
         }

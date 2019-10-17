@@ -6,8 +6,9 @@ using System.Linq;
 public class PlayAnimationByIndex : MonoBehaviour
 {
     public Result result;
-    public List<AnimClip> animationClips;
+    public AnimationClips animationClips;
     public Transform Skeleton;
+    public CapsuleScriptObject current;
 
 
     private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
@@ -29,14 +30,23 @@ public class PlayAnimationByIndex : MonoBehaviour
     public void GetFrame()
 
     {
-        for(int i =0; i<animationClips.Count; i++ )
-            if(animationClips[i].Name == result.ClipName)
-            {
-                if (result.FrameNum >= animationClips[i].Frames.Count)
-                    result.FrameNum = 0;
-                else
-                    FrameToJoints(animationClips[i].Frames[result.FrameNum]);
-            }
+
+
+        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count)
+        {
+            result.FrameNum = 0;
+            current.Capsule.AnimClipIndex = result.AnimClipIndex;
+            current.Capsule.AnimClipName = result.ClipName;
+            current.Capsule.FrameNum = result.FrameNum;
+            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
+        }
+        else
+        {
+            current.Capsule.AnimClipIndex = result.AnimClipIndex;
+            current.Capsule.AnimClipName = result.ClipName;
+            current.Capsule.FrameNum = result.FrameNum;
+            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
+        }
             
     }
 
