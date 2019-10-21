@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationCapsules: {fileID: 11400000, guid: d4b95654ca8f54ee19a06bef9a4732d9, type: 2}
   current: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf, type: 2}
-  animationClips: {fileID: 0}
+  animationClips: {fileID: 11400000, guid: 841623e266d944ddb9032005759b6dcf, type: 2}
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
 --- !u!1 &220461289
 GameObject:
@@ -183,7 +183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &220461290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,8 +327,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationCapsules: {fileID: 11400000, guid: d4b95654ca8f54ee19a06bef9a4732d9, type: 2}
-  capsule: {fileID: 11400000, guid: d75ba19b6328d4baea4f33435d0f8390, type: 2}
-  animationClips: {fileID: 0}
+  capsule: {fileID: 11400000, guid: ba0c0db96ecb44ec28f7708bba2c444f, type: 2}
+  animationClips: {fileID: 11400000, guid: 841623e266d944ddb9032005759b6dcf, type: 2}
   Second: 0.5
   SaveInSecond: 10
   Speed: 5
@@ -467,8 +467,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
-  animationClips: {fileID: 0}
+  animationClips: {fileID: 11400000, guid: 841623e266d944ddb9032005759b6dcf, type: 2}
   Skeleton: {fileID: 5006512736552230596}
+  current: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf, type: 2}
 --- !u!4 &986183940
 Transform:
   m_ObjectHideFlags: 0
@@ -592,7 +593,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1845190795
 MonoBehaviour:
   m_ObjectHideFlags: 0

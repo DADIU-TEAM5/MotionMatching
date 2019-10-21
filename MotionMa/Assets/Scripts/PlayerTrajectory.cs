@@ -36,7 +36,6 @@ public class PlayerTrajectory : MonoBehaviour
 
         HistoryTrajectory(currentPos);
         capsuleScriptObject.Capsule.TrajectoryHistory = history.ToArray();
-        
 
         FuturePredict(currentPos, inputVel, currentRot);
         capsuleScriptObject.Capsule.TrajectoryFuture = future.ToArray();
@@ -90,11 +89,31 @@ public class PlayerTrajectory : MonoBehaviour
     //need to update every time by player input
     private void FuturePredict(Vector3 currentPos, Vector3 inputVel, Quaternion currentRot)
     {
+        future[0] = currentPos;
+        //var gap = currentRot*(inputVel * Second / SaveInSecond );
+        //inputs.z = Input.GetAxis("Vertical");
+        var rotation = Quaternion.Euler(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * 10);
+
         for (int i = 0; i < SaveInSecond; i++)
         {
-            var gap = currentRot * (inputVel * Second / SaveInSecond * i);
-            var futureP = (currentPos + gap);
+            /*
+            var increasement = Second / SaveInSecond * i;
+            var gap = currentRot * (inputVel * increasement);
+            var inputs_increase = increasement * inputs;
+            var angle_increase = Quaternion.EulerRotation(inputs_increase);
+
+            var futureP = (currentPos + angle_increase *gap);
+
             future[i] = futureP;
+            */
+            var increase = Second / SaveInSecond * i;
+            var gap_increase = Quaternion.ToEulerAngles(rotation) * increase;
+            var angle_increase = Quaternion.EulerRotation(gap_increase);
+            var gap = (inputVel * increase);
+            var futureP = (currentPos + angle_increase * currentRot * gap);
+            future[i] = futureP;
+           
+
         }
 
     }
