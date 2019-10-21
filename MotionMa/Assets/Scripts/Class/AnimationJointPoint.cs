@@ -10,4 +10,11 @@ public struct AnimationJointPoint
     public string Name;
 
     public Quaternion BaseRotation;
+
+
+    //add more
+    public Vector3 LocalPosition;
+    public Quaternion LocalRotation;
+    public Vector3 Velocity;
+    public int BoneIndex;
 }
