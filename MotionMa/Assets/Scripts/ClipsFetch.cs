@@ -23,7 +23,7 @@ public class ClipsFetch : MonoBehaviour
 
     void Awake()
     {
-        transf(Skeleton);
+        //transf(Skeleton);
         GetAllChildren(Skeleton);
     }
 

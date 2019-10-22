@@ -25,7 +25,7 @@ public class MotionMatchingBakedEditor : EditorWindow
     Dictionary<string, int> bonesMap = new Dictionary<string, int>();
     Transform[] joints = null;
 
-    public static string RootBoneName = "EthanSkeleton";
+    public static string RootBoneName = "mixamorig:Hips";
     const string MotionMatcherSettingsPath = "Assets/Resources/MotionMatchingSetting.asset";
 
     [SerializeField]
@@ -63,6 +63,7 @@ public class MotionMatchingBakedEditor : EditorWindow
     public string[] captureBoneList;
     public string crouchTag = "CrouchIdle";
     public string standTag = "Idle";
+    //public AnimationClips meshAnimationList;
 
     private void OnEnable()
     {
@@ -130,6 +131,7 @@ public class MotionMatchingBakedEditor : EditorWindow
         {
             EditorGUI.BeginChangeCheck();
             prefab = EditorGUILayout.ObjectField("Asset to Bake", prefab, typeof(GameObject), true) as GameObject;
+            //meshAnimationList = EditorGUILayout.ObjectField("alimation clips", meshAnimationList, typeof(AnimationClips), true) as AnimationClips;
             if (prefab)
             {
                 if (string.IsNullOrEmpty(GetPrefabPath()))
@@ -328,14 +330,24 @@ public class MotionMatchingBakedEditor : EditorWindow
         bonesMap.Clear();
         Transform child = animationTarget.transform.Find(RootBoneName);
         joints = child.GetComponentsInChildren<Transform>();
-        List<Transform> jointList = joints.ToList();
-        for (int i = 0; i < captureBoneList.Length; i++)
-        {
-            string boneName = captureBoneList[i];
-            Transform bone = animationTarget.transform.Find(boneName);
-            int index = jointList.IndexOf(bone);
-            bonesMap.Add(bone.name, index);
-        }
+        //List<Transform> jointList = joints.ToList();
+
+        //for (int i = 0; i < captureBoneList.Length; i++)
+        //{
+        //    string boneName = captureBoneList[i];
+        //    Transform bone = animationTarget.transform.Find(boneName);
+           
+        //    int index = jointList.IndexOf(bone);
+        //    bonesMap.Add(bone.name, index);
+        //}
+        //for (int i = 0; i < jointList.Count; i++)
+        //{
+        //    string boneName = jointList[i].name;
+        //    Transform bone = animationTarget.transform.Find(boneName);
+        //    if()
+        //    int index = i;//jointList.IndexOf(bone);
+        //    bonesMap.Add(bone.name, index);
+        //}
     }
 
     private float GetAnimationClipCurve(AnimationClip clip, string path, string propertyName, float delta)
@@ -438,12 +450,13 @@ public class MotionMatchingBakedEditor : EditorWindow
             for (int i = 0; i < bakeFrames; i += frameSkips[animClip.name])
             {
                 motionData.Frames[frame] = new AnimationFrame();
-                motionData.Frames[frame].JointPoints = new AnimationJointPoint[bonesMap.Count].ToList();
+                motionData.Frames[frame].JointPoints = new List<AnimationJointPoint>();
+                //motionData.Frames[frame].JointPoints = new AnimationJointPoint[bonesMap.Count].ToList();
                 motionData.Frames[frame].tempMotionTrajectory = new TempMotionTrajectory[predictionTrajectoryTimeList.Length];
-                for (int i1 = 0; i1 < bonesMap.Count; i1++)
-                {
-                    motionData.Frames[frame].JointPoints[i1] = new AnimationJointPoint();
-                }
+                //for (int i1 = 0; i1 < bonesMap.Count; i1++)
+                //{
+                //    motionData.Frames[frame].JointPoints[i1] = new AnimationJointPoint();
+                //}
                 for (int i2 = 0; i2 < predictionTrajectoryTimeList.Length; i2++)
                 {
                     motionData.Frames[frame].tempMotionTrajectory[i2] = new TempMotionTrajectory();
@@ -483,7 +496,13 @@ public class MotionMatchingBakedEditor : EditorWindow
         //AssetDatabase.DeleteAsset(TargetPath);
         //AssetDatabase.CreateAsset(meshAnimationList, TargetPath);
 
+        for(int an = 0; an < meshAnimationList.AnimClips.Count; an++)
+        {
+            AssetDatabase.CreateAsset(meshAnimationList.AnimClips[an], assetFolder + meshAnimationList.AnimClips[an].Name + "_Test.asset");
+        }
+
         AssetDatabase.CreateAsset(meshAnimationList, assetFolder + sampleGO.name + "_MotionField.asset");
+        
 
         GameObject.DestroyImmediate(sampleGO);
         EditorUtility.ClearProgressBar();
@@ -782,22 +801,29 @@ public class MotionMatchingBakedEditor : EditorWindow
                 sampleObject = legacyAnimation.gameObject;
             }
             animClip.SampleAnimation(sampleObject, animationTime);
+
         }
 
 
         int index = 0;
-        foreach (string boneName in bonesMap.Keys)
+        //foreach (string boneName in bonesMap.Keys)
+
+        //InitAnimationBones(sampleGO);
+        //Transform test = sampleGO.transform.Find(RootBoneName);
+        //Debug.Log(test.position);
+        for (int i = 0; i < joints.Length; i++)
         {
-            int boneIndex = bonesMap[boneName];
-            Transform child = joints[boneIndex];
-            AnimationJointPoint motionBoneData = motionFrameData.JointPoints[index];
+            //int boneIndex = bonesMap[boneName];
+            //Transform child = joints[boneIndex];
+            Transform child = joints[i];
+            AnimationJointPoint motionBoneData = new AnimationJointPoint(); //motionFrameData.JointPoints[index];
             motionBoneData.Position = child.position;
             motionBoneData.LocalPosition = child.localPosition;
             motionBoneData.Rotation = child.rotation;
             motionBoneData.LocalRotation = child.localRotation;
             motionBoneData.Velocity = Vector3.zero;
             motionBoneData.Name = child.name;
-            motionBoneData.BoneIndex = boneIndex;
+            motionBoneData.BoneIndex = i;
 
             //calc velocity
             if (lastMotionFrameData != null)
@@ -805,7 +831,10 @@ public class MotionMatchingBakedEditor : EditorWindow
                 AnimationJointPoint lastMotionBoneData = lastMotionFrameData.JointPoints[index];
                 lastMotionBoneData.Velocity = (motionBoneData.LocalPosition - lastMotionBoneData.LocalPosition) / frameSkipsTimeStep;
             }
+
+            
             index++;
+            motionFrameData.JointPoints.Add(motionBoneData);
         }
     }
 

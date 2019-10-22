@@ -325,10 +325,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93fa740f83c4e422295ba7b3c1c3a5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationCapsules: {fileID: 11400000, guid: bd1c6315a02a34add9fc6113dd056792, type: 2}
+  animationCapsules: {fileID: 11400000, guid: d4b95654ca8f54ee19a06bef9a4732d9, type: 2}
   transformToShowFrom: {fileID: 1028009313}
-  Speed: 5
-  Index: 106
+  result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
 --- !u!4 &879620510
 Transform:
   m_ObjectHideFlags: 0
@@ -369,7 +368,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: f451b4ea87052cd47b0287dfceac4b4a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.22
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: f451b4ea87052cd47b0287dfceac4b4a,
         type: 3}
@@ -616,9 +615,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationCapsules: {fileID: 11400000, guid: bd1c6315a02a34add9fc6113dd056792, type: 2}
-  capsule: {fileID: 11400000, guid: d75ba19b6328d4baea4f33435d0f8390, type: 2}
-  animClip: {fileID: 11400000, guid: 873abf9bf57a64b95967e9c61af66f92, type: 2}
+  capsule: {fileID: 11400000, guid: ba0c0db96ecb44ec28f7708bba2c444f, type: 2}
+  animationClips: {fileID: 11400000, guid: cddbedde45accee40a478d1947fa6b34, type: 2}
   Second: 1
   SaveInSecond: 5
+  Speed: 5
   FrameRate: 100
-  TestOnce: 1
