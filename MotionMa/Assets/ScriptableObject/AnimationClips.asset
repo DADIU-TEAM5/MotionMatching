@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: AnimationClips
   m_EditorClassIdentifier: 
   AnimClips:
-  - {fileID: 11400000, guid: f2c58f2a3b0bf42028af2cc05a0476ad, type: 2}
-  - {fileID: 11400000, guid: 873abf9bf57a64b95967e9c61af66f92, type: 2}
+  - {fileID: 11400000, guid: fb5afe5d8ccfb3140a6e49e5f1743d37, type: 2}

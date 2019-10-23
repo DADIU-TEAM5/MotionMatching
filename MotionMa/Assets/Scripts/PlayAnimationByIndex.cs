@@ -23,7 +23,7 @@ public class PlayAnimationByIndex : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetFrame();
+
     }
 
 
@@ -39,6 +39,7 @@ public class PlayAnimationByIndex : MonoBehaviour
             current.Capsule.AnimClipName = result.ClipName;
             current.Capsule.FrameNum = result.FrameNum;
             FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
+            
         }
         else
         {
@@ -70,20 +71,29 @@ public class PlayAnimationByIndex : MonoBehaviour
 
     private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint)
     {
-        // Based on negative joint
-        var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
-        //var newEulerRot = jointPoint.Rotation * jointPoint.BaseRotation;
-        //joint.rotation = newEulerRot;
-        joint.rotation = Skeleton.rotation * jointPoint.Rotation;
-        //joint.rotation = Skeleton.rotation * (newEulerRot);
-        joint.position = Skeleton.position + jointPoint.Position;
+        //if (jointPoint.Name == "Root")
+        //{
+        //    joint.rotation = Skeleton.rotation * jointPoint.Rotation;
+        //    joint.position = Skeleton.position + jointPoint.Position;
 
-        //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);
+        //}
+        //else
+        //{
+            //var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
+            //var newEulerRot = jointPoint.Rotation * jointPoint.BaseRotation;
+            //joint.rotation = newEulerRot;
+            joint.rotation = jointPoint.Rotation;
+            //joint.rotation = Skeleton.rotation * (newEulerRot);
+            joint.position = Skeleton.position + jointPoint.Position;
+
+            //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);
+        //}
     }
 
 
     private void GetAllChildren(Transform trans)
     {
+        //SkeletonJoints.Add("Root", trans);
         foreach (Transform child in trans)
         {
             if (child.childCount > 0) GetAllChildren(child);

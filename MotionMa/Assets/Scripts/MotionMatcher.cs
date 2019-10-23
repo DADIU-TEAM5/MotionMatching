@@ -14,7 +14,7 @@ public class MotionMatcher : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        result.ClipName = "Stand";
+        result.ClipName = "Wat";
         result.CapsuleNum = 0;
         timer = 0;
     }
@@ -42,6 +42,13 @@ public class MotionMatcher : MonoBehaviour
         var bestFrame = animationCapsules.FrameCapsules[BestFrameIndex];
         //Debug.Log(bestFrame.AnimClipName);
         //Debug.Log(bestFrame.FrameNum);
+
+        //for debugger!!!Warning!!
+        //if (result.AnimClipIndex == 1)
+        //    result.AnimClipIndex = 2;
+        //if (result.AnimClipIndex == 0)
+        //    result.AnimClipIndex = 3;
+
         result.ClipName = bestFrame.AnimClipName;
         result.FrameNum = bestFrame.FrameNum;
         result.CapsuleNum = BestFrameIndex;

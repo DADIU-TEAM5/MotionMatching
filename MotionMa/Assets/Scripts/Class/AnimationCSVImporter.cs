@@ -20,7 +20,7 @@ public class AnimationCSVImporter
 
     private List<AnimationFrame> Frames;
 
-    private bool mac = true;
+    private bool mac = false;
 
     public AnimationCSVImporter (TextAsset csvFile) {
         fileLines = TextToLines(csvFile);

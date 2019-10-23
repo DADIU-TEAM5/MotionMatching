@@ -14,13 +14,14 @@ public class PlayerTrajectory : MonoBehaviour
     private Queue<Vector3> history = new Queue<Vector3>();
     private List<Vector3> future = new List<Vector3>();
     private float timer;
-
+    PlayAnimationByIndex player;
 
     void Start()
     {
         timer += Time.deltaTime;
         InitializeTrajectory();
         capsuleScriptObject.Capsule = new Capsule();
+        player = new PlayAnimationByIndex();
     }
 
     // Update is called once per frame
@@ -41,7 +42,7 @@ public class PlayerTrajectory : MonoBehaviour
         capsuleScriptObject.Capsule.TrajectoryFuture = future.ToArray();
         transToRelative(capsuleScriptObject.Capsule.TrajectoryHistory, currentPos);
         transToRelative(capsuleScriptObject.Capsule.TrajectoryFuture, currentPos);
-
+        player.GetFrame();
 
     }
 
