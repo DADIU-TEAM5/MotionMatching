@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4304635306edf4892a99bd0906805448, type: 3}
-  m_Name: AnimationPlay
+  m_Name: AnimationPlayTest
   m_EditorClassIdentifier: 
   AnimClips: []

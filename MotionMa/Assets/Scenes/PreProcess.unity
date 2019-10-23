@@ -120,6 +120,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &109162041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 109162042}
+  m_Layer: 0
+  m_Name: New Game Object
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &109162042
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109162041}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &204501781
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,13 +174,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204501781}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.64327776, z: -0, w: 0.76563287}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -80.073006, z: 0}
 --- !u!114 &204501783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93fa740f83c4e422295ba7b3c1c3a5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationCapsules: {fileID: 11400000, guid: dcf5b62b717116e49a776736bcf78f6b, type: 2}
+  animationCapsules: {fileID: 0}
   transformToShowFrom: {fileID: 1130359372}
   result: {fileID: 11400000, guid: 551562be954e4384e953d892007e0a54, type: 2}
 --- !u!1 &1082144246
@@ -272,7 +302,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.021644682
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
@@ -282,27 +312,27 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.0032373443
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.13889529
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.99030715
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
@@ -317,7 +347,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -15.968
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8eb3cc44dcf420743b7e61c8def7de8a,
         type: 3}
@@ -344,9 +374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13c1724074656347af89a8cf43661dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimationsPlay: {fileID: 11400000, guid: 5d135bc62497e2c47972c649a6cdddbc, type: 2}
+  AnimationsPlay: {fileID: 11400000, guid: d0bde56ebeb60034ba93eeab7afa8eb3, type: 2}
   AllAnimations: {fileID: 11400000, guid: 2467985de0f79a24999138f23b664f51, type: 2}
-  AnimationsPreProcess: {fileID: 11400000, guid: dcf5b62b717116e49a776736bcf78f6b,
+  AnimationsPreProcess: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e,
     type: 2}
   Second: 0.1
   SaveInSecond: 3

@@ -10,7 +10,7 @@ public class PlayerTrajectory : MonoBehaviour
     public float Second = 1f;
     public int SaveInSecond = 10;
 
-    public CapsuleScriptObject capsuleScriptObject;
+    public CapsuleScriptObject PlayerTrajectoryCapusule;
 
     private Queue<Vector3> history = new Queue<Vector3>();
     private List<Vector3> future = new List<Vector3>();
@@ -24,7 +24,7 @@ public class PlayerTrajectory : MonoBehaviour
     public Result result;
     public AnimationClips animationClips;
     //public Transform Skeleton;
-    public CapsuleScriptObject current;
+    //public CapsuleScriptObject current;
 
 
     private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
@@ -34,7 +34,7 @@ public class PlayerTrajectory : MonoBehaviour
         GetAllChildren(transform);
         timer += Time.deltaTime;
         InitializeTrajectory();
-        capsuleScriptObject.Capsule = new Capsule();
+        PlayerTrajectoryCapusule.Capsule = new Capsule();
        
     }
 
@@ -54,12 +54,12 @@ public class PlayerTrajectory : MonoBehaviour
         var currentPos = transform.localPosition;
         var currentRot = transform.rotation;
         HistoryTrajectory(currentPos);
-        capsuleScriptObject.Capsule.TrajectoryHistory = history.ToArray();
+        PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = history.ToArray();
 
         FuturePredict(currentPos, inputVel, currentRot);
-        capsuleScriptObject.Capsule.TrajectoryFuture = future.ToArray();
-        transToRelative(capsuleScriptObject.Capsule.TrajectoryHistory, currentPos);
-        transToRelative(capsuleScriptObject.Capsule.TrajectoryFuture, currentPos);
+        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = future.ToArray();
+        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
+        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
 
 
     }
@@ -144,18 +144,18 @@ public class PlayerTrajectory : MonoBehaviour
         if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count)
         {
             result.FrameNum = 0;
-            current.Capsule.AnimClipIndex = result.AnimClipIndex;
-            current.Capsule.AnimClipName = result.ClipName;
-            current.Capsule.FrameNum = result.FrameNum;
+            PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
+            PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
+            PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
             FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
             //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
             transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
         }
         else
         {
-            current.Capsule.AnimClipIndex = result.AnimClipIndex;
-            current.Capsule.AnimClipName = result.ClipName;
-            current.Capsule.FrameNum = result.FrameNum;
+            PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
+            PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
+            PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
             FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
             //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
             transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);

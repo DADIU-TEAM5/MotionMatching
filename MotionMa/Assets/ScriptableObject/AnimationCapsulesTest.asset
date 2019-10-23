@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4304635306edf4892a99bd0906805448, type: 3}
-  m_Name: AnimationClips
+  m_Script: {fileID: 11500000, guid: 365a6fe98d8214bbfb04bbbf7ee308d5, type: 3}
+  m_Name: AnimationCapsulesTest
   m_EditorClassIdentifier: 
-  AnimClips:
-  - {fileID: 11400000, guid: fb5afe5d8ccfb3140a6e49e5f1743d37, type: 2}

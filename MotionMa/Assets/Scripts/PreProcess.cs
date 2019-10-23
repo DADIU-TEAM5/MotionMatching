@@ -21,13 +21,15 @@ public class PreProcess : MonoBehaviour
 
     public void PreProcessTrajectory()
     {
+        int count = 0;
         InitializeAnimation();
         for(int i = 0; i < AllAnimations.AnimClips.Count; i++)
         {
             if(AllAnimations.AnimClips[i].Name.Contains("InPlace"))
             {
-                GetAnimaitionTrajectory(AllAnimations.AnimClips[i], i);
+                GetAnimaitionTrajectory(AllAnimations.AnimClips[i], count);
                 GetCorrespondingAnimations(AllAnimations.AnimClips[i].Name);
+                count++;
             }
         }
     }
