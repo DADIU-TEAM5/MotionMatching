@@ -2,89 +2,80 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationTrajectory : MonoBehaviour
+public class AnimationTrajectory
 {
-    public AnimationCapsules animationCapsules;
-    public CapsuleScriptObject capsule;
-    public AnimationClips animationClips;
-    public float Second = 1f;
-    public int SaveInSecond = 10;
-    public int Speed = 5;
-    //Assume we know the frame rate is 100;
-    public int FrameRate = 100;
 
 
-    private int SaveGap;
-    private List<Capsule> capsules;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        SaveGap = (int)(Second * FrameRate / SaveInSecond);
-        capsules = new List<Capsule>();
-        for (int i = 0; i < animationClips.AnimClips.Count; i++)
-            ObtainRootFromAnim(animationClips.AnimClips[i],i);
-    }
+    //public void ObatainTrajectory(float second, int saveInSecond, int frameRate,
+    //                            AnimationClips animationClips)
+    //{
+    //    SaveGap = (int)(second * frameRate / saveInSecond);
+    //    capsules = new List<Capsule>();
+    //    for (int i = 0; i < animationClips.AnimClips.Count; i++)
+    //        ObtainRootFromAnim(animationClips.AnimClips[i],i);
+    //}
 
-    // Update is called once per frame
-    void Update()
+
+
+    public void ObtainRootFromAnim(float second, int saveInSecond, int frameRate,
+                                    AnimClip animClip, int animIndex, int speed, List<Capsule> capsules)
     {
-      
+
+        var saveGap = (int)(second * frameRate / saveInSecond);
+        var startFrame = saveGap * saveInSecond;
+        var endFrame = animClip.Frames.Count - saveGap * saveInSecond;
+        //var capsules = new List<Capsule>();
         
-    }
-
-    private void ObtainRootFromAnim(AnimClip animClip, int animIndex)
-    {
-        var startFrame = SaveGap * SaveInSecond;
-        var endFrame = animClip.Frames.Count - SaveGap * SaveInSecond;
-        
-
         for (int index = startFrame; index < endFrame; index++)
         {
-            capsule.Capsule = new Capsule();
+            var capsule = new Capsule();
             var positions = new List<Vector3>();
             var fureturepositions = new List<Vector3>();
             var historypositions = new List<Vector3>();
 
             var currentJoint = animClip.Frames[index].JointPoints.Find(x => x.Name.Contains("Hips"));
-            capsule.Capsule.CurrentPosition = currentJoint.Position;
+            capsule.CurrentPosition = currentJoint.Position;
             var currentRotation = currentJoint.Rotation;
 
 
-            GetTrajectory(animClip, index, fureturepositions, historypositions);
+            GetTrajectory(saveInSecond,saveGap, capsule,
+                            animClip, index, speed,
+                            fureturepositions, historypositions);
 
             //assign values
-            capsule.Capsule.TrajectoryFuture = fureturepositions.ToArray();
-            capsule.Capsule.TrajectoryHistory = historypositions.ToArray();
-            capsule.Capsule.AnimClipName = animClip.Name;
-            capsule.Capsule.FrameNum = index;
-            capsule.Capsule.AnimClipIndex = animIndex;
+            capsule.TrajectoryFuture = fureturepositions.ToArray();
+            capsule.TrajectoryHistory = historypositions.ToArray();
+            capsule.AnimClipName = animClip.Name;
+            capsule.FrameNum = index;
+            capsule.AnimClipIndex = animIndex;
 
-            capsules.Add(capsule.Capsule);
+            capsules.Add(capsule);
         }
-        animationCapsules.FrameCapsules = capsules;
     }
 
-    private void GetTrajectory(AnimClip animClip, int index,
+    private void GetTrajectory(int saveInSecond, int saveGap, Capsule currentCapsule,
+                                AnimClip animClip, int index, int speed,
                                 List<Vector3> fureturepositions,
                                 List<Vector3> historypositions)
     {
-        for (int i = 0; i < SaveInSecond; i++)
+        for (int i = 0; i < saveInSecond; i++)
         {
-            var futureindex = index + i * SaveGap;
+            var futureindex = index + i * saveGap;
             var furetureJoint = animClip.Frames[futureindex].JointPoints.Find(x => x.Name.Contains("Hips"));
 
             //var currentRotation = currentJoint.Rotation;
-            var relativePos = furetureJoint.Position - capsule.Capsule.CurrentPosition;
+            var relativePos = furetureJoint.Position - currentCapsule.CurrentPosition;
             //var relativeRot = furetureJoint.Rotation * Quaternion.Inverse(currentRotation);
-            fureturepositions.Add(Quaternion.Inverse(furetureJoint.Rotation) * relativePos* Speed);
+            fureturepositions.Add(Quaternion.Inverse(furetureJoint.Rotation) * relativePos* speed);
 
 
-            var historyIndex = index - i * SaveGap;
+            var historyIndex = index - i * saveGap;
             var hisJoint = animClip.Frames[historyIndex].JointPoints.Find(x => x.Name.Contains("Hips"));
-            relativePos = hisJoint.Position - capsule.Capsule.CurrentPosition;
+            relativePos = hisJoint.Position - currentCapsule.CurrentPosition;
             //relativeRot = hisJoint.Rotation * Quaternion.Inverse(currentRotation);
-            historypositions.Add(Quaternion.Inverse(furetureJoint.Rotation) * relativePos* Speed);
+            historypositions.Add(Quaternion.Inverse(furetureJoint.Rotation) * relativePos* speed);
         }
     }
 }

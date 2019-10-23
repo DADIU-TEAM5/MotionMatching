@@ -23,7 +23,7 @@ public class ClipsFetch : MonoBehaviour
 
     void Awake()
     {
-        transf(Skeleton);
+        //transf(Skeleton);
         GetAllChildren(Skeleton);
     }
 
@@ -52,8 +52,6 @@ public class ClipsFetch : MonoBehaviour
     {
         index = (int)(value * AnimationClip.Frames.Count);
         FrameToJoints(AnimationClip.Frames[index]);
-        var temp = new ForceInPlace();
-        temp.AssignSkeleton(Skeleton);
     }
 
     public void FrameToJoints(AnimationFrame frame)

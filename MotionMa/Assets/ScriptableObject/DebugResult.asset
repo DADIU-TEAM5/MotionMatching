@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce2ec2ae93474e4d9c1a83cdefbed95, type: 3}
   m_Name: DebugResult
   m_EditorClassIdentifier: 
-  ClipName: Walk
-  FrameNum: 227
-  CapsuleNum: 177
+  ClipName: 
+  FrameNum: 188
+  AnimClipIndex: 0
+  CapsuleNum: 126

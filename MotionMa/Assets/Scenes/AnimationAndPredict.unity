@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 5
-  RotationSpeed: 1000
+  RotationSpeed: 5
   Second: 0.5
   SaveInSecond: 10
   capsuleScriptObject: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,

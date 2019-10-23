@@ -25,7 +25,7 @@ public class MotionMatcher : MonoBehaviour
         timer += Time.deltaTime;
 
 
-        if (timer > 1)
+        if (timer > 0.5)
         {
             timer = 0;
             GetMotionAndFrame();
