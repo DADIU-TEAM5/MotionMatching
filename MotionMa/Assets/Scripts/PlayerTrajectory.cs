@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerTrajectory : MonoBehaviour
 {
@@ -16,12 +17,25 @@ public class PlayerTrajectory : MonoBehaviour
     private float timer;
     PlayAnimationByIndex player;
 
+
+
+
+    //
+    public Result result;
+    public AnimationClips animationClips;
+    //public Transform Skeleton;
+    public CapsuleScriptObject current;
+
+
+    private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
+
     void Start()
     {
+        GetAllChildren(transform);
         timer += Time.deltaTime;
         InitializeTrajectory();
         capsuleScriptObject.Capsule = new Capsule();
-        player = new PlayAnimationByIndex();
+       
     }
 
     // Update is called once per frame
@@ -29,12 +43,16 @@ public class PlayerTrajectory : MonoBehaviour
     {
         timer += Time.deltaTime;
         var inputs = Vector3.zero;
-        Vector3 inputVel = UpdatePlayerState(inputs);
 
+
+        
+
+
+        GetFrame();
+        Vector3 inputVel = UpdatePlayerState(inputs);
         //get player status now
         var currentPos = transform.localPosition;
         var currentRot = transform.rotation;
-
         HistoryTrajectory(currentPos);
         capsuleScriptObject.Capsule.TrajectoryHistory = history.ToArray();
 
@@ -42,7 +60,7 @@ public class PlayerTrajectory : MonoBehaviour
         capsuleScriptObject.Capsule.TrajectoryFuture = future.ToArray();
         transToRelative(capsuleScriptObject.Capsule.TrajectoryHistory, currentPos);
         transToRelative(capsuleScriptObject.Capsule.TrajectoryFuture, currentPos);
-        player.GetFrame();
+
 
     }
 
@@ -67,7 +85,6 @@ public class PlayerTrajectory : MonoBehaviour
     private Vector3 UpdatePlayerState(Vector3 inputs)
     {
         inputs.z = Input.GetAxis("Vertical");
-        transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
 
         //get input velocity to move
         var inputVel = inputs * Speed;
@@ -113,9 +130,88 @@ public class PlayerTrajectory : MonoBehaviour
             var gap = (inputVel * increase);
             var futureP = (currentPos + angle_increase * currentRot * gap);
             future[i] = futureP;
-           
+            
 
         }
 
     }
+    //Quaternion quaternion
+    public void GetFrame()
+
+    {
+
+
+        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count)
+        {
+            result.FrameNum = 0;
+            current.Capsule.AnimClipIndex = result.AnimClipIndex;
+            current.Capsule.AnimClipName = result.ClipName;
+            current.Capsule.FrameNum = result.FrameNum;
+            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
+            //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
+            transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
+        }
+        else
+        {
+            current.Capsule.AnimClipIndex = result.AnimClipIndex;
+            current.Capsule.AnimClipName = result.ClipName;
+            current.Capsule.FrameNum = result.FrameNum;
+            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
+            //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
+            transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
+        }
+
+    }
+
+    public void FrameToJoints(AnimationFrame frame)
+    {
+        //Debug.Log(frame.Velocity);
+        //Debug.Log((int)(value * AnimationClip.Frames.Count));
+        foreach (var jointPoint in frame.JointPoints)
+        {
+            if (!SkeletonJoints.Keys.Contains(jointPoint.Name))
+            {
+                //Debug.LogError($"{jointPoint.Name} is not in the {Skeleton.name}");
+                continue;
+            }
+
+            var joint = SkeletonJoints[jointPoint.Name];
+            ApplyJointPointToJoint(jointPoint, joint);
+        }
+    }
+
+
+    private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint)
+    {
+        //if (jointPoint.Name == "Root")
+        //{
+        //    joint.rotation = Skeleton.rotation * jointPoint.Rotation;
+        //    joint.position = Skeleton.position + jointPoint.Position;
+
+        //}
+        //else
+        //{
+        //var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
+        //var newEulerRot = jointPoint.Rotation * jointPoint.BaseRotation;
+        //joint.rotation = newEulerRot;
+        //joint.rotation = transform.rotation * Quaternion.Inverse(joint.localRotation) * jointPoint.Rotation;
+        //joint.rotation = Skeleton.rotation * (newEulerRot);
+        joint.rotation = transform.rotation * jointPoint.Rotation;
+        joint.position = transform.TransformDirection( jointPoint.Position) + transform.position;
+
+        //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);
+        //}
+    }
+
+
+    private void GetAllChildren(Transform trans)
+    {
+        //SkeletonJoints.Add("Root", trans);
+        foreach (Transform child in trans)
+        {
+            if (child.childCount > 0) GetAllChildren(child);
+            SkeletonJoints.Add(child.name, child);
+        }
+    }
+
 }
