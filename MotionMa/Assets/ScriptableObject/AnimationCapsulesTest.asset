@@ -12,3 +12,316 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 365a6fe98d8214bbfb04bbbf7ee308d5, type: 3}
   m_Name: AnimationCapsulesTest
   m_EditorClassIdentifier: 
+  FrameCapsules:
+  - AnimClipName: Walking_InPlace
+    FrameNum: 3
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.043637298, y: 0.8491832, z: 0.06281279}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.050413404, y: -0.12063857, z: 0.15218553}
+    - {x: 0.08073391, y: -0.1532201, z: 0.26651603}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.043941844, y: 0.1955873, z: -0.16131526}
+    - {x: -0.058119334, y: 0.43378952, z: -0.29675916}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 4
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.0636101, y: 0.82399106, z: 0.0868267}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.041623414, y: -0.032639816, z: 0.110996336}
+    - {x: 0.06800692, y: 0.020210411, z: 0.16129005}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.0391105, y: 0.12058028, z: -0.15551971}
+    - {x: -0.05000588, y: 0.31609553, z: -0.32367808}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 5
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.080542244, y: 0.8166756, z: 0.10309042}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.033987127, y: 0.05279975, z: 0.04771786}
+    - {x: 0.07917755, y: 0.15816206, z: 0.11059572}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.034019794, y: 0.03258934, z: -0.11357219}
+    - {x: -0.04087574, y: 0.15310773, z: -0.275522}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 6
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.091364644, y: 0.82687366, z: 0.108350895}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.049323607, y: 0.10529366, z: 0.060260758}
+    - {x: 0.108830914, y: 0.26466614, z: 0.14501178}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.029853944, y: -0.05286839, z: -0.050334964}
+    - {x: -0.036880746, y: -0.020391855, z: -0.17109023}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 7
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.10676446, y: 0.8474647, z: 0.11334018}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.066450045, y: 0.15924156, z: 0.07989305}
+    - {x: 0.15054196, y: 0.3682782, z: 0.17757149}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.04238086, y: -0.1054246, z: -0.06511874}
+    - {x: -0.050170813, y: -0.15854174, z: -0.12594897}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 8
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.128023, y: 0.8786896, z: 0.11773732}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.0956091, y: 0.20882377, z: 0.08974754}
+    - {x: 0.21569236, y: 0.45374605, z: 0.17816788}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.054932863, y: -0.15945442, z: -0.08782395}
+    - {x: -0.06411822, y: -0.26525134, z: -0.16867527}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 9
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.15534465, y: 0.9197303, z: 0.11659262}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.13444968, y: 0.2445696, z: 0.0759528}
+    - {x: 0.2895953, y: 0.50551194, z: 0.12962666}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.08124268, y: -0.20917647, z: -0.10221507}
+    - {x: -0.092033215, y: -0.36917093, z: -0.21228774}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 10
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.18459967, y: 0.96797186, z: 0.103814155}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.1683367, y: 0.26038882, z: 0.03544158}
+    - {x: 0.3546998, y: 0.52154434, z: 0.054061517}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.12125862, y: -0.24512313, z: -0.094185084}
+    - {x: -0.1525897, y: -0.45524868, z: -0.23155452}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 11
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.20764443, y: 1.0196168, z: 0.077402756}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.19443783, y: 0.2603888, z: -0.005180019}
+    - {x: 0.40942547, y: 0.5089613, z: -0.012988788}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.16026193, y: -0.26115558, z: -0.059241537}
+    - {x: -0.23737556, y: -0.5078089, z: -0.20492384}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 12
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.22059785, y: 1.0715115, z: 0.040462777}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.21734314, y: 0.24767524, z: -0.03464919}
+    - {x: 0.4482106, y: 0.47158968, z: -0.06278514}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.19208236, y: -0.2612861, z: -0.0216604}
+    - {x: -0.32558087, y: -0.5243384, z: -0.14074618}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 13
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.22329545, y: 1.1210423, z: -0.0034768751}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.22930017, y: 0.22306043, z: -0.053137325}
+    - {x: 0.4575696, y: 0.4051597, z: -0.09008442}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.21891046, y: -0.24852924, z: 0.009647812}
+    - {x: -0.40095586, y: -0.5115924, z: -0.065933555}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 14
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.21728502, y: 1.1657665, z: -0.0500595}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.22538775, y: 0.18146397, z: -0.055300523}
+    - {x: 0.4382304, y: 0.30650455, z: -0.08790976}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.23218179, y: -0.22369571, z: 0.0347839}
+    - {x: -0.45052382, y: -0.4735224, z: 0.006026933}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 15
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.2069053, y: 1.2021947, z: -0.095189594}
+    TrajectoryFuture:
+    - {x: -0, y: 0, z: 0}
+    - {x: 0.21080734, y: 0.12467383, z: -0.04315108}
+    - {x: 0.40315783, y: 0.19357514, z: -0.068696775}
+    TrajectoryHistory:
+    - {x: -0, y: 0, z: 0}
+    - {x: -0.22742303, y: -0.1818307, z: 0.044758674}
+    - {x: -0.4615789, y: -0.40620196, z: 0.05986972}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 16
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.1966583, y: 1.2272034, z: -0.13694336}
+    TrajectoryFuture:
+    - {x: -0, y: 0, z: 0}
+    - {x: 0.19164668, y: 0.0687612, z: -0.029583838}
+    - {x: 0.36170456, y: 0.09429111, z: -0.052488618}
+    TrajectoryHistory:
+    - {x: -0, y: 0, z: 0}
+    - {x: -0.21151114, y: -0.124813944, z: 0.039112937}
+    - {x: -0.43910384, y: -0.3066824, z: 0.08278071}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 17
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.18824485, y: 1.2409627, z: -0.1748005}
+    TrajectoryFuture:
+    - {x: -0, y: 0, z: 0}
+    - {x: 0.17026532, y: 0.025579087, z: -0.02148186}
+    - {x: 0.31910008, y: 0.02266162, z: -0.044650912}
+    TrajectoryHistory:
+    - {x: -0, y: 0, z: 0}
+    - {x: -0.19143924, y: -0.068712026, z: 0.03100676}
+    - {x: -0.40013033, y: -0.19297743, z: 0.08591993}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 18
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.1817399, y: 1.2460566, z: -0.20850481}
+    TrajectoryFuture:
+    - {x: -0, y: 0, z: 0}
+    - {x: 0.14967017, y: -0.002709932, z: -0.017158292}
+    - {x: 0.2815846, y: -0.01702062, z: -0.042872135}
+    TrajectoryHistory:
+    - {x: -0, y: 0, z: 0}
+    - {x: -0.16942991, y: -0.025371553, z: 0.02749262}
+    - {x: -0.3552893, y: -0.0930896, z: 0.08706294}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 19
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.17724845, y: 1.2454865, z: -0.23829773}
+    TrajectoryFuture:
+    - {x: -0, y: 0, z: 0}
+    - {x: 0.13324173, y: -0.01399706, z: -0.016639384}
+    - {x: 0.25249147, y: -0.014516116, z: -0.052102484}
+    TrajectoryHistory:
+    - {x: -0, y: 0, z: 0}
+    - {x: -0.14834288, y: 0.0030235602, z: 0.026232751}
+    - {x: -0.3096654, y: -0.021100711, z: 0.089410394}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 20
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.17452094, y: 1.2426727, z: -0.26501268}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.12107709, y: -0.0001464506, z: -0.024717927}
+    - {x: 0.2234709, y: 0.046347357, z: -0.05803309}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.13141438, y: 0.014369666, z: 0.027384553}
+    - {x: -0.26944464, y: 0.018742833, z: 0.09201019}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 21
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.17219928, y: 1.2426938, z: -0.28961828}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.10534842, y: 0.04690007, z: -0.021736667}
+    - {x: 0.1785277, y: 0.15625955, z: -0.016295208}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.11812247, y: 0.00055271306, z: 0.036296427}
+    - {x: -0.23661971, y: 0.016285252, z: 0.10209411}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 22
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.17253356, y: 1.2521137, z: -0.31111175}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.07593669, y: 0.10975073, z: 0.01660472}
+    - {x: 0.12795371, y: 0.273027, z: 0.03946649}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.102591, y: -0.04650882, z: 0.03289993}
+    - {x: -0.20584123, y: -0.044661686, z: 0.10530853}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 23
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.18108174, y: 1.2738653, z: -0.32442668}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.0502244, y: 0.1635615, z: 0.03154283}
+    - {x: 0.07648009, y: 0.3698388, z: 0.03793835}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.0777293, y: -0.10946549, z: -0.007923661}
+    - {x: -0.17134635, y: -0.15485707, z: 0.056696057}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 24
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.19202976, y: 1.3062966, z: -0.33068347}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.022280792, y: 0.20646803, z: 0.0125961}
+    - {x: 0.0069079157, y: 0.44390106, z: -0.013294959}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.054199304, y: -0.16337079, z: -0.025342252}
+    - {x: -0.13589604, y: -0.27195686, z: -0.006724553}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 25
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.19778134, y: 1.3474593, z: -0.33266202}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.017676698, y: 0.23752761, z: -0.022768304}
+    - {x: -0.057078894, y: 0.49324033, z: -0.08820813}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.024584614, y: -0.20637342, z: -0.009473345}
+    - {x: -0.087050974, y: -0.36912656, z: -0.015393196}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 26
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.19342303, y: 1.3951082, z: -0.33189017}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.03750213, y: 0.2556386, z: -0.06790087}
+    - {x: -0.10365441, y: 0.51549184, z: -0.17075366}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.019576766, y: -0.23760173, z: 0.020307256}
+    - {x: -0.007024089, y: -0.44381115, z: 0.015966367}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 27
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.18000048, y: 1.4467018, z: -0.3354486}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.05767442, y: 0.25968727, z: -0.10896451}
+    - {x: -0.1503519, y: 0.5080309, z: -0.22513169}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.045979988, y: -0.25580454, z: 0.06178914}
+    - {x: 0.07519992, y: -0.49378145, z: 0.06963848}
+  - AnimClipName: Walking_InPlace
+    FrameNum: 28
+    AnimClipIndex: 0
+    CurrentPosition: {x: 0.1592686, y: 1.4994019, z: -0.3453665}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: -0.079376996, y: 0.24811137, z: -0.12492444}
+    - {x: -0.17670618, y: 0.46078598, z: -0.23874915}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0.07097491, y: -0.2599195, z: 0.10020726}
+    - {x: 0.13796437, y: -0.51631737, z: 0.14147472}

@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93fa740f83c4e422295ba7b3c1c3a5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationCapsules: {fileID: 0}
+  animationCapsules: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e, type: 2}
   transformToShowFrom: {fileID: 1130359372}
   result: {fileID: 11400000, guid: 551562be954e4384e953d892007e0a54, type: 2}
 --- !u!1 &1082144246

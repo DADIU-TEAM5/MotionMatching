@@ -34,7 +34,7 @@ public class PreProcess : MonoBehaviour
                 count++;
             }
         }
-        EditorUtility.SetDirty(AnimationsPreProcess);
+        //EditorUtility.SetDirty(AnimationsPreProcess);
     }
 
     private void InitializeAnimation()
