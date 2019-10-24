@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
+
+using UnityEditor.Animations;
 
 public class PreProcess : MonoBehaviour
 {
@@ -14,7 +17,6 @@ public class PreProcess : MonoBehaviour
     public int Speed = 5;
     //Assume we know the frame rate is 100;
     public int FrameRate = 100;
-
 
     private AnimationTrajectory _animationTrajectory;
 
@@ -32,6 +34,7 @@ public class PreProcess : MonoBehaviour
                 count++;
             }
         }
+        EditorUtility.SetDirty(AnimationsPreProcess);
     }
 
     private void InitializeAnimation()

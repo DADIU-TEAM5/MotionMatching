@@ -6,7 +6,6 @@ public class AnimationTrajectory
 {
 
 
-
     // Start is called before the first frame update
     //public void ObatainTrajectory(float second, int saveInSecond, int frameRate,
     //                            AnimationClips animationClips)
@@ -53,6 +52,7 @@ public class AnimationTrajectory
 
             capsules.Add(capsule);
         }
+ 
     }
 
     private void GetTrajectory(int saveInSecond, int saveGap, Capsule currentCapsule,
