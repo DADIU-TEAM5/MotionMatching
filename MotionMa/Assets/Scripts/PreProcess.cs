@@ -29,8 +29,8 @@ public class PreProcess : MonoBehaviour
         {
             if(AllAnimations.AnimClips[i].Name.Contains("InPlace"))
             {
-                GetAnimaitionTrajectory(AllAnimations.AnimClips[i], count);
-                GetCorrespondingAnimations(AllAnimations.AnimClips[i].Name);
+                AnimationsPlay.AnimClips.Add(AllAnimations.AnimClips[i]);
+                GetCorrespondingAnimations(AllAnimations.AnimClips[i].Name, count);
                 count++;
             }
         }
@@ -53,14 +53,15 @@ public class PreProcess : MonoBehaviour
                       animClip, animIndex, Speed, AnimationsPreProcess.FrameCapsules);
     }
 
-    private void GetCorrespondingAnimations(string inPlaceAnimationName)
+    private void GetCorrespondingAnimations(string inPlaceAnimationName, int animIndex)
     {
         var name = inPlaceAnimationName.Replace("_InPlace", "");
         for (int i = 0; i < AllAnimations.AnimClips.Count; i++)
         {
             if (AllAnimations.AnimClips[i].Name == name)
             {
-                AnimationsPlay.AnimClips.Add(AllAnimations.AnimClips[i]);
+                GetAnimaitionTrajectory(AllAnimations.AnimClips[i], animIndex);
+                
                 break;
             }
         }

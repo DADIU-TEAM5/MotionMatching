@@ -67,6 +67,7 @@ public class AnimationTrajectory
 
             //var currentRotation = currentJoint.Rotation;
             var relativePos = furetureJoint.Position - currentCapsule.CurrentPosition;
+            relativePos.y = 0;
             //var relativeRot = furetureJoint.Rotation * Quaternion.Inverse(currentRotation);
             fureturepositions.Add(Quaternion.Inverse(furetureJoint.Rotation) * relativePos* speed);
 
@@ -74,6 +75,7 @@ public class AnimationTrajectory
             var historyIndex = index - i * saveGap;
             var hisJoint = animClip.Frames[historyIndex].JointPoints.Find(x => x.Name.Contains("Hips"));
             relativePos = hisJoint.Position - currentCapsule.CurrentPosition;
+            relativePos.y = 0;
             //relativeRot = hisJoint.Rotation * Quaternion.Inverse(currentRotation);
             historypositions.Add(Quaternion.Inverse(furetureJoint.Rotation) * relativePos* speed);
         }

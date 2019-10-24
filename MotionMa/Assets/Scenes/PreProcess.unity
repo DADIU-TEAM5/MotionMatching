@@ -380,7 +380,7 @@ MonoBehaviour:
     type: 2}
   Second: 0.1
   SaveInSecond: 3
-  Speed: 5
+  Speed: 30
   FrameRate: 30
 --- !u!4 &1130359372 stripped
 Transform:

@@ -15,7 +15,7 @@ public class MotionMatcher : MonoBehaviour
     void Start()
     {
         result.ClipName = "Wat";
-        result.CapsuleNum = 0;
+        result.CapsuleNum = 3;
         timer = 0;
     }
 

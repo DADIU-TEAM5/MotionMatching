@@ -11,17 +11,6 @@ public class DrawForTs : MonoBehaviour
     
     public Result result;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void OnDrawGizmos()
     {
@@ -31,14 +20,14 @@ public class DrawForTs : MonoBehaviour
         //    Index++;
 
         //Debug.Log(Index);
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.yellow;
 
         for (int i = 0; i < animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryHistory.Length; i++)
         {
             Gizmos.DrawSphere(transformToShowFrom.TransformVector(animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryHistory[i]) + transformToShowFrom.position, 0.1f);
         }
 
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.green;
         for (int i = 0; i < animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryFuture.Length; i++)
         {
             Gizmos.DrawSphere(transformToShowFrom.TransformVector(animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryFuture[i]) + transformToShowFrom.position, 0.1f);

@@ -461,7 +461,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.22282985, y: 0.68616486, z: 0.18246561}
@@ -1043,7 +1043,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.22349977, y: 0.7096977, z: 0.2157658}
@@ -1625,7 +1625,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.21638371, y: 0.73262084, z: 0.2551364}
@@ -2210,7 +2210,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.19835441, y: 0.7489263, z: 0.29823512}
@@ -2795,7 +2795,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.18772176, y: 0.757861, z: 0.34030902}
@@ -3379,10 +3379,10 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
-    - Position: {x: 0.19153303, y: 0.7634554, z: 0.37964475}
+    - Position: {x: 0.191533, y: 0.7634554, z: 0.37964475}
       Rotation: {x: 0.3681777, y: -0.4128013, z: -0.7748842, w: 0.30593294}
       Name: mixamorig:RightHandIndex4
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -3962,7 +3962,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.19902304, y: 0.76601756, z: 0.4095875}
@@ -4546,7 +4546,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.20417865, y: 0.75979555, z: 0.42573848}
@@ -5127,10 +5127,10 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
-    - Position: {x: 0.21145558, y: 0.7478831, z: 0.42675775}
+    - Position: {x: 0.21145558, y: 0.747883, z: 0.42675775}
       Rotation: {x: 0.36919728, y: -0.45936885, z: -0.7137182, w: 0.37852386}
       Name: mixamorig:RightHandIndex4
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -5710,7 +5710,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.21376148, y: 0.729645, z: 0.40998295}
@@ -6294,7 +6294,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.2132965, y: 0.70456505, z: 0.37427792}
@@ -6877,7 +6877,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.21251218, y: 0.679834, z: 0.32477546}
@@ -7460,7 +7460,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.21144177, y: 0.66191256, z: 0.26961172}
@@ -8043,7 +8043,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.21906914, y: 0.6521981, z: 0.21213341}
@@ -8627,7 +8627,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.22998014, y: 0.6495447, z: 0.15603597}
@@ -9210,7 +9210,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.23814544, y: 0.6482119, z: 0.09162095}
@@ -9794,10 +9794,10 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
-    - Position: {x: 0.23370486, y: 0.6492375, z: 0.026370896}
+    - Position: {x: 0.23370484, y: 0.6492375, z: 0.026370898}
       Rotation: {x: 0.23806371, y: -0.2033841, z: -0.8722705, w: 0.37564006}
       Name: mixamorig:RightHandIndex4
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -10377,7 +10377,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.21639404, y: 0.6520612, z: -0.035766393}
@@ -10961,7 +10961,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.19445536, y: 0.6533179, z: -0.09403426}
@@ -11546,7 +11546,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.1754724, y: 0.6544766, z: -0.14713565}
@@ -12131,10 +12131,10 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
-    - Position: {x: 0.15850982, y: 0.6538053, z: -0.18994842}
+    - Position: {x: 0.15850978, y: 0.65380526, z: -0.18994841}
       Rotation: {x: 0.13574395, y: 0.01202333, z: -0.95808834, w: 0.25198412}
       Name: mixamorig:RightHandIndex4
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -12715,10 +12715,10 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
-    - Position: {x: 0.14411184, y: 0.64956164, z: -0.21919863}
+    - Position: {x: 0.14411181, y: 0.64956164, z: -0.21919861}
       Rotation: {x: 0.12041299, y: 0.0568529, z: -0.9648708, w: 0.22647974}
       Name: mixamorig:RightHandIndex4
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -13299,7 +13299,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.13563167, y: 0.64353085, z: -0.2398182}
@@ -13883,7 +13883,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.13494267, y: 0.635978, z: -0.2517054}
@@ -14466,7 +14466,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.14009197, y: 0.6278986, z: -0.2499189}
@@ -15050,7 +15050,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.1537039, y: 0.62088525, z: -0.23366001}
@@ -15632,7 +15632,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.17539547, y: 0.61553454, z: -0.20330428}
@@ -16215,10 +16215,10 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
-    - Position: {x: 0.20371667, y: 0.61309904, z: -0.15335226}
+    - Position: {x: 0.2037166, y: 0.6130991, z: -0.15335223}
       Rotation: {x: 0.16757098, y: 0.105419084, z: -0.9654979, w: 0.16917814}
       Name: mixamorig:RightHandIndex4
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -16798,7 +16798,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.22976132, y: 0.6112961, z: -0.08588994}
@@ -17382,7 +17382,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.24609096, y: 0.6172426, z: -0.008824889}
@@ -17967,7 +17967,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.24947631, y: 0.6346003, z: 0.06883308}
@@ -18550,7 +18550,7 @@ MonoBehaviour:
       Name: mixamorig:RightHandIndex3
       BaseRotation: {x: 0, y: 0, z: 0, w: 0}
       LocalPosition: {x: 0.03415161, y: 0.0000000025299138, z: -0.000000086058414}
-      LocalRotation: {x: 0.000000068124635, y: 0.00743456, z: -0.09132076, w: 0.99579376}
+      LocalRotation: {x: 0.00000006812464, y: 0.00743456, z: -0.09132077, w: 0.99579376}
       Velocity: {x: 0, y: 0, z: 0}
       BoneIndex: 49
     - Position: {x: 0.24044336, y: 0.65899587, z: 0.13087174}
