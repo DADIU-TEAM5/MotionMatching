@@ -68,7 +68,7 @@ public class PlayerTrajectory : MonoBehaviour
     {
         for(int i = 0; i<vector3s.Length; i++)
         {
-            vector3s[i] = vector3s[i] - current;
+            vector3s[i] = transform.InverseTransformDirection((vector3s[i] - current));
         }
         //vector3s[0] = new Vector3(0, 0, 0);
     }
