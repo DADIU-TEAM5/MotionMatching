@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationCapsules: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e, type: 2}
-  transformToShowFrom: {fileID: 5006512736552230596}
+  transformToShowFrom: {fileID: 1924439495}
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
 --- !u!4 &220461291
 Transform:
@@ -651,7 +651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capsuleScriptObject: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
-  transformToShowFrom: {fileID: 5006512736552230596}
+  transformToShowFrom: {fileID: 1924439495}
 --- !u!4 &1845190796
 Transform:
   m_ObjectHideFlags: 0
@@ -714,7 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecb709bd258d4543b1b515755d89a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 1
+  Speed: 3
   RotationSpeed: 5
   Second: 0.5
   SaveInSecond: 3
@@ -722,6 +722,12 @@ MonoBehaviour:
     type: 2}
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
   animationClips: {fileID: 11400000, guid: d0bde56ebeb60034ba93eeab7afa8eb3, type: 2}
+--- !u!4 &1924439495 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 3572358b9c6e523448e164f509c237d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 2050600590}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2050600590
 PrefabInstance:
   m_ObjectHideFlags: 0
