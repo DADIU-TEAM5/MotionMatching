@@ -43,6 +43,7 @@ public class PlayerTrajectory : MonoBehaviour
 
     private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
 
+    //i can't believe it is too long
     void Start()
     {
         GetAllChildren(transform);
@@ -59,44 +60,50 @@ public class PlayerTrajectory : MonoBehaviour
         _tempMoMaTime += Time.deltaTime;
         var inputs = Vector3.zero;
 
+        string thisClipName = result.ClipName;
+        int thisClipNum = result.AnimClipIndex;
 
         //update motion matching including the blending
 
-        if (_blendFlag)
+
+        if (_tempMoMaTime > MoMaUpdateTime)
         {
-            if (_tempMoMaTime > MoMaUpdateTime)
-            {
-                var thisClipName = result.ClipName;
-                var thisClipNum = result.AnimClipIndex;
+            thisClipName = result.ClipName;
+            thisClipNum = result.AnimClipIndex;
+            _motionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
+                                                result, animationClips);
+            _tempMoMaTime = 0;
 
-                _motionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
-                                                    result, animationClips);
-                _tempMoMaTime = 0;
+            bool isSimilarMotion = ((thisClipName == result.ClipName)
+                            && (Mathf.Abs(thisClipNum - result.AnimClipIndex) < 3));
 
-                bool isSimilarMotion = ((thisClipName == result.ClipName)
-                                && (Mathf.Abs(thisClipNum - result.AnimClipIndex) < 3));
-                if (isSimilarMotion)
-                    PlayAnimationJoints(); //play animation here
-                else
-                {
-                   
-                    _forBlendPlay++;
-                    PlayBlendAnimation(thisClipNum, result.AnimClipIndex, _forBlendPlay,
-                       animationClips.AnimClips[thisClipNum], animationClips.AnimClips[result.AnimClipIndex]);
-                    //if we need play the last frame
-                    if (_forBlendPlay >= BlendLength)
-                        _blendFlag = false;
 
-                }
-
-            }
+            if (isSimilarMotion)
+                PlayAnimationJoints(); //play animation here
             else
             {
-                result.FrameNum++;
-                PlayAnimationJoints();
+                _blendFlag = true;
+                PlayBlendAnimation(thisClipNum, result.AnimClipIndex, _forBlendPlay,
+                animationClips.AnimClips[thisClipNum], animationClips.AnimClips[result.AnimClipIndex]);
             }
-        }
 
+            
+            
+        }
+        else if(!_blendFlag)
+        {
+            PlayAnimationJoints();
+            result.FrameNum++;
+        }
+        else
+        {
+            _forBlendPlay++;
+            PlayBlendAnimation(thisClipNum, result.AnimClipIndex, _forBlendPlay,
+                animationClips.AnimClips[thisClipNum], animationClips.AnimClips[result.AnimClipIndex]);
+            //if we need play the last frame
+            if (_forBlendPlay >= BlendLength)
+                _blendFlag = false;
+        }
 
         //above moma setting
 
