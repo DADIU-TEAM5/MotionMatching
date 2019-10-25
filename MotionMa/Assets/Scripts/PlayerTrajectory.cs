@@ -49,7 +49,7 @@ public class PlayerTrajectory : MonoBehaviour
         
 
 
-        GetFrame();
+        GetFrame(); //play animation here
         Vector3 inputVel = UpdatePlayerState(inputs);
         //get player status now
         var currentPos = transform.localPosition;

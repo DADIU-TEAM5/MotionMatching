@@ -25,7 +25,7 @@ public class MotionMatcher : MonoBehaviour
         timer += Time.deltaTime;
 
 
-        if (timer > 0.5)
+        if (timer > 0.1)
         {
             timer = 0;
             GetMotionAndFrame();
@@ -40,6 +40,10 @@ public class MotionMatcher : MonoBehaviour
     {
         var BestFrameIndex = calculateCost.GetBestFrameIndex(animationCapsules, current.Capsule, animationClips);
         var bestFrame = animationCapsules.FrameCapsules[BestFrameIndex];
+
+        bool isSameLocation = (BestFrameIndex == result.CapsuleNum) 
+                                || ((bestFrame.AnimClipName == result.ClipName) 
+                                && (Mathf.Abs(bestFrame.AnimClipIndex - result.AnimClipIndex) < 3));//Mathf.Abs(bestFrame.AnimClipIndex - result.AnimClipIndex) < 3
         //Debug.Log(bestFrame.AnimClipName);
         //Debug.Log(bestFrame.FrameNum);
 
@@ -49,9 +53,16 @@ public class MotionMatcher : MonoBehaviour
         //if (result.AnimClipIndex == 0)
         //    result.AnimClipIndex = 3;
 
-        result.ClipName = bestFrame.AnimClipName;
-        result.FrameNum = bestFrame.FrameNum;
-        result.CapsuleNum = BestFrameIndex;
-        result.AnimClipIndex = bestFrame.AnimClipIndex;
+        if (!isSameLocation)
+        {
+            result.ClipName = bestFrame.AnimClipName;
+            result.FrameNum = bestFrame.FrameNum;
+            result.CapsuleNum = BestFrameIndex;
+            result.AnimClipIndex = bestFrame.AnimClipIndex;
+        }
+        else
+        {
+            result.FrameNum++;
+        }
     }
 }
