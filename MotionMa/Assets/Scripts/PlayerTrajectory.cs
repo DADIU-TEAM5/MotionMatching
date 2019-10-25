@@ -97,12 +97,14 @@ public class PlayerTrajectory : MonoBehaviour
         }
         else
         {
+
+            if (_forBlendPlay >= BlendLength)
+                _blendFlag = false;
             _forBlendPlay++;
             PlayBlendAnimation(thisClipNum, result.AnimClipIndex, _forBlendPlay,
                 animationClips.AnimClips[thisClipNum], animationClips.AnimClips[result.AnimClipIndex]);
             //if we need play the last frame
-            if (_forBlendPlay >= BlendLength)
-                _blendFlag = false;
+           
         }
 
         //above moma setting
