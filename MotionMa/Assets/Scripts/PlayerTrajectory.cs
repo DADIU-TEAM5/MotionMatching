@@ -51,6 +51,8 @@ public class PlayerTrajectory : MonoBehaviour
         InitializeTrajectory();
         PlayerTrajectoryCapusule.Capsule = new Capsule();
         _tempMoMaTime = 0;
+        result.FrameNum = 0;
+        result.AnimClipIndex = 0;
     }
 
     // Update is called once per frame
@@ -60,22 +62,22 @@ public class PlayerTrajectory : MonoBehaviour
         _tempMoMaTime += Time.deltaTime;
         var inputs = Vector3.zero;
 
-        string thisClipName = result.ClipName;
-        int thisClipNum = result.AnimClipIndex;
+        int thisClip = result.AnimClipIndex;
+        int thisClipNum = result.FrameNum;
 
         //update motion matching including the blending
 
 
         if (_tempMoMaTime > MoMaUpdateTime)
         {
-            thisClipName = result.ClipName;
-            thisClipNum = result.AnimClipIndex;
+            thisClip = result.AnimClipIndex;
+            thisClipNum = result.FrameNum;
             _motionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
                                                 result, animationClips);
             _tempMoMaTime = 0;
 
-            bool isSimilarMotion = ((thisClipName == result.ClipName)
-                            && (Mathf.Abs(thisClipNum - result.AnimClipIndex) < 3));
+            bool isSimilarMotion = ((thisClip == result.AnimClipIndex)
+                            && (Mathf.Abs(thisClipNum - result.FrameNum) < 3));
 
 
             if (isSimilarMotion)
@@ -83,8 +85,8 @@ public class PlayerTrajectory : MonoBehaviour
             else
             {
                 _blendFlag = true;
-                PlayBlendAnimation(thisClipNum, result.AnimClipIndex, _forBlendPlay,
-                animationClips.AnimClips[thisClipNum], animationClips.AnimClips[result.AnimClipIndex]);
+                PlayBlendAnimation(thisClipNum, result.FrameNum, _forBlendPlay,
+                animationClips.AnimClips[thisClip], animationClips.AnimClips[result.AnimClipIndex]);
             }
 
             
@@ -99,12 +101,19 @@ public class PlayerTrajectory : MonoBehaviour
         {
 
             if (_forBlendPlay >= BlendLength)
+            {
                 _blendFlag = false;
-            _forBlendPlay++;
-            PlayBlendAnimation(thisClipNum, result.AnimClipIndex, _forBlendPlay,
-                animationClips.AnimClips[thisClipNum], animationClips.AnimClips[result.AnimClipIndex]);
-            //if we need play the last frame
-           
+                result.FrameNum = _forBlendPlay + thisClipNum;
+               
+                _forBlendPlay = 0;
+            }
+            else
+            {
+                _forBlendPlay++;
+                PlayBlendAnimation(thisClipNum, result.FrameNum, _forBlendPlay,
+                    animationClips.AnimClips[thisClip], animationClips.AnimClips[result.AnimClipIndex]);
+                //if we need play the last frame
+            }
         }
 
         //above moma setting

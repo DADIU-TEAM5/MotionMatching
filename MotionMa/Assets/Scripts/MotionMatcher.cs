@@ -17,7 +17,7 @@ public class MotionMatcher : MonoBehaviour
 
         bool isSameLocation = (BestFrameIndex == result.CapsuleNum) 
                                 || ((bestFrame.AnimClipName == result.ClipName) 
-                                && (Mathf.Abs(bestFrame.AnimClipIndex - result.AnimClipIndex) < 3));//Mathf.Abs(bestFrame.AnimClipIndex - result.AnimClipIndex) < 3
+                                && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < 3));//Mathf.Abs(bestFrame.AnimClipIndex - result.AnimClipIndex) < 3
         //Debug.Log(bestFrame.AnimClipName);
         //Debug.Log(bestFrame.FrameNum);
 
