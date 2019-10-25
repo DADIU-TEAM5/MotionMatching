@@ -312,6 +312,7 @@ MonoBehaviour:
   RotationSpeed: 5
   Second: 0.1
   SaveInSecond: 3
+  PredictSpeed: 20
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
@@ -714,10 +715,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecb709bd258d4543b1b515755d89a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
+  Speed: 1
   RotationSpeed: 5
   Second: 0.5
   SaveInSecond: 3
+  PredictSpeed: 20
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}

@@ -9,6 +9,7 @@ public class PlayerTrajectory : MonoBehaviour
     public float RotationSpeed = 5;
     public float Second = 1f;
     public int SaveInSecond = 10;
+    public int PredictSpeed = 20;
 
     public CapsuleScriptObject PlayerTrajectoryCapusule;
 
@@ -110,7 +111,7 @@ public class PlayerTrajectory : MonoBehaviour
         future[0] = currentPos;
         //var gap = currentRot*(inputVel * Second / SaveInSecond );
         //inputs.z = Input.GetAxis("Vertical");
-        var rotation = Quaternion.Euler(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * 10);
+        var rotation = Quaternion.Euler(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * PredictSpeed);
 
         for (int i = 0; i < SaveInSecond; i++)
         {

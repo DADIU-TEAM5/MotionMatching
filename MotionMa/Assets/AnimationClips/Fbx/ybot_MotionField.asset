@@ -15,5 +15,11 @@ MonoBehaviour:
   AnimClips:
   - {fileID: 11400000, guid: 96ef401fd6726be4bbd4e12d6c5fa02a, type: 2}
   - {fileID: 11400000, guid: 84980914bf2a79543a7cd46234ae1042, type: 2}
-  - {fileID: 11400000, guid: 2f3f432c1ba4fe340aace7508a9a41d5, type: 2}
   - {fileID: 11400000, guid: dc3fd47406cf1184cb9b4ec239bb9616, type: 2}
+  - {fileID: 11400000, guid: f0a2434fd69644a40ace95e34277da54, type: 2}
+  - {fileID: 11400000, guid: 2f3f432c1ba4fe340aace7508a9a41d5, type: 2}
+  - {fileID: 11400000, guid: fe2ead4cfbd2eda41b482eca13fa7f0a, type: 2}
+  - {fileID: 11400000, guid: 6dd8a9bfb34567245957a5542830df60, type: 2}
+  - {fileID: 11400000, guid: eea402e6449ef2c4baeeab63dd668884, type: 2}
+  - {fileID: 11400000, guid: 9f0edb3d3a4419d4fafd99bacd3e7d98, type: 2}
+  - {fileID: 11400000, guid: 73a7912fca0789c439d47f082225610b, type: 2}
