@@ -6,7 +6,7 @@ using System.Linq;
 public class CalculateCost
 {
     //todo change to piority queue or related
-    public int GetBestFrameIndex(AnimationCapsules animationCapsules, Capsule current,
+    private int GetBestFrameIndex(AnimationCapsules animationCapsules, Capsule current,
                                 AnimationClips animationClips)
     {
         int BestIndex = 0;

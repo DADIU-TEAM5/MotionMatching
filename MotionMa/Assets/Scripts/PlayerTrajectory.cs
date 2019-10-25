@@ -10,10 +10,16 @@ public class PlayerTrajectory : MonoBehaviour
     public float Second = 1f;
     public int SaveInSecond = 10;
     public int PredictSpeed = 20;
+    public float MoMaUpdateTime = 0.1f;
     //[Range(0, 1)]
     //public float BlendDegree= 0.1f;
     [Range(1, 30)]
     public int BlendLength = 1;
+
+    public AnimationCapsules animationCapsules;
+    public AnimationClips animationClips;
+    public Result result;
+
 
 
     public CapsuleScriptObject PlayerTrajectoryCapusule;
@@ -21,14 +27,12 @@ public class PlayerTrajectory : MonoBehaviour
     private Queue<Vector3> history = new Queue<Vector3>();
     private List<Vector3> future = new List<Vector3>();
     private float timer;
+
+    private float _tempMoMaTime;
+    private MotionMatcher _motionMatcher = new MotionMatcher();
+
     PlayAnimationByIndex player;
 
-
-
-
-    //
-    public Result result;
-    public AnimationClips animationClips;
     //public Transform Skeleton;
     //public CapsuleScriptObject current;
 
@@ -41,20 +45,36 @@ public class PlayerTrajectory : MonoBehaviour
         timer += Time.deltaTime;
         InitializeTrajectory();
         PlayerTrajectoryCapusule.Capsule = new Capsule();
-       
+        _tempMoMaTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
+        _tempMoMaTime += Time.deltaTime;
         var inputs = Vector3.zero;
 
 
-        
+        if (_tempMoMaTime > MoMaUpdateTime)
+        {
+            _motionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule, 
+                                                result, animationClips);
+            _tempMoMaTime = 0;
+        }
+        else
+            result.FrameNum++;
 
 
-        GetFrame(); //play animation here
+
+
+        PlayAnimationJoints(); //play animation here
+
+
+        //above moma setting
+
+        //follows player input
+
         Vector3 inputVel = UpdatePlayerState(inputs);
         //get player status now
         var currentPos = transform.localPosition;
@@ -142,11 +162,9 @@ public class PlayerTrajectory : MonoBehaviour
 
     }
     //Quaternion quaternion
-    public void GetFrame()
+    public void PlayAnimationJoints()
 
     {
-
-
         if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count)
         {
             //bug should get motion matching here??
@@ -155,7 +173,7 @@ public class PlayerTrajectory : MonoBehaviour
             PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
             PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
 
-            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
+            BlendAnimation(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
             //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
             transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
         }
@@ -164,7 +182,7 @@ public class PlayerTrajectory : MonoBehaviour
             PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
             PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
             PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
-            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
+            BlendAnimation(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
             //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
             transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
         }
@@ -215,10 +233,34 @@ public class PlayerTrajectory : MonoBehaviour
         //joint.position = Vector3.Lerp(joint.position, transform.TransformDirection(jointPoint.Position) + transform.position, 0.5f);
     }
 
-    private void BlendAnimation(AnimationJointPoint jointPoint)
+    //test once update
+    //todo test each update
+    private void BlendAnimation(AnimationFrame frame)
     {
+        for(int i= 0; i < BlendLength; i++)
+        {
+            Applyjoints(frame,1/BlendLength);
+        }
 
+        Applyjoints(frame, 1);
     }
+
+    private void Applyjoints(AnimationFrame frame, float blendrate)
+    {
+        foreach (var jointPoint in frame.JointPoints)
+        {
+            if (!SkeletonJoints.Keys.Contains(jointPoint.Name))
+            {
+                //Debug.LogError($"{jointPoint.Name} is not in the {Skeleton.name}");
+                continue;
+            }
+
+            var joint = SkeletonJoints[jointPoint.Name];
+            BlendJoints(jointPoint, joint, blendrate);
+        }
+    }
+
+
 
     private void BlendJoints(AnimationJointPoint jointPoint, Transform joint, float blendRate)
     {
