@@ -32,6 +32,7 @@ public class PlayerTrajectory : MonoBehaviour
     private MotionMatcher _motionMatcher = new MotionMatcher();
     private int _stratFrame = 3; //assume we know... todo get it!!!
     private bool _blendFlag = false;
+    private int _forBlendPlay = 0;
 
 
     PlayAnimationByIndex player;
@@ -61,19 +62,40 @@ public class PlayerTrajectory : MonoBehaviour
 
         //update motion matching including the blending
 
-        if (_tempMoMaTime > MoMaUpdateTime)
+        if (_blendFlag)
         {
-            _motionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule, 
-                                                result, animationClips);
-            _tempMoMaTime = 0;
+            if (_tempMoMaTime > MoMaUpdateTime)
+            {
+                var thisClipName = result.ClipName;
+                var thisClipNum = result.AnimClipIndex;
+
+                _motionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
+                                                    result, animationClips);
+                _tempMoMaTime = 0;
+
+                bool isSimilarMotion = ((thisClipName == result.ClipName)
+                                && (Mathf.Abs(thisClipNum - result.AnimClipIndex) < 3));
+                if (isSimilarMotion)
+                    PlayAnimationJoints(); //play animation here
+                else
+                {
+                   
+                    _forBlendPlay++;
+                    PlayBlendAnimation(thisClipNum, result.AnimClipIndex, _forBlendPlay,
+                       animationClips.AnimClips[thisClipNum], animationClips.AnimClips[result.AnimClipIndex]);
+                    //if we need play the last frame
+                    if (_forBlendPlay >= BlendLength)
+                        _blendFlag = false;
+
+                }
+
+            }
+            else
+            {
+                result.FrameNum++;
+                PlayAnimationJoints();
+            }
         }
-        else
-            result.FrameNum++;
-
-
-
-
-        PlayAnimationJoints(); //play animation here
 
 
         //above moma setting
@@ -242,6 +264,38 @@ public class PlayerTrajectory : MonoBehaviour
 
     //test once update
     //todo test each update
+
+    public void PlayBlendAnimation(int beginFrameIndex, int bestFrameIndex,
+                            int areadlyBlendedTimes, AnimClip beginClip, AnimClip bestClip)
+
+    {
+        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count)
+        {
+            //bug should get motion matching here??
+            result.FrameNum = 0; //should be start frame
+            PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
+            PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
+            PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
+
+            BlendAnimation(beginFrameIndex, bestFrameIndex, areadlyBlendedTimes,
+                       beginClip, bestClip);
+            //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
+            transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
+        }
+        else
+        {
+            PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
+            PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
+            PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
+            BlendAnimation(beginFrameIndex, bestFrameIndex, areadlyBlendedTimes,
+                      beginClip, bestClip);
+            //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
+            transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
+        }
+
+    }
+
+
     private void BlendAnimation(int beginFrameIndex, int bestFrameIndex,
                             int areadlyBlendedTimes, AnimClip beginClip, AnimClip bestClip)
     {
