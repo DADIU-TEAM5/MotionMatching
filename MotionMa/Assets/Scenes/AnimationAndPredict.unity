@@ -120,65 +120,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &114183427
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 114183428}
-  - component: {fileID: 114183429}
-  m_Layer: 0
-  m_Name: MoMa
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &114183428
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 114183427}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.7683532, y: 3.9673305, z: 3.9321084}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114183429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 114183427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76e9e070a693d4911b5f34828c6070c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 5
-  RotationSpeed: 5
-  Second: 1
-  SaveInSecond: 10
-  PredictSpeed: 20
-  MoMaUpdateTime: 0.1
-  BlendDegree: 0.5
-  BlendLength: 1
-  DifferentClipLength: 0
-  AnimationTrajectories: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e,
-    type: 2}
-  AnimationClips: {fileID: 11400000, guid: f92a5dc8ce7227c42bbdc21089d3c718, type: 2}
-  Results: {fileID: 11400000, guid: 64fe7a8e630a0c8439e1046605b6befa, type: 2}
-  Blend: 0
-  PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
-    type: 2}
 --- !u!1 &220461289
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,7 +548,7 @@ MonoBehaviour:
   DifferentClipLength: 5
   AnimationTrajectories: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e,
     type: 2}
-  AnimationClips: {fileID: 11400000, guid: f92a5dc8ce7227c42bbdc21089d3c718, type: 2}
+  AnimationClips: {fileID: 11400000, guid: d0bde56ebeb60034ba93eeab7afa8eb3, type: 2}
   Results: {fileID: 11400000, guid: 64fe7a8e630a0c8439e1046605b6befa, type: 2}
   Blend: 0
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
@@ -668,7 +609,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 3572358b9c6e523448e164f509c237d3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 3572358b9c6e523448e164f509c237d3,
         type: 3}

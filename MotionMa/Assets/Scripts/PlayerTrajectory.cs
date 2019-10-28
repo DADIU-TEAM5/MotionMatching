@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 
 public class PlayerTrajectory : MonoBehaviour
 {
@@ -37,8 +37,7 @@ public class PlayerTrajectory : MonoBehaviour
     private bool _blendFlag = false;
     private int _forBlendPlay = 0;
 
-    private PlayAnimationByIndex _playAnimationByIndex;
-    private BlendAnimations _blendAnimations;
+
     private MotionMatcher _motionMatcher;
 
 
@@ -51,8 +50,7 @@ public class PlayerTrajectory : MonoBehaviour
         GetAllChildren(transform);
        
         InitializeTrajectory();
-        _playAnimationByIndex = new PlayAnimationByIndex();
-        _blendAnimations = new BlendAnimations();
+
         _motionMatcher = new MotionMatcher();
 
         _timer = 0;
@@ -115,7 +113,7 @@ public class PlayerTrajectory : MonoBehaviour
             Results.FrameNum++;
 
 
-        _playAnimationByIndex.PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
+        PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
                                                 Results, AnimationClips, _skeletonJoints);
         transform.Rotate(rotationPlayer);
     }
@@ -134,12 +132,12 @@ public class PlayerTrajectory : MonoBehaviour
 
 
             if (isSimilarMotion)
-                _playAnimationByIndex.PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
+                PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
                                                 Results, AnimationClips, _skeletonJoints); 
             else
             {
                 _blendFlag = true;
-                _blendAnimations.PlayBlendAnimation(_skeletonJoints, BlendDegree,thisClipNum, thisClip,
+                PlayBlendAnimation(_skeletonJoints, BlendDegree, thisClipNum, thisClip,
                     Results, PlayerTrajectoryCapusule, AnimationClips,
                     _forBlendPlay, rotationPlayer);
             }
@@ -149,7 +147,7 @@ public class PlayerTrajectory : MonoBehaviour
         }
         else if (!_blendFlag)
         {
-            _playAnimationByIndex.PlayAnimationJoints( rotationPlayer, PlayerTrajectoryCapusule,
+            PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
                                                 Results, AnimationClips, _skeletonJoints);
             Results.FrameNum++;
         }
@@ -166,7 +164,7 @@ public class PlayerTrajectory : MonoBehaviour
             else
             {
                 _forBlendPlay++;
-                _blendAnimations.PlayBlendAnimation(_skeletonJoints, BlendDegree, thisClipNum, thisClip,
+                PlayBlendAnimation(_skeletonJoints, BlendDegree, thisClipNum, thisClip,
                      Results, PlayerTrajectoryCapusule, AnimationClips,
                      _forBlendPlay, rotationPlayer);
                 //if we need play the last frame
@@ -224,7 +222,7 @@ public class PlayerTrajectory : MonoBehaviour
         {
             var increase = Second / SaveInSecond * i;
             var gap_increase = Quaternion.ToEulerAngles(rotation) * increase;
-            var angle_increase = Quaternion.EulerRotation(gap_increase);
+            var angle_increase = Quaternion.Euler(gap_increase);
             var gap = (inputVel * increase);
             var futureP = (currentPos + angle_increase * currentRot * gap);
             _future[i] = futureP;
@@ -242,4 +240,116 @@ public class PlayerTrajectory : MonoBehaviour
         }
     }
 
+
+
+
+
+
+    //play animation
+    public void PlayAnimationJoints(Vector3 rotationPlayer,
+                                    CapsuleScriptObject current, Result result,
+                                    AnimationClips animationClips,
+                                    Dictionary<string, Transform> skeletonJoints)
+
+    {
+
+        current.Capsule.AnimClipIndex = result.AnimClipIndex;
+        current.Capsule.AnimClipName = result.ClipName;
+        current.Capsule.FrameNum = result.FrameNum;
+
+        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count - 3)
+            result.FrameNum = 0;
+
+
+        FrameToJoints(skeletonJoints,
+                       animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
+        transform.Rotate(rotationPlayer);
+    }
+
+    public void FrameToJoints(
+                              Dictionary<string, Transform> skeletonJoints,
+                              AnimationFrame frame)
+    {
+        foreach (var jointPoint in frame.JointPoints)
+        {
+            if (!skeletonJoints.Keys.Contains(jointPoint.Name))
+            {
+                continue;
+            }
+            var joint = skeletonJoints[jointPoint.Name];
+            ApplyJointPointToJoint(jointPoint, joint);
+        }
+    }
+
+
+    private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint)
+    {
+        joint.rotation = transform.rotation * jointPoint.Rotation;
+        joint.position = transform.TransformDirection(jointPoint.Position) + transform.position;
+    }
+
+
+
+
+
+
+
+
+
+    public void PlayBlendAnimation(Dictionary<string, Transform> skeletonJoints, float blendDegree,
+                            int beginFrameIndex, int beginAnimIndex, Result result, CapsuleScriptObject PlayerTrajectoryCapusule,
+                            AnimationClips animationClips, int areadlyBlendedTimes, Vector3 rotationEular)
+
+    {
+        int bestFrameIndex = result.FrameNum;
+        PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
+        PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
+        PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
+
+        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count - 3)//3 should be start frame 
+            result.FrameNum = 3; //3 should be start frame 
+
+        BlendAnimation(beginFrameIndex, bestFrameIndex, skeletonJoints,
+            areadlyBlendedTimes, animationClips.AnimClips[beginAnimIndex], animationClips.AnimClips[result.AnimClipIndex], blendDegree);
+        transform.Rotate(rotationEular);
+    }
+
+
+    private void BlendAnimation(int beginFrameIndex, int bestFrameIndex, Dictionary<string, Transform> skeletonJoints,
+                            int areadlyBlendedTimes, AnimClip beginClip, AnimClip bestClip, float blendDegree)
+    {
+        var blendStart = beginFrameIndex + areadlyBlendedTimes;
+        var blendEnd = bestFrameIndex + areadlyBlendedTimes;
+
+        BlendFrame(skeletonJoints, transform, beginClip.Frames[blendStart], bestClip.Frames[blendEnd], blendDegree);
+    }
+
+    private void BlendFrame(Dictionary<string, Transform> skeletonJoints, Transform transform,
+                                    AnimationFrame startFrame, AnimationFrame endFrame, float blendDegree)
+    {
+        for (int i = 0; i < startFrame.JointPoints.Count; i++)
+        {
+            var startJoint = startFrame.JointPoints[i];
+            var endJoint = endFrame.JointPoints[i];
+
+            var joint = skeletonJoints[startJoint.Name];
+            BlendJoints(startJoint, endJoint, joint, blendDegree, blendDegree);
+        }
+    }
+
+
+
+    private void BlendJoints(AnimationJointPoint startjointPoint, AnimationJointPoint endjointPoint,
+                             Transform joint, float blendRate, float blendDegree)
+    {
+
+        joint.rotation = transform.rotation * Quaternion.Lerp(startjointPoint.Rotation, endjointPoint.Rotation, blendDegree);
+        //more cost?
+        joint.position = Vector3.Lerp(transform.TransformDirection(startjointPoint.Position) + transform.position,
+                                        transform.TransformDirection(endjointPoint.Position) + transform.position, blendRate);
+    }
+
+
+
 }
+
