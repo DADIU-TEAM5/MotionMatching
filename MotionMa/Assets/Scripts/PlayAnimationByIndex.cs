@@ -1,104 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
-public class PlayAnimationByIndex : MonoBehaviour
+public class PlayAnimationByIndex : PlayerTrajectory
 {
-    public Result result;
-    public AnimationClips animationClips;
-    public Transform Skeleton;
-    public CapsuleScriptObject current;
-
-
-    private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
-
-
-    private void Start()
-    {
-        GetAllChildren(Skeleton);
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-    public void GetFrame()
+    public void PlayAnimationJoints(Vector3 rotationPlayer,
+                                    CapsuleScriptObject current, Result result, 
+                                    AnimationClips animationClips,
+                                    Dictionary<string, Transform> skeletonJoints)
 
     {
 
+        current.Capsule.AnimClipIndex = result.AnimClipIndex;
+        current.Capsule.AnimClipName = result.ClipName;
+        current.Capsule.FrameNum = result.FrameNum;
 
-        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count)
-        {
+        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count - 3)
             result.FrameNum = 0;
-            current.Capsule.AnimClipIndex = result.AnimClipIndex;
-            current.Capsule.AnimClipName = result.ClipName;
-            current.Capsule.FrameNum = result.FrameNum;
-            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
-            
-        }
-        else
-        {
-            current.Capsule.AnimClipIndex = result.AnimClipIndex;
-            current.Capsule.AnimClipName = result.ClipName;
-            current.Capsule.FrameNum = result.FrameNum;
-            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
-        }
-            
+                   
+        
+        FrameToJoints( skeletonJoints, 
+                       animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
+        transform.Rotate(rotationPlayer);
     }
 
-    public void FrameToJoints(AnimationFrame frame)
+    public void FrameToJoints(
+                              Dictionary<string, Transform> skeletonJoints,
+                              AnimationFrame frame)
     {
-        //Debug.Log(frame.Velocity);
-        //Debug.Log((int)(value * AnimationClip.Frames.Count));
         foreach (var jointPoint in frame.JointPoints)
         {
-            if (!SkeletonJoints.Keys.Contains(jointPoint.Name))
-            {
-                //Debug.LogError($"{jointPoint.Name} is not in the {Skeleton.name}");
-                continue;
-            }
 
-            var joint = SkeletonJoints[jointPoint.Name];
+            var joint = skeletonJoints[jointPoint.Name];
             ApplyJointPointToJoint(jointPoint, joint);
         }
     }
 
 
-    private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint)
+    private void ApplyJointPointToJoint( AnimationJointPoint jointPoint, Transform joint)
     {
-        //if (jointPoint.Name == "Root")
-        //{
-        //    joint.rotation = Skeleton.rotation * jointPoint.Rotation;
-        //    joint.position = Skeleton.position + jointPoint.Position;
-
-        //}
-        //else
-        //{
-            //var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
-            //var newEulerRot = jointPoint.Rotation * jointPoint.BaseRotation;
-            //joint.rotation = newEulerRot;
             joint.rotation = jointPoint.Rotation;
-            //joint.rotation = Skeleton.rotation * (newEulerRot);
-            joint.position = Skeleton.position + jointPoint.Position;
-
-            //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);
-        //}
-    }
-
-
-    private void GetAllChildren(Transform trans)
-    {
-        //SkeletonJoints.Add("Root", trans);
-        foreach (Transform child in trans)
-        {
-            if (child.childCount > 0) GetAllChildren(child);
-            SkeletonJoints.Add(child.name, child);
-        }
+            joint.position = transform.TransformDirection(transform.position)  + jointPoint.Position;
     }
 
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class MotionMatcher : PlayerTrajectory
+public class MotionMatcher
 {
 
-    public static void GetMotionAndFrame(AnimationCapsules animationCapsules, CapsuleScriptObject current, 
+    public void GetMotionAndFrame(AnimationCapsules animationCapsules, CapsuleScriptObject current, 
                                     Result result, AnimationClips animationClips, int differentClipLength)
     {
         var bestFrameIndex = CalculateCost.GetBestFrameIndex(animationCapsules, current.Capsule, animationClips);

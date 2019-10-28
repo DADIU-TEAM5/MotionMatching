@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+
 
 public class PlayerTrajectory : MonoBehaviour
 {
@@ -20,123 +20,128 @@ public class PlayerTrajectory : MonoBehaviour
     public int DifferentClipLength = 10;
 
 
-    public AnimationCapsules animationCapsules;
-    public AnimationClips animationClips;
-    public Result result;
+    public AnimationCapsules AnimationTrajectories;
+    public AnimationClips AnimationClips;
+    public Result Results;
     public bool Blend = false;
-    
-
-
+    //it is okay for static?
     public CapsuleScriptObject PlayerTrajectoryCapusule;
 
-    private Queue<Vector3> history = new Queue<Vector3>();
-    private List<Vector3> future = new List<Vector3>();
-    private float timer;
 
+
+    private Queue<Vector3> _history = new Queue<Vector3>();
+    private List<Vector3> _future = new List<Vector3>();
+    private float _timer;
     private float _tempMoMaTime;
-    //private MotionMatcher _motionMatcher = new MotionMatcher();
     private int _stratFrame = 3; //assume we know... todo get it!!!
     private bool _blendFlag = false;
     private int _forBlendPlay = 0;
 
-
-    PlayAnimationByIndex player;
-
-    //public Transform Skeleton;
-    //public CapsuleScriptObject current;
+    private PlayAnimationByIndex _playAnimationByIndex;
+    private BlendAnimations _blendAnimations;
+    private MotionMatcher _motionMatcher;
 
 
-    private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
+    private Dictionary<string, Transform> _skeletonJoints = new Dictionary<string, Transform>();
+
 
     //i can't believe it is too long
     void Start()
     {
         GetAllChildren(transform);
-        timer += Time.deltaTime;
+       
         InitializeTrajectory();
-        PlayerTrajectoryCapusule.Capsule = new Capsule();
+        _playAnimationByIndex = new PlayAnimationByIndex();
+        _blendAnimations = new BlendAnimations();
+        _motionMatcher = new MotionMatcher();
+
+        _timer = 0;
         _tempMoMaTime = 0;
-        result.FrameNum = 0;
-        result.AnimClipIndex = 0;
+        Results.FrameNum = 0;
+        Results.AnimClipIndex = 0;
+
+        PlayerTrajectoryCapusule.Capsule = new Capsule();
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
+        _timer += Time.deltaTime;
         _tempMoMaTime += Time.deltaTime;
         var inputs = Vector3.zero;
 
-        int thisClip = result.AnimClipIndex;
-        int thisClipNum = result.FrameNum;
+        int thisClip = Results.AnimClipIndex;
+        int thisClipNum = Results.FrameNum;
 
-        //update motion matching including the blending
-
-       
-        //above moma setting
-
-        //follows player input
+        var rotationPlayer = Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed;
 
         Vector3 inputVel = UpdatePlayerState(inputs);
         //get player status now
         var currentPos = transform.localPosition;
         var currentRot = transform.rotation;
         HistoryTrajectory(currentPos);
-        PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = history.ToArray();
+        PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = _history.ToArray();
 
         FuturePredict(currentPos, inputVel, currentRot);
-        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = future.ToArray();
+        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = _future.ToArray();
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
 
         if (Blend)
-            UpdateWithBlend(thisClip, thisClipNum);
+            UpdateWithBlend(thisClip, thisClipNum, rotationPlayer);
         else
-            UpdateWithoutBlend(thisClip, thisClipNum);
+            UpdateWithoutBlend(thisClip, thisClipNum, rotationPlayer);
 
     }
-    private void UpdateWithoutBlend(int thisClip, int thisClipNum)
+    private void UpdateWithoutBlend(int thisClip, int thisClipNum, Vector3 rotationPlayer)
     {
         if (_tempMoMaTime > MoMaUpdateTime)
         {
-            MotionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
-                                              result, animationClips, DifferentClipLength);
-            bool isSimilarMotion = ((thisClip == result.AnimClipIndex)
-                          && (Mathf.Abs(thisClipNum - result.FrameNum) < DifferentClipLength));
+            _motionMatcher.GetMotionAndFrame(AnimationTrajectories, PlayerTrajectoryCapusule,
+                                              Results, AnimationClips, DifferentClipLength);
+            bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
+                          && (Mathf.Abs(thisClipNum - Results.FrameNum) < DifferentClipLength));
 
             //todo if same motion, result changes (should have another struct contrl)
             if (isSimilarMotion)
             {
-                result.AnimClipIndex = thisClip;
-                result.FrameNum = thisClipNum;
-                result.FrameNum++;
+                Results.AnimClipIndex = thisClip;
+                Results.FrameNum = thisClipNum;
+                Results.FrameNum++;
             }
-            
+
         }
-        
-        PlayAnimationJoints();
+        else
+            Results.FrameNum++;
+
+
+        _playAnimationByIndex.PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
+                                                Results, AnimationClips, _skeletonJoints);
+        transform.Rotate(rotationPlayer);
     }
 
 
-    private void UpdateWithBlend(int thisClip, int thisClipNum)
+    private void UpdateWithBlend(int thisClip, int thisClipNum, Vector3 rotationPlayer)
     {
         if (_tempMoMaTime > MoMaUpdateTime)
         {
-            MotionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
-                                                result, animationClips, DifferentClipLength);
+            _motionMatcher.GetMotionAndFrame(AnimationTrajectories, PlayerTrajectoryCapusule,
+                                                Results, AnimationClips, DifferentClipLength);
             _tempMoMaTime = 0;
 
-            bool isSimilarMotion = ((thisClip == result.AnimClipIndex)
-                            && (Mathf.Abs(thisClipNum - result.FrameNum) < DifferentClipLength));
+            bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
+                            && (Mathf.Abs(thisClipNum - Results.FrameNum) < DifferentClipLength));
 
 
             if (isSimilarMotion)
-                PlayAnimationJoints(); //play animation here
+                _playAnimationByIndex.PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
+                                                Results, AnimationClips, _skeletonJoints); 
             else
             {
                 _blendFlag = true;
-                PlayBlendAnimation(thisClipNum, result.FrameNum, _forBlendPlay,
-                animationClips.AnimClips[thisClip], animationClips.AnimClips[result.AnimClipIndex]);
+                _blendAnimations.PlayBlendAnimation(_skeletonJoints, BlendDegree,thisClipNum, thisClip,
+                    Results, PlayerTrajectoryCapusule, AnimationClips,
+                    _forBlendPlay, rotationPlayer);
             }
 
 
@@ -144,8 +149,9 @@ public class PlayerTrajectory : MonoBehaviour
         }
         else if (!_blendFlag)
         {
-            PlayAnimationJoints();
-            result.FrameNum++;
+            _playAnimationByIndex.PlayAnimationJoints( rotationPlayer, PlayerTrajectoryCapusule,
+                                                Results, AnimationClips, _skeletonJoints);
+            Results.FrameNum++;
         }
         else
         {
@@ -153,15 +159,16 @@ public class PlayerTrajectory : MonoBehaviour
             if (_forBlendPlay >= BlendLength)
             {
                 _blendFlag = false;
-                result.FrameNum = _forBlendPlay + thisClipNum;
+                Results.FrameNum = _forBlendPlay + thisClipNum;
 
                 _forBlendPlay = 0;
             }
             else
             {
                 _forBlendPlay++;
-                PlayBlendAnimation(thisClipNum, result.FrameNum, _forBlendPlay,
-                    animationClips.AnimClips[thisClip], animationClips.AnimClips[result.AnimClipIndex]);
+                _blendAnimations.PlayBlendAnimation(_skeletonJoints, BlendDegree, thisClipNum, thisClip,
+                     Results, PlayerTrajectoryCapusule, AnimationClips,
+                     _forBlendPlay, rotationPlayer);
                 //if we need play the last frame
             }
         }
@@ -178,10 +185,10 @@ public class PlayerTrajectory : MonoBehaviour
 
     private void InitializeTrajectory()
     {
-        while (history.Count < SaveInSecond)
+        while (_history.Count < SaveInSecond)
         {
-            history.Enqueue(transform.localPosition);
-            future.Add(transform.localPosition);
+            _history.Enqueue(transform.localPosition);
+            _future.Add(transform.localPosition);
         }
     }
 
@@ -199,189 +206,30 @@ public class PlayerTrajectory : MonoBehaviour
     private void HistoryTrajectory(Vector3 currentPos)
     {
         //save History only in the gap
-        if (timer > (Second / SaveInSecond))
+        if (_timer > (Second / SaveInSecond))
         {
-            timer = 0;
-            history.Dequeue();
-            history.Enqueue(currentPos);
+            _timer = 0;
+            _history.Dequeue();
+            _history.Enqueue(currentPos);
         }
     }
 
-    //need to update every time by player input
     private void FuturePredict(Vector3 currentPos, Vector3 inputVel, Quaternion currentRot)
     {
-        future[0] = currentPos;
-        //var gap = currentRot*(inputVel * Second / SaveInSecond );
-        //inputs.z = Input.GetAxis("Vertical");
+        _future[0] = currentPos;
+
         var rotation = Quaternion.Euler(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * PredictSpeed);
 
         for (int i = 0; i < SaveInSecond; i++)
         {
-            /*
-            var increasement = Second / SaveInSecond * i;
-            var gap = currentRot * (inputVel * increasement);
-            var inputs_increase = increasement * inputs;
-            var angle_increase = Quaternion.EulerRotation(inputs_increase);
-
-            var futureP = (currentPos + angle_increase *gap);
-
-            future[i] = futureP;
-            */
             var increase = Second / SaveInSecond * i;
             var gap_increase = Quaternion.ToEulerAngles(rotation) * increase;
             var angle_increase = Quaternion.EulerRotation(gap_increase);
             var gap = (inputVel * increase);
             var futureP = (currentPos + angle_increase * currentRot * gap);
-            future[i] = futureP;
-
-
+            _future[i] = futureP;
         }
 
-    }
-    //Quaternion quaternion
-    public void PlayAnimationJoints()
-
-    {
-        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count)
-        {
-            //bug should get motion matching here??
-            result.FrameNum = 0; //should be start frame
-            PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
-            PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
-            PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
-
-            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
-            //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
-            transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
-        }
-        else
-        {
-            PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
-            PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
-            PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
-            FrameToJoints(animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
-            //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
-            transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
-        }
-
-    }
-
-    public void FrameToJoints(AnimationFrame frame)
-    {
-        //Debug.Log(frame.Velocity);
-        //Debug.Log((int)(value * AnimationClip.Frames.Count));
-        foreach (var jointPoint in frame.JointPoints)
-        {
-            if (!SkeletonJoints.Keys.Contains(jointPoint.Name))
-            {
-                //Debug.LogError($"{jointPoint.Name} is not in the {Skeleton.name}");
-                continue;
-            }
-
-            var joint = SkeletonJoints[jointPoint.Name];
-            ApplyJointPointToJoint(jointPoint, joint);
-        }
-    }
-
-
-    private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint)
-    {
-        //if (jointPoint.Name == "Root")
-        //{
-        //    joint.rotation = Skeleton.rotation * jointPoint.Rotation;
-        //    joint.position = Skeleton.position + jointPoint.Position;
-
-        //}
-        //else
-        //{
-        //var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
-        //var newEulerRot = jointPoint.Rotation * jointPoint.BaseRotation;
-        //joint.rotation = newEulerRot;
-        //joint.rotation = transform.rotation * Quaternion.Inverse(joint.localRotation) * jointPoint.Rotation;
-        //joint.rotation = Skeleton.rotation * (newEulerRot);
-        joint.rotation = transform.rotation * jointPoint.Rotation;
-        joint.position = transform.TransformDirection(jointPoint.Position) + transform.position;
-
-        //joint.SetPositionAndRotation(jointPoint.Position, jointPoint.Rotation);
-        //}
-
-        //blend every time??
-        //joint.rotation = transform.rotation * jointPoint.Rotation;
-        //joint.position = Vector3.Lerp(joint.position, transform.TransformDirection(jointPoint.Position) + transform.position, 0.5f);
-    }
-
-
-
-    //test once update
-    //todo test each update
-
-    public void PlayBlendAnimation(int beginFrameIndex, int bestFrameIndex,
-                            int areadlyBlendedTimes, AnimClip beginClip, AnimClip bestClip)
-
-    {
-        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count)
-        {
-            //bug should get motion matching here??
-            result.FrameNum = 3; //should be start frame
-            PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
-            PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
-            PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
-
-            BlendAnimation(beginFrameIndex, bestFrameIndex, areadlyBlendedTimes,
-                       beginClip, bestClip);
-            //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
-            transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
-        }
-        else
-        {
-            PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
-            PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
-            PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
-            BlendAnimation(beginFrameIndex, bestFrameIndex, areadlyBlendedTimes,
-                      beginClip, bestClip);
-            //transform.Rotate(Quaternion.ToEulerAngles(quaternion));
-            transform.Rotate(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed);
-        }
-
-    }
-
-
-    private void BlendAnimation(int beginFrameIndex, int bestFrameIndex,
-                            int areadlyBlendedTimes, AnimClip beginClip, AnimClip bestClip)
-    {
-        var blendStart = beginFrameIndex + areadlyBlendedTimes;
-        var blendEnd = bestFrameIndex + areadlyBlendedTimes;
-
-        BlendFrame(beginClip.Frames[blendStart], bestClip.Frames[blendEnd], BlendDegree);
-    }
-
-    private void BlendFrame(AnimationFrame startFrame, AnimationFrame endFrame, float blendDegree)
-    {
-        for (int i = 0; i < startFrame.JointPoints.Count; i++)
-        {
-            var startJoint = startFrame.JointPoints[i];
-            if (!SkeletonJoints.Keys.Contains(startJoint.Name))
-            {
-                //Debug.LogError($"{jointPoint.Name} is not in the {Skeleton.name}");
-                continue;
-            }
-
-            var endJoint = endFrame.JointPoints[i];
-            var joint = SkeletonJoints[startJoint.Name];
-            BlendJoints(startJoint, endJoint, joint, blendDegree);
-        }
-    }
-
-
-
-    private void BlendJoints(AnimationJointPoint startjointPoint, AnimationJointPoint endjointPoint,
-                             Transform joint, float blendRate)
-    {
-
-        joint.rotation = transform.rotation * Quaternion.Lerp(startjointPoint.Rotation, endjointPoint.Rotation, BlendDegree);
-        //more cost?
-        joint.position = Vector3.Lerp(transform.TransformDirection(startjointPoint.Position) + transform.position,
-                                        transform.TransformDirection(endjointPoint.Position) + transform.position, blendRate);
     }
 
     private void GetAllChildren(Transform trans)
@@ -390,7 +238,7 @@ public class PlayerTrajectory : MonoBehaviour
         foreach (Transform child in trans)
         {
             if (child.childCount > 0) GetAllChildren(child);
-            SkeletonJoints.Add(child.name, child);
+            _skeletonJoints.Add(child.name, child);
         }
     }
 

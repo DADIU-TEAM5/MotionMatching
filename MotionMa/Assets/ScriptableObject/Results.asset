@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cce2ec2ae93474e4d9c1a83cdefbed95, type: 3}
-  m_Name: DebugResult
+  m_Name: Results
   m_EditorClassIdentifier: 
-  ClipName: Idle
-  FrameNum: 48
+  ClipName: 
+  FrameNum: 0
   AnimClipIndex: 0
-  CapsuleNum: 40
+  CapsuleNum: 0
