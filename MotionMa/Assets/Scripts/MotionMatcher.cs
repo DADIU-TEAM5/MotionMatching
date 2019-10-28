@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class MotionMatcher : MonoBehaviour
+public class MotionMatcher : PlayerTrajectory
 {
 
     // Start is called before the first frame update
     // Update is called once per frame
 
-    public void GetMotionAndFrame(AnimationCapsules animationCapsules, CapsuleScriptObject current, 
+    public static void GetMotionAndFrame(AnimationCapsules animationCapsules, CapsuleScriptObject current, 
                                     Result result, AnimationClips animationClips)
     {
         var BestFrameIndex = GetBestFrameIndex(animationCapsules, current.Capsule, animationClips);
@@ -41,7 +41,7 @@ public class MotionMatcher : MonoBehaviour
     }
 
 
-    public int GetBestFrameIndex(AnimationCapsules animationCapsules, Capsule current,
+    public static int GetBestFrameIndex(AnimationCapsules animationCapsules, Capsule current,
                                 AnimationClips animationClips)
     {
         int BestIndex = 0;
@@ -73,7 +73,7 @@ public class MotionMatcher : MonoBehaviour
     //    public List<float> scores;
     //    public List<int> frameindex;
     //}
-    private float JointsCost(AnimationFrame animation, AnimationFrame current)
+    private static float JointsCost(AnimationFrame animation, AnimationFrame current)
     {
         float allCost = 0;
         for (int j = 0; j < animation.JointPoints.Count; j++)
@@ -83,13 +83,13 @@ public class MotionMatcher : MonoBehaviour
         return allCost;
     }
 
-    private float BoneCost(AnimationJointPoint frameBone, AnimationJointPoint currentBone)
+    private static float BoneCost(AnimationJointPoint frameBone, AnimationJointPoint currentBone)
     {
         var posCost = (frameBone.Position - currentBone.Position).sqrMagnitude;
         return posCost;
     }
 
-    private List<int> FindBestTrajectories(AnimationCapsules animationCapsules, Capsule current)
+    private static List<int> FindBestTrajectories(AnimationCapsules animationCapsules, Capsule current)
     {
 
         int bestNum = 20;
@@ -120,7 +120,7 @@ public class MotionMatcher : MonoBehaviour
         return frameindex;
     }
 
-    private float TrajectoryCost(Capsule frame, Capsule current)
+    private static float TrajectoryCost(Capsule frame, Capsule current)
     {
         float trajectoryCost = 0;
         //assume future length == history

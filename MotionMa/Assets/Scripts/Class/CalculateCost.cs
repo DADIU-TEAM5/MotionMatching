@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class CalculateCost
+public class CalculateCost 
 {
     //todo change to piority queue or related
     private int GetBestFrameIndex(AnimationCapsules animationCapsules, Capsule current,

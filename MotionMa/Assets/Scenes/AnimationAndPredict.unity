@@ -163,6 +163,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e9e070a693d4911b5f34828c6070c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 5
+  RotationSpeed: 5
+  Second: 1
+  SaveInSecond: 10
+  PredictSpeed: 20
+  MoMaUpdateTime: 0.1
+  BlendDegree: 0.5
+  BlendLength: 1
+  DifferentClipLength: 0
+  animationCapsules: {fileID: 0}
+  animationClips: {fileID: 0}
+  result: {fileID: 0}
+  Blend: 0
+  PlayerTrajectoryCapusule: {fileID: 0}
 --- !u!1 &220461289
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +300,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 443022544}
   m_LocalRotation: {x: -0, y: 0.5493861, z: -0, w: 0.83556867}
-  m_LocalPosition: {x: -9.127469, y: 1, z: -4.009811}
+  m_LocalPosition: {x: -9.127469, y: 1.06, z: -2.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1924439495}
@@ -310,10 +324,13 @@ MonoBehaviour:
   SaveInSecond: 3
   PredictSpeed: 20
   MoMaUpdateTime: 0.1
+  BlendDegree: 0.5
   BlendLength: 1
+  DifferentClipLength: 0
   animationCapsules: {fileID: 0}
   animationClips: {fileID: 11400000, guid: d0bde56ebeb60034ba93eeab7afa8eb3, type: 2}
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
+  Blend: 0
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
 --- !u!114 &850069642
@@ -720,10 +737,13 @@ MonoBehaviour:
   SaveInSecond: 3
   PredictSpeed: 20
   MoMaUpdateTime: 0.3
-  BlendLength: 3
+  BlendDegree: 0.5
+  BlendLength: 7
+  DifferentClipLength: 5
   animationCapsules: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e, type: 2}
   animationClips: {fileID: 11400000, guid: d0bde56ebeb60034ba93eeab7afa8eb3, type: 2}
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
+  Blend: 0
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
 --- !u!4 &1924439495 stripped

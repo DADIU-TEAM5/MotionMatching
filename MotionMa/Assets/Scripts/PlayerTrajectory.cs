@@ -16,12 +16,15 @@ public class PlayerTrajectory : MonoBehaviour
     public float BlendDegree = 0.5f;
     [Range(1, 30)]
     public int BlendLength = 1;
+    [Range(3, 40)]
+    public int DifferentClipLength = 10;
+
 
     public AnimationCapsules animationCapsules;
     public AnimationClips animationClips;
     public Result result;
     public bool Blend = false;
-
+    
 
 
     public CapsuleScriptObject PlayerTrajectoryCapusule;
@@ -31,7 +34,7 @@ public class PlayerTrajectory : MonoBehaviour
     private float timer;
 
     private float _tempMoMaTime;
-    private MotionMatcher _motionMatcher = new MotionMatcher();
+    //private MotionMatcher _motionMatcher = new MotionMatcher();
     private int _stratFrame = 3; //assume we know... todo get it!!!
     private bool _blendFlag = false;
     private int _forBlendPlay = 0;
@@ -96,20 +99,21 @@ public class PlayerTrajectory : MonoBehaviour
     {
         if (_tempMoMaTime > MoMaUpdateTime)
         {
-            _motionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
+            MotionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
                                               result, animationClips);
-            //bool isSimilarMotion = ((thisClip == result.AnimClipIndex)
-            //              && (Mathf.Abs(thisClipNum - result.FrameNum) < 3));
+            bool isSimilarMotion = ((thisClip == result.AnimClipIndex)
+                          && (Mathf.Abs(thisClipNum - result.FrameNum) < DifferentClipLength));
 
-            ////todo if same motion, result changes (should have another struct contrl)
-            //if (isSimilarMotion)
-            //    result.FrameNum++; //play animation here
+            //todo if same motion, result changes (should have another struct contrl)
+            if (isSimilarMotion)
+            {
+                result.AnimClipIndex = thisClip;
+                result.FrameNum = thisClipNum;
+                result.FrameNum++;
+            }
+            
         }
-        else
-        {
-            result.FrameNum++;
-
-        }
+        
         PlayAnimationJoints();
     }
 
@@ -120,12 +124,12 @@ public class PlayerTrajectory : MonoBehaviour
         {
             thisClip = result.AnimClipIndex;
             thisClipNum = result.FrameNum;
-            _motionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
+            MotionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
                                                 result, animationClips);
             _tempMoMaTime = 0;
 
             bool isSimilarMotion = ((thisClip == result.AnimClipIndex)
-                            && (Mathf.Abs(thisClipNum - result.FrameNum) < 3));
+                            && (Mathf.Abs(thisClipNum - result.FrameNum) < DifferentClipLength));
 
 
             if (isSimilarMotion)
@@ -320,7 +324,7 @@ public class PlayerTrajectory : MonoBehaviour
         if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count)
         {
             //bug should get motion matching here??
-            result.FrameNum = 0; //should be start frame
+            result.FrameNum = 3; //should be start frame
             PlayerTrajectoryCapusule.Capsule.AnimClipIndex = result.AnimClipIndex;
             PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
             PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
