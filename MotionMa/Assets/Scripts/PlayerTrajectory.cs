@@ -97,6 +97,7 @@ public class PlayerTrajectory : MonoBehaviour
         {
             _motionMatcher.GetMotionAndFrame(AnimationTrajectories, PlayerTrajectoryCapusule,
                                               Results, AnimationClips, DifferentClipLength);
+            _tempMoMaTime = 0;
             bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
                           && (Mathf.Abs(thisClipNum - Results.FrameNum) < DifferentClipLength));
 

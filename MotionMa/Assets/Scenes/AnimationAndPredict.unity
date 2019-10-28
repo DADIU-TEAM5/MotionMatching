@@ -542,15 +542,15 @@ MonoBehaviour:
   Second: 0.5
   SaveInSecond: 3
   PredictSpeed: 20
-  MoMaUpdateTime: 0.3
+  MoMaUpdateTime: 0.86
   BlendDegree: 0.5
   BlendLength: 7
-  DifferentClipLength: 5
+  DifferentClipLength: 16
   AnimationTrajectories: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e,
     type: 2}
   AnimationClips: {fileID: 11400000, guid: d0bde56ebeb60034ba93eeab7afa8eb3, type: 2}
   Results: {fileID: 11400000, guid: 64fe7a8e630a0c8439e1046605b6befa, type: 2}
-  Blend: 0
+  Blend: 1
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
 --- !u!4 &1924439495 stripped
