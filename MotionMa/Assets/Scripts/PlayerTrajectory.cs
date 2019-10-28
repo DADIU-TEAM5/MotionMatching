@@ -48,17 +48,15 @@ public class PlayerTrajectory : MonoBehaviour
     void Start()
     {
         GetAllChildren(transform);
-       
         InitializeTrajectory();
 
         _motionMatcher = new MotionMatcher();
+        PlayerTrajectoryCapusule.Capsule = new Capsule();
 
         _timer = 0;
         _tempMoMaTime = 0;
         Results.FrameNum = 0;
         Results.AnimClipIndex = 0;
-
-        PlayerTrajectoryCapusule.Capsule = new Capsule();
     }
 
     // Update is called once per frame
@@ -74,16 +72,10 @@ public class PlayerTrajectory : MonoBehaviour
         var rotationPlayer = Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed;
 
         Vector3 inputVel = UpdatePlayerState(inputs);
-        //get player status now
-        var currentPos = transform.localPosition;
-        var currentRot = transform.rotation;
-        HistoryTrajectory(currentPos);
-        PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = _history.ToArray();
+        
 
-        FuturePredict(currentPos, inputVel, currentRot);
-        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = _future.ToArray();
-        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
-        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
+       
+        GetRelativeTrajectory(inputVel);
 
         if (Blend)
             UpdateWithBlend(thisClip, thisClipNum, rotationPlayer);
@@ -91,8 +83,27 @@ public class PlayerTrajectory : MonoBehaviour
             UpdateWithoutBlend(thisClip, thisClipNum, rotationPlayer);
 
     }
+
+
+    //todo add attack motion
+    private void GetRelativeTrajectory(Vector3 inputVel)
+    {
+        var currentPos = transform.localPosition;
+        var currentRot = transform.rotation;
+
+        HistoryTrajectory(currentPos);
+        PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = _history.ToArray();
+
+        FuturePredict(currentPos, inputVel, currentRot);
+        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = _future.ToArray();
+
+        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
+        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
+    }
+
     private void UpdateWithoutBlend(int thisClip, int thisClipNum, Vector3 rotationPlayer)
     {
+
         if (_tempMoMaTime > MoMaUpdateTime)
         {
             _motionMatcher.GetMotionAndFrame(AnimationTrajectories, PlayerTrajectoryCapusule,
@@ -128,6 +139,7 @@ public class PlayerTrajectory : MonoBehaviour
                                                 Results, AnimationClips, DifferentClipLength);
             _tempMoMaTime = 0;
 
+
             bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
                             && (Mathf.Abs(thisClipNum - Results.FrameNum) < DifferentClipLength));
 
@@ -144,7 +156,6 @@ public class PlayerTrajectory : MonoBehaviour
             }
 
 
-
         }
         else if (!_blendFlag)
         {
@@ -158,7 +169,7 @@ public class PlayerTrajectory : MonoBehaviour
             if (_forBlendPlay >= BlendLength)
             {
                 _blendFlag = false;
-                Results.FrameNum = _forBlendPlay + thisClipNum;
+                Results.FrameNum = _forBlendPlay + thisClipNum; //not correct
 
                 _forBlendPlay = 0;
             }
@@ -173,13 +184,13 @@ public class PlayerTrajectory : MonoBehaviour
         }
     }
 
+
     private void transToRelative(Vector3[] vector3s, Vector3 current)
     {
         for (int i = 0; i < vector3s.Length; i++)
         {
             vector3s[i] = transform.InverseTransformDirection((vector3s[i] - current));
         }
-        //vector3s[0] = new Vector3(0, 0, 0);
     }
 
     private void InitializeTrajectory()
