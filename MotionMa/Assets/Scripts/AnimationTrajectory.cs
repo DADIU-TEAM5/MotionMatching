@@ -2,23 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationTrajectory
+public class AnimationTrajectory : PreProcess
 {
 
-
-    // Start is called before the first frame update
-    //public void ObatainTrajectory(float second, int saveInSecond, int frameRate,
-    //                            AnimationClips animationClips)
-    //{
-    //    SaveGap = (int)(second * frameRate / saveInSecond);
-    //    capsules = new List<Capsule>();
-    //    for (int i = 0; i < animationClips.AnimClips.Count; i++)
-    //        ObtainRootFromAnim(animationClips.AnimClips[i],i);
-    //}
-
-
-
-    public void ObtainRootFromAnim(float second, int saveInSecond, int frameRate,
+    public static void ObtainRootFromAnim(float second, int saveInSecond, int frameRate,
                                     AnimClip animClip, int animIndex, int speed, List<Capsule> capsules)
     {
 
@@ -55,7 +42,7 @@ public class AnimationTrajectory
  
     }
 
-    private void GetTrajectory(int saveInSecond, int saveGap, Capsule currentCapsule,
+    private static void GetTrajectory(int saveInSecond, int saveGap, Capsule currentCapsule,
                                 AnimClip animClip, int index, int speed,
                                 List<Vector3> fureturepositions,
                                 List<Vector3> historypositions)
@@ -65,19 +52,21 @@ public class AnimationTrajectory
             var futureindex = index + i * saveGap;
             var furetureJoint = animClip.Frames[futureindex].JointPoints.Find(x => x.Name.Contains("Hips"));
 
-            //var currentRotation = currentJoint.Rotation;
-            var relativePos = furetureJoint.Position - currentCapsule.CurrentPosition;
-            relativePos.y = 0;
-            //var relativeRot = furetureJoint.Rotation * Quaternion.Inverse(currentRotation);
-            fureturepositions.Add(Quaternion.Inverse(furetureJoint.Rotation) * relativePos* speed);
+            
+            var futureRelativePos = (furetureJoint.Position - currentCapsule.CurrentPosition) * speed;
+            futureRelativePos.y = 0; // assum we have no jump now
+            var futureRotatedBackPos = Quaternion.Inverse(furetureJoint.Rotation) * futureRelativePos;
+            fureturepositions.Add(futureRotatedBackPos);
 
 
+            //same for history
             var historyIndex = index - i * saveGap;
             var hisJoint = animClip.Frames[historyIndex].JointPoints.Find(x => x.Name.Contains("Hips"));
-            relativePos = hisJoint.Position - currentCapsule.CurrentPosition;
-            relativePos.y = 0;
-            //relativeRot = hisJoint.Rotation * Quaternion.Inverse(currentRotation);
-            historypositions.Add(Quaternion.Inverse(furetureJoint.Rotation) * relativePos* speed);
+
+            var hisRelativePos = (hisJoint.Position - currentCapsule.CurrentPosition) * speed;
+            hisRelativePos.y = 0;
+            var hisRotatedBackPos = Quaternion.Inverse(furetureJoint.Rotation) * hisRelativePos;
+            historypositions.Add(hisRotatedBackPos);
         }
     }
 }

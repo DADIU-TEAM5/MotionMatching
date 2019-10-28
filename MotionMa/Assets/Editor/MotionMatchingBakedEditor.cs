@@ -498,6 +498,7 @@ public class MotionMatchingBakedEditor : EditorWindow
 
         for(int an = 0; an < meshAnimationList.AnimClips.Count; an++)
         {
+            //add scriptableobjects
             AssetDatabase.CreateAsset(meshAnimationList.AnimClips[an], assetFolder + meshAnimationList.AnimClips[an].Name + "_Test.asset");
         }
 

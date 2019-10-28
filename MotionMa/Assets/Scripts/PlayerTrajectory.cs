@@ -72,11 +72,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         //update motion matching including the blending
 
-        if (Blend)
-            UpdateWithBlend(ref thisClip, ref thisClipNum);
-        else
-            UpdateWithoutBlend(ref thisClip, ref thisClipNum);
-
+       
         //above moma setting
 
         //follows player input
@@ -93,14 +89,18 @@ public class PlayerTrajectory : MonoBehaviour
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
 
+        if (Blend)
+            UpdateWithBlend(thisClip, thisClipNum);
+        else
+            UpdateWithoutBlend(thisClip, thisClipNum);
 
     }
-    private void UpdateWithoutBlend(ref int thisClip, ref int thisClipNum)
+    private void UpdateWithoutBlend(int thisClip, int thisClipNum)
     {
         if (_tempMoMaTime > MoMaUpdateTime)
         {
             MotionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
-                                              result, animationClips);
+                                              result, animationClips, DifferentClipLength);
             bool isSimilarMotion = ((thisClip == result.AnimClipIndex)
                           && (Mathf.Abs(thisClipNum - result.FrameNum) < DifferentClipLength));
 
@@ -118,14 +118,12 @@ public class PlayerTrajectory : MonoBehaviour
     }
 
 
-    private void UpdateWithBlend(ref int thisClip, ref int thisClipNum)
+    private void UpdateWithBlend(int thisClip, int thisClipNum)
     {
         if (_tempMoMaTime > MoMaUpdateTime)
         {
-            thisClip = result.AnimClipIndex;
-            thisClipNum = result.FrameNum;
             MotionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
-                                                result, animationClips);
+                                                result, animationClips, DifferentClipLength);
             _tempMoMaTime = 0;
 
             bool isSimilarMotion = ((thisClip == result.AnimClipIndex)

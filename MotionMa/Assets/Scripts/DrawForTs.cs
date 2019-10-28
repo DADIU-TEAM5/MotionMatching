@@ -14,12 +14,6 @@ public class DrawForTs : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //if (Index > animationCapsules.FrameCapsules.Count)
-        //    Index = 0;
-        //else
-        //    Index++;
-
-        //Debug.Log(Index);
         Gizmos.color = Color.yellow;
 
         for (int i = 0; i < animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryHistory.Length; i++)

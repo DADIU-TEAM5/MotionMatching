@@ -163,10 +163,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e9e070a693d4911b5f34828c6070c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 5
+  RotationSpeed: 5
+  Second: 1
+  SaveInSecond: 10
+  PredictSpeed: 20
+  MoMaUpdateTime: 0.1
+  BlendDegree: 0.5
+  BlendLength: 1
+  DifferentClipLength: 10
   animationCapsules: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e, type: 2}
-  current: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf, type: 2}
   animationClips: {fileID: 11400000, guid: d0bde56ebeb60034ba93eeab7afa8eb3, type: 2}
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
+  Blend: 0
+  PlayerTrajectoryCapusule: {fileID: 0}
 --- !u!1 &220461289
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93fa740f83c4e422295ba7b3c1c3a5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationCapsules: {fileID: 11400000, guid: d4b95654ca8f54ee19a06bef9a4732d9, type: 2}
+  animationCapsules: {fileID: 0}
   transformToShowFrom: {fileID: 721714065}
   result: {fileID: 11400000, guid: 01f6c0fd407b640cda6fcb82c6c7cb54, type: 2}
 --- !u!4 &220461291

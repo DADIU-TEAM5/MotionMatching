@@ -7,22 +7,22 @@ using UnityEditor;
 [CustomEditor(typeof(ClipsFetch))]
 public class FetchEditor : Editor
 {
-    private ClipsFetch clipsFetch;
+    private ClipsFetch _clipsFetch;
 
     void OnEnable()
     {
-        clipsFetch = (ClipsFetch)target;
+        _clipsFetch = (ClipsFetch)target;
     }
 
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        clipsFetch.value = EditorGUILayout.Slider("start frame", clipsFetch.value, 0f, 0.9999f);
-        clipsFetch.GetFrame();
+        _clipsFetch.value = EditorGUILayout.Slider("start frame", _clipsFetch.value, 0f, 0.9999f);
+        _clipsFetch.GetFrame();
 
         if (GUILayout.Button("Cut Animation"))
         {
-            clipsFetch.CutAnimation();
+            _clipsFetch.CutAnimation();
         }
     }
 }

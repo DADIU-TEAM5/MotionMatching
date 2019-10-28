@@ -15,10 +15,8 @@ public class PreProcess : MonoBehaviour
     public float Second = 1f;
     public int SaveInSecond = 10;
     public int Speed = 5;
-    //Assume we know the frame rate is 100;
-    public int FrameRate = 100;
-
-    private AnimationTrajectory _animationTrajectory;
+    //Assume we know the frame rate is 30;
+    public int FrameRate = 30;
 
 
     public void PreProcessTrajectory()
@@ -34,22 +32,19 @@ public class PreProcess : MonoBehaviour
                 count++;
             }
         }
-        //EditorUtility.SetDirty(AnimationsPreProcess);
     }
 
     private void InitializeAnimation()
     {
         var animclips = new List<AnimClip>();
         AnimationsPlay.AnimClips = animclips;
-
-        _animationTrajectory = new AnimationTrajectory();
         AnimationsPreProcess.FrameCapsules = new List<Capsule>();
     }
 
 
     private void GetAnimaitionTrajectory(AnimClip animClip, int animIndex)
     {
-        _animationTrajectory.ObtainRootFromAnim(Second, SaveInSecond, FrameRate,
+        AnimationTrajectory.ObtainRootFromAnim(Second, SaveInSecond, FrameRate,
                       animClip, animIndex, Speed, AnimationsPreProcess.FrameCapsules);
     }
 
