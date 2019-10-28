@@ -10,6 +10,7 @@ public class PlayerTrajectory : MonoBehaviour
     public float Second = 1f;
     public int SaveInSecond = 10;
     public int PredictSpeed = 20;
+    [Range(0.1f, 2f)]
     public float MoMaUpdateTime = 0.1f;
     [Range(0, 1)]
     public float BlendDegree = 0.5f;
@@ -19,6 +20,7 @@ public class PlayerTrajectory : MonoBehaviour
     public AnimationCapsules animationCapsules;
     public AnimationClips animationClips;
     public Result result;
+    public bool Blend = false;
 
 
 
@@ -67,7 +69,53 @@ public class PlayerTrajectory : MonoBehaviour
 
         //update motion matching including the blending
 
+        if (Blend)
+            UpdateWithBlend(ref thisClip, ref thisClipNum);
+        else
+            UpdateWithoutBlend(ref thisClip, ref thisClipNum);
 
+        //above moma setting
+
+        //follows player input
+
+        Vector3 inputVel = UpdatePlayerState(inputs);
+        //get player status now
+        var currentPos = transform.localPosition;
+        var currentRot = transform.rotation;
+        HistoryTrajectory(currentPos);
+        PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = history.ToArray();
+
+        FuturePredict(currentPos, inputVel, currentRot);
+        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = future.ToArray();
+        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
+        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
+
+
+    }
+    private void UpdateWithoutBlend(ref int thisClip, ref int thisClipNum)
+    {
+        if (_tempMoMaTime > MoMaUpdateTime)
+        {
+            _motionMatcher.GetMotionAndFrame(animationCapsules, PlayerTrajectoryCapusule,
+                                              result, animationClips);
+            //bool isSimilarMotion = ((thisClip == result.AnimClipIndex)
+            //              && (Mathf.Abs(thisClipNum - result.FrameNum) < 3));
+
+            ////todo if same motion, result changes (should have another struct contrl)
+            //if (isSimilarMotion)
+            //    result.FrameNum++; //play animation here
+        }
+        else
+        {
+            result.FrameNum++;
+
+        }
+        PlayAnimationJoints();
+    }
+
+
+    private void UpdateWithBlend(ref int thisClip, ref int thisClipNum)
+    {
         if (_tempMoMaTime > MoMaUpdateTime)
         {
             thisClip = result.AnimClipIndex;
@@ -89,10 +137,10 @@ public class PlayerTrajectory : MonoBehaviour
                 animationClips.AnimClips[thisClip], animationClips.AnimClips[result.AnimClipIndex]);
             }
 
-            
-            
+
+
         }
-        else if(!_blendFlag)
+        else if (!_blendFlag)
         {
             PlayAnimationJoints();
             result.FrameNum++;
@@ -104,7 +152,7 @@ public class PlayerTrajectory : MonoBehaviour
             {
                 _blendFlag = false;
                 result.FrameNum = _forBlendPlay + thisClipNum;
-               
+
                 _forBlendPlay = 0;
             }
             else
@@ -115,29 +163,11 @@ public class PlayerTrajectory : MonoBehaviour
                 //if we need play the last frame
             }
         }
-
-        //above moma setting
-
-        //follows player input
-
-        Vector3 inputVel = UpdatePlayerState(inputs);
-        //get player status now
-        var currentPos = transform.localPosition;
-        var currentRot = transform.rotation;
-        HistoryTrajectory(currentPos);
-        PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = history.ToArray();
-
-        FuturePredict(currentPos, inputVel, currentRot);
-        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = future.ToArray();
-        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
-        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
-
-
     }
 
     private void transToRelative(Vector3[] vector3s, Vector3 current)
     {
-        for(int i = 0; i<vector3s.Length; i++)
+        for (int i = 0; i < vector3s.Length; i++)
         {
             vector3s[i] = transform.InverseTransformDirection((vector3s[i] - current));
         }
@@ -201,7 +231,7 @@ public class PlayerTrajectory : MonoBehaviour
             var gap = (inputVel * increase);
             var futureP = (currentPos + angle_increase * currentRot * gap);
             future[i] = futureP;
-            
+
 
         }
 
@@ -323,9 +353,9 @@ public class PlayerTrajectory : MonoBehaviour
         BlendFrame(beginClip.Frames[blendStart], bestClip.Frames[blendEnd], BlendDegree);
     }
 
-    private void BlendFrame(AnimationFrame startFrame, AnimationFrame endFrame,float blendDegree)
+    private void BlendFrame(AnimationFrame startFrame, AnimationFrame endFrame, float blendDegree)
     {
-        for (int i = 0; i < startFrame.JointPoints.Count; i++ )
+        for (int i = 0; i < startFrame.JointPoints.Count; i++)
         {
             var startJoint = startFrame.JointPoints[i];
             if (!SkeletonJoints.Keys.Contains(startJoint.Name))
@@ -346,9 +376,9 @@ public class PlayerTrajectory : MonoBehaviour
                              Transform joint, float blendRate)
     {
 
-        joint.rotation = transform.rotation * Quaternion.Lerp( startjointPoint.Rotation, endjointPoint.Rotation, BlendDegree);
+        joint.rotation = transform.rotation * Quaternion.Lerp(startjointPoint.Rotation, endjointPoint.Rotation, BlendDegree);
         //more cost?
-        joint.position = Vector3.Lerp(transform.TransformDirection(startjointPoint.Position) + transform.position, 
+        joint.position = Vector3.Lerp(transform.TransformDirection(startjointPoint.Position) + transform.position,
                                         transform.TransformDirection(endjointPoint.Position) + transform.position, blendRate);
     }
 
