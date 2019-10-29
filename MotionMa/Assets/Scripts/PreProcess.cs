@@ -11,6 +11,9 @@ public class PreProcess : MonoBehaviour
     public AnimationClips AnimationsPlay;
     public AnimationClips AllAnimations;
     public AnimationCapsules AnimationsPreProcess;
+    public List<string> MagicMotionNames;
+    public MagicMotions MagicMotions;
+    public MagicMotion MagicMotion;
 
     public float Second = 1f;
     public int SaveInSecond = 10;
@@ -32,6 +35,7 @@ public class PreProcess : MonoBehaviour
                 count++;
             }
         }
+        GetMagicMotion();
     }
 
     private void InitializeAnimation()
@@ -60,6 +64,23 @@ public class PreProcess : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void GetMagicMotion()
+    {
+        MagicMotions.AttackMotions = new List<MagicMotion>();
+        for (int j = 0; j < AnimationsPreProcess.FrameCapsules.Count; j++)
+            for (int i = 0; i < MagicMotionNames.Count; i++)
+            {
+                if (AnimationsPreProcess.FrameCapsules[j].AnimClipName.Contains(MagicMotionNames[i])
+                    && AnimationsPreProcess.FrameCapsules[j].FrameNum == (int)(Second * FrameRate))
+                {
+                    //MagicMotion = new MagicMotion();
+                    MagicMotion.AnimClipName = AnimationsPreProcess.FrameCapsules[j].AnimClipName;
+                    MagicMotion.CapsuleNum = j;
+                    MagicMotions.AttackMotions.Add(MagicMotion);
+                }
+            }
     }
 
 }

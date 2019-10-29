@@ -26,6 +26,7 @@ public class PlayerTrajectory : MonoBehaviour
     public bool Blend = false;
     //it is okay for static?
     public CapsuleScriptObject PlayerTrajectoryCapusule;
+    public MagicMotions AttackMotions;
 
 
 
@@ -36,14 +37,13 @@ public class PlayerTrajectory : MonoBehaviour
     private int _stratFrame = 3; //assume we know... todo get it!!!
     private bool _blendFlag = false;
     private int _forBlendPlay = 0;
+    private string _attack = null;
 
     //for test
     private int _beginFrame;
     private int _beginAnimClip;
 
     private MotionMatcher _motionMatcher;
-
-
     private Dictionary<string, Transform> _skeletonJoints = new Dictionary<string, Transform>();
 
 
@@ -76,10 +76,10 @@ public class PlayerTrajectory : MonoBehaviour
         var rotationPlayer = Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed;
 
         Vector3 inputVel = UpdatePlayerState(inputs);
-        
-
-       
         GetRelativeTrajectory(inputVel);
+        if (Input.GetKeyDown(KeyCode.Space))
+            _attack = "Attack";
+
 
         if (Blend)
             UpdateWithBlend(thisClip, thisClipNum, rotationPlayer);
@@ -94,6 +94,7 @@ public class PlayerTrajectory : MonoBehaviour
     {
         var currentPos = transform.localPosition;
         var currentRot = transform.rotation;
+
 
         HistoryTrajectory(currentPos);
         PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = _history.ToArray();
@@ -111,9 +112,11 @@ public class PlayerTrajectory : MonoBehaviour
 
         if (_tempMoMaTime > MoMaUpdateTime)
         {
-            _motionMatcher.GetMotionAndFrame(AnimationTrajectories, PlayerTrajectoryCapusule,
+            _motionMatcher.GetMotionAndFrame(_attack, AttackMotions, AnimationTrajectories, PlayerTrajectoryCapusule,
                                               Results, AnimationClips, DifferentClipLength);
+            
             _tempMoMaTime = 0;
+            _attack = null;
             bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
                           && (Mathf.Abs(thisClipNum - Results.FrameNum) < DifferentClipLength));
 
@@ -140,11 +143,10 @@ public class PlayerTrajectory : MonoBehaviour
     {
         if (_tempMoMaTime > MoMaUpdateTime)
         {
-            _motionMatcher.GetMotionAndFrame(AnimationTrajectories, PlayerTrajectoryCapusule,
+            _motionMatcher.GetMotionAndFrame(_attack, AttackMotions, AnimationTrajectories, PlayerTrajectoryCapusule,
                                                 Results, AnimationClips, DifferentClipLength);
             _tempMoMaTime = 0;
-
-
+            _attack = null;
             bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
                             && (Mathf.Abs(thisClipNum - Results.FrameNum) < DifferentClipLength));
 
@@ -177,9 +179,10 @@ public class PlayerTrajectory : MonoBehaviour
             if (_forBlendPlay >= BlendLength)
             {
                 _blendFlag = false;
-                Results.FrameNum = _forBlendPlay + _beginFrame; //not correct
+                //Results.FrameNum = BlendLength;//_forBlendPlay + _beginFrame;
 
                 _forBlendPlay = 0;
+                
             }
             else
             {
@@ -187,7 +190,6 @@ public class PlayerTrajectory : MonoBehaviour
                 PlayBlendAnimation(_skeletonJoints, BlendDegree, _beginFrame, _beginAnimClip,
                      Results, PlayerTrajectoryCapusule, AnimationClips,
                      _forBlendPlay, rotationPlayer);
-                //if we need play the last frame
             }
         }
     }
@@ -197,7 +199,7 @@ public class PlayerTrajectory : MonoBehaviour
     {
         for (int i = 0; i < vector3s.Length; i++)
         {
-            vector3s[i] = transform.InverseTransformDirection((vector3s[i] - current));
+            vector3s[i] = transform.InverseTransformDirection((vector3s[i] - current)); //change it to relative
         }
     }
 
@@ -242,13 +244,23 @@ public class PlayerTrajectory : MonoBehaviour
         {
             var increase = Second / SaveInSecond * i;
             var gap_increase = Quaternion.ToEulerAngles(rotation) * increase;
-            var angle_increase = Quaternion.Euler(gap_increase);
+            var angle_increase = Quaternion.EulerRotation(gap_increase);
             var gap = (inputVel * increase);
             var futureP = (currentPos + angle_increase * currentRot * gap);
             _future[i] = futureP;
         }
 
     }
+
+
+
+    //private void FutureFeed(Vector3 currentPos,)
+    //{
+    //    _future[0] = currentPos;
+
+    //    for(int i = 0; )
+    //}
+
 
     private void GetAllChildren(Transform trans)
     {
@@ -277,7 +289,7 @@ public class PlayerTrajectory : MonoBehaviour
         current.Capsule.AnimClipName = result.ClipName;
         current.Capsule.FrameNum = result.FrameNum;
 
-        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count - 3)
+        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count - 1)
             result.FrameNum = 0;
 
 
@@ -326,8 +338,8 @@ public class PlayerTrajectory : MonoBehaviour
         PlayerTrajectoryCapusule.Capsule.AnimClipName = result.ClipName;
         PlayerTrajectoryCapusule.Capsule.FrameNum = result.FrameNum;
 
-        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count - 3)//3 should be start frame 
-            result.FrameNum = 3; //3 should be start frame 
+        if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count-1)//3 should be start frame 
+            result.FrameNum = 0; //3 should be start frame 
 
         BlendAnimation(beginFrameIndex, bestFrameIndex, skeletonJoints,
             areadlyBlendedTimes, animationClips.AnimClips[beginAnimIndex], animationClips.AnimClips[result.AnimClipIndex], blendDegree);
@@ -339,7 +351,7 @@ public class PlayerTrajectory : MonoBehaviour
                             int areadlyBlendedTimes, AnimClip beginClip, AnimClip bestClip, float blendDegree)
     {
         var blendStart = beginFrameIndex + areadlyBlendedTimes;
-        var blendEnd = bestFrameIndex + areadlyBlendedTimes;
+        var blendEnd = bestFrameIndex - (SaveInSecond - areadlyBlendedTimes);
 
         BlendFrame(skeletonJoints, transform, beginClip.Frames[blendStart], bestClip.Frames[blendEnd], blendDegree);
     }
@@ -372,4 +384,3 @@ public class PlayerTrajectory : MonoBehaviour
 
 
 }
-

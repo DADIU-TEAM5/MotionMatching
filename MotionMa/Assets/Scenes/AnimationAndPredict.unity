@@ -276,6 +276,7 @@ MonoBehaviour:
   Blend: 0
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
+  AttackMotions: {fileID: 0}
 --- !u!114 &850069642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,22 +538,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecb709bd258d4543b1b515755d89a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 2.5
+  Speed: 3
   RotationSpeed: 5
   Second: 0.5
-  SaveInSecond: 3
+  SaveInSecond: 8
   PredictSpeed: 20
-  MoMaUpdateTime: 0.86
+  MoMaUpdateTime: 0.4
   BlendDegree: 0.5
-  BlendLength: 7
+  BlendLength: 1
   DifferentClipLength: 16
   AnimationTrajectories: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e,
     type: 2}
   AnimationClips: {fileID: 11400000, guid: d0bde56ebeb60034ba93eeab7afa8eb3, type: 2}
   Results: {fileID: 11400000, guid: 64fe7a8e630a0c8439e1046605b6befa, type: 2}
-  Blend: 1
+  Blend: 0
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
+  AttackMotions: {fileID: 11400000, guid: 3f38a04126d893442b04f756d0ca68d3, type: 2}
 --- !u!4 &1924439495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 3572358b9c6e523448e164f509c237d3,
