@@ -37,6 +37,9 @@ public class PlayerTrajectory : MonoBehaviour
     private bool _blendFlag = false;
     private int _forBlendPlay = 0;
 
+    //for test
+    private int _beginFrame;
+    private int _beginAnimClip;
 
     private MotionMatcher _motionMatcher;
 
@@ -69,6 +72,7 @@ public class PlayerTrajectory : MonoBehaviour
         int thisClip = Results.AnimClipIndex;
         int thisClipNum = Results.FrameNum;
 
+
         var rotationPlayer = Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed;
 
         Vector3 inputVel = UpdatePlayerState(inputs);
@@ -93,6 +97,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         HistoryTrajectory(currentPos);
         PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = _history.ToArray();
+
 
         FuturePredict(currentPos, inputVel, currentRot);
         PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = _future.ToArray();
@@ -150,9 +155,12 @@ public class PlayerTrajectory : MonoBehaviour
             else
             {
                 _blendFlag = true;
-                PlayBlendAnimation(_skeletonJoints, BlendDegree, thisClipNum, thisClip,
+                _beginFrame = thisClipNum;
+                _beginAnimClip = thisClip;
+                PlayBlendAnimation(_skeletonJoints, BlendDegree, _beginFrame, _beginAnimClip,
                     Results, PlayerTrajectoryCapusule, AnimationClips,
                     _forBlendPlay, rotationPlayer);
+                
             }
 
 
@@ -169,14 +177,14 @@ public class PlayerTrajectory : MonoBehaviour
             if (_forBlendPlay >= BlendLength)
             {
                 _blendFlag = false;
-                Results.FrameNum = _forBlendPlay + thisClipNum; //not correct
+                Results.FrameNum = _forBlendPlay + _beginFrame; //not correct
 
                 _forBlendPlay = 0;
             }
             else
             {
                 _forBlendPlay++;
-                PlayBlendAnimation(_skeletonJoints, BlendDegree, thisClipNum, thisClip,
+                PlayBlendAnimation(_skeletonJoints, BlendDegree, _beginFrame, _beginAnimClip,
                      Results, PlayerTrajectoryCapusule, AnimationClips,
                      _forBlendPlay, rotationPlayer);
                 //if we need play the last frame
@@ -307,7 +315,7 @@ public class PlayerTrajectory : MonoBehaviour
 
 
 
-
+    //blend animation
     public void PlayBlendAnimation(Dictionary<string, Transform> skeletonJoints, float blendDegree,
                             int beginFrameIndex, int beginAnimIndex, Result result, CapsuleScriptObject PlayerTrajectoryCapusule,
                             AnimationClips animationClips, int areadlyBlendedTimes, Vector3 rotationEular)
@@ -345,20 +353,20 @@ public class PlayerTrajectory : MonoBehaviour
             var endJoint = endFrame.JointPoints[i];
 
             var joint = skeletonJoints[startJoint.Name];
-            BlendJoints(startJoint, endJoint, joint, blendDegree, blendDegree);
+            BlendJoints(startJoint, endJoint, joint, blendDegree);
         }
     }
 
 
 
     private void BlendJoints(AnimationJointPoint startjointPoint, AnimationJointPoint endjointPoint,
-                             Transform joint, float blendRate, float blendDegree)
+                             Transform joint, float blendDegree)
     {
 
         joint.rotation = transform.rotation * Quaternion.Lerp(startjointPoint.Rotation, endjointPoint.Rotation, blendDegree);
         //more cost?
         joint.position = Vector3.Lerp(transform.TransformDirection(startjointPoint.Position) + transform.position,
-                                        transform.TransformDirection(endjointPoint.Position) + transform.position, blendRate);
+                                        transform.TransformDirection(endjointPoint.Position) + transform.position, blendDegree);
     }
 
 
