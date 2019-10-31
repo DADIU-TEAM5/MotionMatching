@@ -18,6 +18,7 @@ public class PlayerTrajectory : MonoBehaviour
     public int BlendLength = 1;
     [Range(3, 40)]
     public int DifferentClipLength = 10;
+    public int AnimationFrameRate = 30;
 
 
     public AnimationCapsules AnimationTrajectories;
@@ -28,7 +29,9 @@ public class PlayerTrajectory : MonoBehaviour
     public CapsuleScriptObject PlayerTrajectoryCapusule;
     public MagicMotions AttackMotions;
 
-
+    //for debug
+    public Vector3 Velocity;
+    public Vector3 Direction;
 
     private Queue<Vector3> _history = new Queue<Vector3>();
     private List<Vector3> _future = new List<Vector3>();
@@ -284,7 +287,7 @@ public class PlayerTrajectory : MonoBehaviour
     private void HistoryTrajectory(Vector3 currentPos)
     {
         //save History only in the gap
-        if (_timer > (Second / SaveInSecond))
+        if (_timer > (1f / AnimationFrameRate))
         {
             _timer = 0;
             _history.Dequeue();
@@ -297,10 +300,13 @@ public class PlayerTrajectory : MonoBehaviour
         _future[0] = currentPos;
 
         var rotation = Quaternion.Euler(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * PredictSpeed);
+        Direction = Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * PredictSpeed;
 
+
+        Velocity = inputVel;
         for (int i = 0; i < SaveInSecond; i++)
         {
-            var increase = Second / SaveInSecond * i;
+            var increase = 1f /  AnimationFrameRate * i;//Second / SaveInSecond * i;
             var gap_increase = Quaternion.ToEulerAngles(rotation) * increase;
             var angle_increase = Quaternion.EulerRotation(gap_increase);
             var gap = (inputVel * increase);

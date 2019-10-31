@@ -277,6 +277,8 @@ MonoBehaviour:
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
   AttackMotions: {fileID: 0}
+  Velocity: {x: 0, y: 0, z: 0}
+  Direction: {x: 0, y: 0, z: 0}
 --- !u!114 &850069642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,12 +557,38 @@ MonoBehaviour:
   PlayerTrajectoryCapusule: {fileID: 11400000, guid: f92b6e3cd5a7d491090749761c01afbf,
     type: 2}
   AttackMotions: {fileID: 11400000, guid: 3f38a04126d893442b04f756d0ca68d3, type: 2}
+  Velocity: {x: 0, y: 0, z: 0}
+  Direction: {x: 0, y: 0, z: 0}
 --- !u!4 &1924439495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 3572358b9c6e523448e164f509c237d3,
     type: 3}
   m_PrefabInstance: {fileID: 2050600590}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1924439496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924439492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b13c1724074656347af89a8cf43661dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AnimationsPlay: {fileID: 11400000, guid: d0bde56ebeb60034ba93eeab7afa8eb3, type: 2}
+  AllAnimations: {fileID: 11400000, guid: eb0dd13af6e415e46956171759fe4b00, type: 2}
+  AnimationsPreProcess: {fileID: 11400000, guid: ad8861046fac4c14db3ff40a26b67c4e,
+    type: 2}
+  MagicMotionNames:
+  - Attack
+  MagicMotions: {fileID: 11400000, guid: 3f38a04126d893442b04f756d0ca68d3, type: 2}
+  MagicMotion: {fileID: 11400000, guid: e22cef729110b3e47955a03816d08a2e, type: 2}
+  Second: 0.5
+  SaveInSecond: 5
+  Speed: 5
+  FrameRate: 30
 --- !u!1001 &2050600590
 PrefabInstance:
   m_ObjectHideFlags: 0
