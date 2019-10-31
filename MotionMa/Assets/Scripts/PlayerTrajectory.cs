@@ -82,7 +82,7 @@ public class PlayerTrajectory : MonoBehaviour
 
 
         if (Blend)
-            UpdateWithBlend(thisClip, thisClipNum, rotationPlayer);
+            UpdateWithBlendInOneFrame(thisClip, thisClipNum, rotationPlayer);
         else
             UpdateWithoutBlend(thisClip, thisClipNum, rotationPlayer);
 
@@ -92,7 +92,7 @@ public class PlayerTrajectory : MonoBehaviour
     //todo add attack motion
     private void GetRelativeTrajectory(Vector3 inputVel)
     {
-        var currentPos = transform.localPosition;
+        var currentPos = transform.position;
         var currentRot = transform.rotation;
 
 
@@ -139,7 +139,65 @@ public class PlayerTrajectory : MonoBehaviour
     }
 
 
-    private void UpdateWithBlend(int thisClip, int thisClipNum, Vector3 rotationPlayer)
+
+
+
+
+    private void UpdateWithBlendInOneFrame(int thisClip, int thisClipNum, Vector3 rotationPlayer)//update in one frame
+    {
+        if (_tempMoMaTime > MoMaUpdateTime)
+        {
+            _motionMatcher.GetMotionAndFrame(_attack, AttackMotions, AnimationTrajectories, PlayerTrajectoryCapusule,
+                                                Results, AnimationClips, DifferentClipLength);
+            _tempMoMaTime = 0;
+            _attack = null;
+            bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
+                            && (Mathf.Abs(thisClipNum - Results.FrameNum) < DifferentClipLength));
+
+
+            if (isSimilarMotion)
+                PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
+                                                Results, AnimationClips, _skeletonJoints);
+            else
+            {
+                _beginFrame = thisClipNum;
+                _beginAnimClip = thisClip;
+                BlendInOneFrame(_skeletonJoints, BlendDegree, _beginFrame, _beginAnimClip,
+                    Results, PlayerTrajectoryCapusule, AnimationClips,
+                    _forBlendPlay, rotationPlayer);
+
+            }
+
+
+        }
+
+        else
+        {
+            Results.FrameNum++;
+            PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
+                                                Results, AnimationClips, _skeletonJoints);
+        }
+    }
+
+
+
+    private void BlendInOneFrame(Dictionary<string, Transform> skeletonJoints, float blendDegree,
+                            int beginFrameIndex, int beginAnimIndex, Result result, CapsuleScriptObject PlayerTrajectoryCapusule,
+                            AnimationClips animationClips, int areadlyBlendedTimes, Vector3 rotationEular)
+    {
+        if (_forBlendPlay >= BlendLength)
+            _forBlendPlay = 0;
+        else
+        {
+            _forBlendPlay++;
+            PlayBlendAnimation(skeletonJoints, blendDegree, beginFrameIndex, beginAnimIndex,
+                        result, PlayerTrajectoryCapusule, animationClips,
+                        areadlyBlendedTimes, rotationEular);
+        }
+    }
+
+
+    private void UpdateWithBlend(int thisClip, int thisClipNum, Vector3 rotationPlayer)//every frame update
     {
         if (_tempMoMaTime > MoMaUpdateTime)
         {
