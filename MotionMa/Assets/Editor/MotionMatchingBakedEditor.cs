@@ -25,7 +25,7 @@ public class MotionMatchingBakedEditor : EditorWindow
     Dictionary<string, int> bonesMap = new Dictionary<string, int>();
     Transform[] joints = null;
 
-    public static string RootBoneName = "Reference/Hips";
+    public static string RootBoneName = "mixamorig:Hips";//"Reference/Hips";
     const string MotionMatcherSettingsPath = "Assets/Resources/MotionMatchingSetting.asset";
 
     [SerializeField]
@@ -407,6 +407,7 @@ public class MotionMatchingBakedEditor : EditorWindow
                 animator.runtimeAnimatorController = bakeController;
                 animator.avatar = GetAvatar();
             }
+            //mark here
             animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
             animator.applyRootMotion = true;
         }
@@ -513,8 +514,8 @@ public class MotionMatchingBakedEditor : EditorWindow
 
                 frame++;
             }
-
-            AssetDatabase.CreateAsset(meshAnimationList.AnimClips[j], assetFolder + meshAnimationList.AnimClips[j].Name + "_InPlace_Root.asset");
+            meshAnimationList.AnimClips[j].Name +="_InPlace" ;
+            AssetDatabase.CreateAsset(meshAnimationList.AnimClips[j], assetFolder + meshAnimationList.AnimClips[j].Name + "_Root.asset");
             
             animCount++;
         }
@@ -840,10 +841,17 @@ public class MotionMatchingBakedEditor : EditorWindow
         //InitAnimationBones(sampleGO);
         //Transform test = sampleGO.transform.Find(RootBoneName);
         //Debug.Log(test.position);
+        saveRoot(motionFrameData);
         for (int i = 0; i < joints.Length; i++)
         {
             //int boneIndex = bonesMap[boneName];
             //Transform child = joints[boneIndex];
+            //test
+                if (joints[i].name != "mixamorig:RightFoot" &&
+                joints[i].name != "mixamorig:Hips" &&
+                joints[i].name != "mixamorig:LeftFoot")
+                continue;
+
             Transform child = joints[i];
             AnimationJointPoint motionBoneData = new AnimationJointPoint(); //motionFrameData.JointPoints[index];
             motionBoneData.Position = child.position;
@@ -930,6 +938,19 @@ public class MotionMatchingBakedEditor : EditorWindow
         }
     }
 
+    private void saveRoot(AnimationFrame motionFrameData)
+    {
+        AnimationJointPoint motionBoneData = new AnimationJointPoint(); //motionFrameData.JointPoints[index];
+        motionBoneData.Position = animator.transform.position;
+        motionBoneData.LocalPosition = animator.transform.localPosition;
+        motionBoneData.Rotation = animator.transform.rotation;
+        motionBoneData.LocalRotation = animator.transform.localRotation;
+        motionBoneData.Velocity = Vector3.zero;
+        motionBoneData.Name = "Root";
+        motionBoneData.BoneIndex = 78;
+
+        motionFrameData.JointPoints.Add(motionBoneData);
+    }
 
     private void CaptureTrajectorySnapShot(AnimationClip animClip, AnimationFrame motionFrameData, AnimationFrame lastMotionFrameData, GameObject sampleGO, float bakeFrames, float currentFrame)
     {
