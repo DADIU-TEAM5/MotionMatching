@@ -105,6 +105,7 @@ public class PreProcess : MonoBehaviour
                         maxSpeed = speed;
                 }
 
-        return maxSpeed;
+        //return maxSpeed;
+        return 1;
     }
 }

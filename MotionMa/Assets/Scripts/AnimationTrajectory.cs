@@ -21,7 +21,7 @@ public class AnimationTrajectory : PreProcess
             var fureturepositions = new List<Vector3>();
             var historypositions = new List<Vector3>();
 
-            var currentJoint = animClip.Frames[index].JointPoints.Find(x => x.Name.Contains("Root"));
+            var currentJoint = animClip.Frames[index].JointPoints.Find(x => x.Name.Contains("Hips"));
             capsule.CurrentPosition = currentJoint.Position;
             var currentRotation = currentJoint.Rotation;
 
@@ -55,7 +55,7 @@ public class AnimationTrajectory : PreProcess
         for (int i = 0; i < saveInSecond; i++)
         {
             var futureindex = index + i * saveGap;
-            var furetureJoint = animClip.Frames[futureindex].JointPoints.Find(x => x.Name.Contains("Root"));
+            var furetureJoint = animClip.Frames[futureindex].JointPoints.Find(x => x.Name.Contains("Hips"));
 
             
             var futureRelativePos = (furetureJoint.Position - currentCapsule.CurrentPosition) * speed * maxSpeedInAnim;
@@ -66,7 +66,7 @@ public class AnimationTrajectory : PreProcess
 
             //same for history
             var historyIndex = index - i * saveGap;
-            var hisJoint = animClip.Frames[historyIndex].JointPoints.Find(x => x.Name.Contains("Root"));
+            var hisJoint = animClip.Frames[historyIndex].JointPoints.Find(x => x.Name.Contains("Hips"));
 
             var hisRelativePos = (hisJoint.Position - currentCapsule.CurrentPosition) * speed * maxSpeedInAnim;
             hisRelativePos.y = 0;
@@ -80,7 +80,7 @@ public class AnimationTrajectory : PreProcess
         capsule.KeyJoints = new List<AnimationJointPoint>();
         for (int i = 0; i < animationFrame.JointPoints.Count; i++)
         {
-            if (animationFrame.JointPoints[i].Name == "Root")
+            if (animationFrame.JointPoints[i].Name == "Hips")
                 continue;
 
             capsule.KeyJoints.Add(animationFrame.JointPoints[i]);
