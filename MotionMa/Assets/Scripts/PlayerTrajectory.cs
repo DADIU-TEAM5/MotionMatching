@@ -352,6 +352,7 @@ public class PlayerTrajectory : MonoBehaviour
         current.Capsule.AnimClipIndex = result.AnimClipIndex;
         current.Capsule.AnimClipName = result.ClipName;
         current.Capsule.FrameNum = result.FrameNum;
+        current.Capsule.CapsuleIndex = result.CapsuleNum;
 
         if (result.FrameNum >= animationClips.AnimClips[result.AnimClipIndex].Frames.Count - 1)
             result.FrameNum = 0;

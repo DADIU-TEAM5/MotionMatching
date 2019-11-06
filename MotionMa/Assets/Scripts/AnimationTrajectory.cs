@@ -21,7 +21,7 @@ public class AnimationTrajectory : PreProcess
             var fureturepositions = new List<Vector3>();
             var historypositions = new List<Vector3>();
 
-            var currentJoint = animClip.Frames[index].JointPoints.Find(x => x.Name.Contains("Hips"));
+            var currentJoint = animClip.Frames[index].JointPoints.Find(x => x.Name.Contains("Root"));
             capsule.CurrentPosition = currentJoint.Position;
             var currentRotation = currentJoint.Rotation;
 
@@ -36,7 +36,12 @@ public class AnimationTrajectory : PreProcess
             capsule.AnimClipName = animClip.Name;
             capsule.FrameNum = index;
             capsule.AnimClipIndex = animIndex;
-
+            //key joints
+            //for (int i = 0; i < animClip.Frames[index].JointPoints.Count; i++)
+            //{
+            //    capsule.KeyJoints.Add(animClip.Frames[index].JointPoints[i]);
+            //}
+            GetKeyJoints(animClip.Frames[index], ref capsule);
             capsules.Add(capsule);
         }
  
@@ -50,7 +55,7 @@ public class AnimationTrajectory : PreProcess
         for (int i = 0; i < saveInSecond; i++)
         {
             var futureindex = index + i * saveGap;
-            var furetureJoint = animClip.Frames[futureindex].JointPoints.Find(x => x.Name.Contains("Hips"));
+            var furetureJoint = animClip.Frames[futureindex].JointPoints.Find(x => x.Name.Contains("Root"));
 
             
             var futureRelativePos = (furetureJoint.Position - currentCapsule.CurrentPosition) * speed * maxSpeedInAnim;
@@ -61,7 +66,7 @@ public class AnimationTrajectory : PreProcess
 
             //same for history
             var historyIndex = index - i * saveGap;
-            var hisJoint = animClip.Frames[historyIndex].JointPoints.Find(x => x.Name.Contains("Hips"));
+            var hisJoint = animClip.Frames[historyIndex].JointPoints.Find(x => x.Name.Contains("Root"));
 
             var hisRelativePos = (hisJoint.Position - currentCapsule.CurrentPosition) * speed * maxSpeedInAnim;
             hisRelativePos.y = 0;
@@ -70,6 +75,16 @@ public class AnimationTrajectory : PreProcess
         }
     }
 
-    
+    private static void GetKeyJoints(AnimationFrame animationFrame, ref Capsule capsule)
+    {
+        capsule.KeyJoints = new List<AnimationJointPoint>();
+        for (int i = 0; i < animationFrame.JointPoints.Count; i++)
+        {
+            if (animationFrame.JointPoints[i].Name == "Root")
+                continue;
+
+            capsule.KeyJoints.Add(animationFrame.JointPoints[i]);
+        }
+    }
 
 }

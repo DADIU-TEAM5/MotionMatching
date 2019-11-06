@@ -19,8 +19,10 @@ public class CalculateCost : MotionMatcher
         for (int i = 0; i < bestTrajectIndexes.Count; i++)
         {
             var animCap = animationCapsules.FrameCapsules[bestTrajectIndexes[i]];
-            var jointcost = JointsCost(animationClips.AnimClips[animCap.AnimClipIndex].Frames[animCap.FrameNum],
-                                        animationClips.AnimClips[current.AnimClipIndex].Frames[current.FrameNum]);
+            //var jointcost = JointsCost(animationClips.AnimClips[animCap.AnimClipIndex].Frames[animCap.FrameNum],
+            //                            animationClips.AnimClips[current.AnimClipIndex].Frames[current.FrameNum]);
+
+            var jointcost = TestCapusuleJointCost(animCap, animationCapsules.FrameCapsules[current.CapsuleIndex]);
             if (jointcost < bestScore)
             {
                 bestScore = jointcost;
@@ -33,6 +35,17 @@ public class CalculateCost : MotionMatcher
 
         return BestIndex;
     }
+
+    private static float TestCapusuleJointCost(Capsule animationCapsule, Capsule current)
+    {
+        float allCost = 0;
+        for (int j = 0; j < animationCapsule.KeyJoints.Count; j++)
+        {
+            allCost += BoneCost(animationCapsule.KeyJoints[j], current.KeyJoints[j]);
+        }
+        return allCost;
+    }
+
 
     private static float JointsCost(AnimationFrame animation, AnimationFrame current)
     {
