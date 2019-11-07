@@ -487,7 +487,7 @@ public class MotionMatchingBakedEditor : EditorWindow
                 AnimationFrame motionFrameData = motionData.Frames[frame];
                 AnimationFrame lastMotionFrameData = frame > 0 ? motionData.Frames[frame - 1] : null;
 
-                CaptureBoneSnapShot(animClip, motionFrameData, lastMotionFrameData, sampleGO, bakeFrames, i);
+                CaptureBoneSnapShotInPlace(animClip, motionFrameData, lastMotionFrameData, sampleGO, bakeFrames, i);
                 CaptureTrajectorySnapShot(animClip, motionFrameData, lastMotionFrameData, sampleGO, bakeFrames, i);
 
                 frame++;

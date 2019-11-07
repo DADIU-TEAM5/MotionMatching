@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4304635306edf4892a99bd0906805448, type: 3}
+  m_Name: MainCharacter_Tpose_human_MotionField
+  m_EditorClassIdentifier: 
+  AnimClips:
+  - {fileID: 11400000, guid: 7ad69219e3e6b9149888b57c7847d587, type: 2}
+  - {fileID: 11400000, guid: 7a387571635787b45a8aba0f4875a1dd, type: 2}
+  - {fileID: 11400000, guid: 99f86b1b879949441aad8ecebd579d55, type: 2}
