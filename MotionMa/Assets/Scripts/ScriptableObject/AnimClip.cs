@@ -10,4 +10,6 @@ public class AnimClip : ScriptableObject
     public float ClipLengthInMilliseconds;
 
     public List<AnimationFrame> Frames;
+
+    
 }

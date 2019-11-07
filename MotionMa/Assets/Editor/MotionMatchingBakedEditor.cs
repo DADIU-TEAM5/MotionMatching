@@ -9,7 +9,7 @@ using UnityEditor.Animations;
 /// </summary>
 public class MotionMatchingBakedEditor : EditorWindow
 {
-    [MenuItem("Tools/BakeMotion")]
+    [MenuItem("Tools/BakeMotion/Humanoid")]
     static void MakeWindow()
     {
         window = GetWindow(typeof(MotionMatchingBakedEditor)) as MotionMatchingBakedEditor;
@@ -414,14 +414,14 @@ public class MotionMatchingBakedEditor : EditorWindow
 
         //create animation clips
         AnimationClips meshAnimationList = ScriptableObject.CreateInstance<AnimationClips>();
-        meshAnimationList.AnimClips = new AnimClip[clips.Count*2].ToList();
+        meshAnimationList.AnimClips = new AnimClip[clips.Count].ToList();
 
 
         Transform rootMotionBaker = new GameObject().transform;
 
-        for (int x = 0; x < clips.Count*2; x++)
+        for (int x = 0; x < clips.Count; x++)
         {
-            AnimationClip animClip = clips[(int)(x*1f/2)];
+            AnimationClip animClip = clips[x];
 
             if (bakeAnims.ContainsKey(animClip.name) && bakeAnims[animClip.name] == false)
             {
@@ -467,15 +467,17 @@ public class MotionMatchingBakedEditor : EditorWindow
         }
 
         int animCount = 0;
-        for (int j = 0; j < clips.Count*2; j++)
+        for (int j = 0; j < clips.Count; j++)
         {
             //Vector3.zero, Quaternion.identity
             sampleGO.transform.position = Vector3.zero;
             sampleGO.transform.rotation = Quaternion.identity;
-            AnimationClip animClip = clips[(int)(j * 1f / 2)];
+            AnimationClip animClip = clips[j];
             AnimClip motionData = meshAnimationList.AnimClips[j];
             int bakeFrames = Mathf.CeilToInt(animClip.length * fps);
 
+
+            animClip = clips[j];
             int frame = 0;
             for (int i = 0; i < bakeFrames; i += frameSkips[animClip.name])
             {
@@ -490,31 +492,7 @@ public class MotionMatchingBakedEditor : EditorWindow
 
                 frame++;
             }
-            AssetDatabase.CreateAsset(meshAnimationList.AnimClips[j], assetFolder + meshAnimationList.AnimClips[j].Name + "_Root.asset");
-            j++;
-
-
-
-            sampleGO.transform.position = Vector3.zero;
-            sampleGO.transform.rotation = Quaternion.identity;
-            animClip = clips[(int)(j * 1f / 2)];
-            motionData = meshAnimationList.AnimClips[j];
-            bakeFrames = Mathf.CeilToInt(animClip.length * fps);
-            frame = 0;
-            for (int i = 0; i < bakeFrames; i += frameSkips[animClip.name])
-            {
-                float bakeDelta = Mathf.Clamp01(((float)i / bakeFrames));
-                EditorUtility.DisplayProgressBar("Baking Animation", string.Format("Processing: {0} Frame: {1}", animClip.name, i), bakeDelta);
-                float animationTime = bakeDelta * animClip.length;
-                AnimationFrame motionFrameData = motionData.Frames[frame];
-                AnimationFrame lastMotionFrameData = frame > 0 ? motionData.Frames[frame - 1] : null;
-
-                CaptureBoneSnapShotInPlace(animClip, motionFrameData, lastMotionFrameData, sampleGO, bakeFrames, i);
-                CaptureTrajectorySnapShot(animClip, motionFrameData, lastMotionFrameData, sampleGO, bakeFrames, i);
-
-                frame++;
-            }
-            meshAnimationList.AnimClips[j].Name +="_InPlace" ;
+            //meshAnimationList.AnimClips[j].Name += "_InPlace";
             AssetDatabase.CreateAsset(meshAnimationList.AnimClips[j], assetFolder + meshAnimationList.AnimClips[j].Name + "_Root.asset");
             
             animCount++;
@@ -814,7 +792,7 @@ public class MotionMatchingBakedEditor : EditorWindow
         if (requiresAnimator)
         {
             float normalizedTime = animationTime / animClip.length;
-            //animator.applyRootMotion = false;
+            animator.applyRootMotion = false;
             animator.Play(animClip.name, 0, normalizedTime);
             animator.Update(frameSkipsTimeStep);
         }

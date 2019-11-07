@@ -52,6 +52,7 @@ public class ClipsFetch : MonoBehaviour
     {
         index = (int)(value * AnimationClip.Frames.Count);
         FrameToJoints(AnimationClip.Frames[index]);
+        //Debug.Log(SkeletonJoints["mixamorig:Hips"].position);
     }
 
     public void FrameToJoints(AnimationFrame frame)

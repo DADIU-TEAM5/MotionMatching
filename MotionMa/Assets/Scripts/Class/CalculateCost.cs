@@ -66,7 +66,7 @@ public class CalculateCost : MotionMatcher
     private static List<int> FindBestTrajectories(AnimationCapsules animationCapsules, Capsule current)
     {
 
-        int bestNum = 20;
+        int bestNum = 30;
 
         List<float> scores = new List<float>();
         List<int> frameindex = new List<int>();
