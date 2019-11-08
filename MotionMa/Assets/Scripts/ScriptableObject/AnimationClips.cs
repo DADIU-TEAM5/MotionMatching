@@ -7,4 +7,5 @@ using UnityEngine;
 public class AnimationClips : ScriptableObject
 {
     public List<AnimClip> AnimClips;
+    // public List<AnimClip> MagicClips;
 }

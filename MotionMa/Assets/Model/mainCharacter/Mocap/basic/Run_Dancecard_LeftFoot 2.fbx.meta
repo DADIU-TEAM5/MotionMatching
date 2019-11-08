@@ -38,8 +38,8 @@ ModelImporter:
       name: RunForward
       takeName: Take 001
       internalID: 0
-      firstFrame: 208
-      lastFrame: 306
+      firstFrame: 160
+      lastFrame: 217
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -106,13 +106,13 @@ ModelImporter:
     serializedVersion: 3
     human: []
     skeleton:
-    - name: Run_Dancecard_LeftFoot 1(Clone)
+    - name: Run_Dancecard_LeftFoot 2(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig:Hips
-      parentName: Run_Dancecard_LeftFoot 1(Clone)
+      parentName: Run_Dancecard_LeftFoot 2(Clone)
       position: {x: 0, y: 0.8108026, z: 0.06012473}
       rotation: {x: -0.088301666, y: 0.057187185, z: 0.0004378046, w: 0.99445075}
       scale: {x: 1, y: 1, z: 1}
@@ -144,17 +144,17 @@ ModelImporter:
     - name: mixamorig:RightUpLeg
       parentName: mixamorig:Hips
       position: {x: 0.07871181, y: 1.4461259e-15, z: -0.00000000543011}
-      rotation: {x: 0.27747673, y: 0.02327801, z: 0.95709574, w: -0.0802033}
+      rotation: {x: 0.27747673, y: 0.023278039, z: 0.95709574, w: -0.08020331}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig:RightLeg
       parentName: mixamorig:RightUpLeg
       position: {x: 0.0000003726886, y: 0.4197966, z: 0.0000004284269}
-      rotation: {x: -0.31143153, y: -0.012231161, z: 0.013316207, w: 0.9500966}
+      rotation: {x: -0.31143162, y: -0.012231126, z: 0.013316199, w: 0.9500966}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig:RightFoot
       parentName: mixamorig:RightLeg
       position: {x: -0.000607549, y: 0.4207679, z: -0.0000005695444}
-      rotation: {x: 0.81675935, y: 0.06649194, z: -0.20668554, w: 0.534569}
+      rotation: {x: 0.81675947, y: 0.06649183, z: -0.20668554, w: 0.53456897}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig:RightToeBase
       parentName: mixamorig:RightFoot

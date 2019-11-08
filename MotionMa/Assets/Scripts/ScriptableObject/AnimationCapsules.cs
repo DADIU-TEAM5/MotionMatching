@@ -6,4 +6,5 @@ using UnityEngine;
 public class AnimationCapsules : ScriptableObject
 {
     public List<Capsule> FrameCapsules;
+    // public List<Capsule> MagicCapsules;
 }

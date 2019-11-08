@@ -9,6 +9,7 @@ public class TransToRoot : MonoBehaviour
     // Start is called before the first frame update
     public AnimClip RootMotionAnim;
     public Transform Skeleton;
+    public string StopPoint;
 
     private Dictionary<string, Transform> _skeletonJoints;
     private void Initialize()
@@ -23,7 +24,9 @@ public class TransToRoot : MonoBehaviour
     {
         Initialize();
         //FrameToJoints(RootMotionAnim.Frames[0]);
-        var startPoint = new Vector3(_skeletonJoints["mixamorig:Hips"].position.x, 0, _skeletonJoints["mixamorig:Hips"].position.z);
+        // var startPoint = _skeletonJoints[StopPoint].position;
+        // var startPoint = new Vector3(_skeletonJoints[StopPoint].position.x, 0, _skeletonJoints[StopPoint].position.z);
+        var startPoint = new Vector3(0,0,0);
         //startPoint.y = _skeletonJoints["mixamorig:Hips"].position.y;
         //var stratRotation = _skeletonJoints["mixamorig:Hips"].rotation;
         //InPlaceAnim.Frames.Add(RootMotionAnim.Frames[0]);
@@ -31,7 +34,8 @@ public class TransToRoot : MonoBehaviour
         for (int i = 0; i < RootMotionAnim.Frames.Count; i++)
         {
             FrameToJoints(RootMotionAnim.Frames[i]);
-            var shift = _skeletonJoints["mixamorig:Hips"].position - startPoint;
+            // var shift =  startPoint;
+            var shift =  _skeletonJoints[StopPoint].position - startPoint;
             //keep y not moving
             //shift.y = 0;
             //Debug.Log(startPoint);
@@ -42,7 +46,8 @@ public class TransToRoot : MonoBehaviour
                 var joint = new AnimationJointPoint();
 
                 joint = RootMotionAnim.Frames[i].JointPoints[j];
-                joint.Position =  RootMotionAnim.Frames[i].JointPoints[j].Position - shift;
+                joint.Position.x = RootMotionAnim.Frames[i].JointPoints[j].Position.x - shift.x;
+                joint.Position.z = RootMotionAnim.Frames[i].JointPoints[j].Position.z - shift.z;
                 //joint.Rotation = stratRotation * Quaternion.Inverse(RootMotionAnim.Frames[i].JointPoints[j].Rotation )* Skeleton.rotation;//;
 
                 joints.Add(joint);

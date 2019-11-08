@@ -862,7 +862,7 @@ public class MotionMatchingBakedEditor : EditorWindow
         if (requiresAnimator)
         {
             float normalizedTime = animationTime / animClip.length;
-            animator.applyRootMotion = false;
+            // animator.applyRootMotion = false;
             animator.Play(animClip.name, 0, normalizedTime);
             animator.Update(frameSkipsTimeStep);
         }

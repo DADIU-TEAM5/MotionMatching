@@ -11,7 +11,9 @@ public class MotionMatcher
     {
         int bestCapsuleIndex = 0;
         if (attackTag == null)
-            bestCapsuleIndex = CalculateCost.GetBestFrameIndex(animationCapsules, current.Capsule, animationClips);
+            {
+                bestCapsuleIndex = CalculateCost.GetBestFrameIndex(animationCapsules, current.Capsule, animationClips,magicMotions);
+            }
         else
         {
             //
@@ -52,5 +54,7 @@ public class MotionMatcher
 
         return 7878;
     }
+
+
 
 }
