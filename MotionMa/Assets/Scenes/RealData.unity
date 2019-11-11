@@ -2627,7 +2627,7 @@ MonoBehaviour:
   Second: 1
   SaveInSecond: 3
   PredictSpeed: 20
-  MoMaUpdateTime: 0.1
+  MoMaUpdateTime: 0.403
   BlendDegree: 0.5
   BlendLength: 1
   DifferentClipLength: 10
@@ -2670,7 +2670,7 @@ MonoBehaviour:
   MagicMotion: {fileID: 11400000, guid: e22cef729110b3e47955a03816d08a2e, type: 2}
   Second: 0.3
   SaveInSecond: 3
-  Speed: 2
+  Speed: 1
   FrameRate: 30
 --- !u!1 &1113800440
 GameObject:
@@ -2689,7 +2689,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1113800441
 Transform:
   m_ObjectHideFlags: 0
@@ -2749,7 +2749,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 708f3bcdb731e964aa2488a85a7a080d,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9147868553947026619, guid: 708f3bcdb731e964aa2488a85a7a080d,
         type: 3}

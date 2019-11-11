@@ -16,17 +16,19 @@ public class CalculateCost : MotionMatcher
 
         var bestTrajectIndexes = FindBestTrajectories(animationCapsules, current,magicMotions);
 
-        for (int i = 0; i < bestTrajectIndexes.Count; i++)
+        for (int i = 0; i < bestTrajectIndexes.frameindex.Count; i++)
         {
-            var animCap = animationCapsules.FrameCapsules[bestTrajectIndexes[i]];
+            var animCap = animationCapsules.FrameCapsules[bestTrajectIndexes.frameindex[i]];
             //var jointcost = JointsCost(animationClips.AnimClips[animCap.AnimClipIndex].Frames[animCap.FrameNum],
             //                            animationClips.AnimClips[current.AnimClipIndex].Frames[current.FrameNum]);
 
-            var jointcost = TestCapusuleJointCost(animCap, animationCapsules.FrameCapsules[current.CapsuleIndex]);
-            if (jointcost < bestScore)
+            var jointCost = TestCapusuleJointCost(animCap, animationCapsules.FrameCapsules[current.CapsuleIndex]);
+            var sumCost = jointCost + 1f / 3f * bestTrajectIndexes.scores[bestTrajectIndexes.frameindex[i]];
+
+            if (sumCost < bestScore)
             {
-                bestScore = jointcost;
-                BestIndex = bestTrajectIndexes[i];
+                bestScore = sumCost;
+                BestIndex = bestTrajectIndexes.frameindex[i];
             }
 
 
@@ -63,12 +65,12 @@ public class CalculateCost : MotionMatcher
         return posCost;
     }
 
-    private static List<int> FindBestTrajectories(AnimationCapsules animationCapsules, 
+    private static ScoreWithIndex FindBestTrajectories(AnimationCapsules animationCapsules, 
                                             Capsule current, MagicMotions MagicMotionNames)
     {
 
-        int bestNum = 10;
-
+        int bestNum = 50;
+        ScoreWithIndex scoreWithIndex;
         List<float> scores = new List<float>();
         List<int> frameindex = new List<int>();
         //initialize
@@ -93,8 +95,10 @@ public class CalculateCost : MotionMatcher
                 frameindex[maxIndex] = i;
             }
         }
+        scoreWithIndex.frameindex = frameindex;
+        scoreWithIndex.scores = scores;
 
-        return frameindex;
+        return scoreWithIndex;
     }
 
     //could be update
@@ -119,5 +123,12 @@ public class CalculateCost : MotionMatcher
         }
 
         return trajectoryCost;
+    }
+
+
+    public struct ScoreWithIndex
+    {
+        public List<float> scores;
+        public List<int> frameindex;
     }
 }

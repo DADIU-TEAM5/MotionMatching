@@ -15,6 +15,7 @@ public class PreProcess : MonoBehaviour
     public List<string> MagicMotionNames;
     public MagicMotions MagicMotions;
     public MagicMotion MagicMotion;
+    public List<string> KeyJoints;
 
     public float Second = 1f;
     public int SaveInSecond = 10;
@@ -49,6 +50,10 @@ public class PreProcess : MonoBehaviour
                 // }
         }
         GetMagicMotion();
+        EditorUtility.SetDirty(AnimationsPreProcess);
+        EditorUtility.SetDirty(AnimationsPlay);
+        EditorUtility.SetDirty(MagicMotions);
+        EditorUtility.SetDirty(MagicMotion);
     }
 
     // public bool IsMagicMotion(string animName)
@@ -88,6 +93,7 @@ public class PreProcess : MonoBehaviour
         {
             if (AllAnimations.AnimClips[i].Name == name)
             {
+                GetKeyJoints.RootJointsToKeyJoints(AllAnimations.AnimClips[i], KeyJoints);
                 GetAnimaitionTrajectory(AllAnimations.AnimClips[i], animIndex,isMagic);
                 break;
             }
