@@ -15,27 +15,54 @@ public class CalculateCost : MotionMatcher
         float bestScore = float.MaxValue;
 
         var bestTrajectIndexes = FindBestTrajectories(animationCapsules, current,magicMotions);
+        ScoreWithIndex jointScore;
+        //jointScore.frameindex = bestTrajectIndexes.frameindex;
+        jointScore.scores = new List<float>();
 
-        for (int i = 0; i < bestTrajectIndexes.frameindex.Count; i++)
+        for (int i = 0; i < bestTrajectIndexes.capsuleIndex.Count; i++)
         {
-            var animCap = animationCapsules.FrameCapsules[bestTrajectIndexes.frameindex[i]];
+            //frameIndex seems capsule index
+            var animCap = animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[i]];
             //var jointcost = JointsCost(animationClips.AnimClips[animCap.AnimClipIndex].Frames[animCap.FrameNum],
             //                            animationClips.AnimClips[current.AnimClipIndex].Frames[current.FrameNum]);
-
+            // see if it is correct for current index
             var jointCost = TestCapusuleJointCost(animCap, animationCapsules.FrameCapsules[current.CapsuleIndex]);
-            var sumCost = jointCost + 1f / 3f * bestTrajectIndexes.scores[bestTrajectIndexes.frameindex[i]];
-
-            if (sumCost < bestScore)
-            {
-                bestScore = sumCost;
-                BestIndex = bestTrajectIndexes.frameindex[i];
-            }
-
-
+            jointScore.scores.Add(jointCost);
         }
 
 
-        return BestIndex;
+        //normalized to do Change the Linq To our calculation
+        //these could be done with preprocess
+        var minScore = jointScore.scores.Min();
+        var gapScore = jointScore.scores.Max() - minScore;
+        for (int i = 0; i < jointScore.scores.Count; i++)
+            jointScore.scores[i] = (jointScore.scores[i] - minScore) / gapScore;
+
+        for(int i = 0; i < jointScore.scores.Count; i++) {
+            var sumScore = jointScore.scores[i] + bestTrajectIndexes.scores[i];
+
+            //for debug
+            if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[i]].AnimClipName.Contains("Idle_R"))
+            {
+                Debug.Log("Idle_R joint score" + jointScore.scores[BestIndex]);
+                Debug.Log("Idle_R trajectory score" + bestTrajectIndexes.scores[BestIndex]);
+            }
+
+            if (sumScore < bestScore)
+            {
+                bestScore = sumScore;
+                BestIndex = i;
+            }
+        }
+        //for debug
+        if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[BestIndex]].AnimClipName.Contains("Idle_L"))
+        {
+            Debug.Log("joint score" + jointScore.scores[BestIndex]);
+            Debug.Log("trajectory score" + bestTrajectIndexes.scores[BestIndex]);
+            Debug.Log("sum score" + bestScore);
+        }
+
+        return bestTrajectIndexes.capsuleIndex[BestIndex];
     }
 
     private static float TestCapusuleJointCost(Capsule animationCapsule, Capsule current)
@@ -95,7 +122,15 @@ public class CalculateCost : MotionMatcher
                 frameindex[maxIndex] = i;
             }
         }
-        scoreWithIndex.frameindex = frameindex;
+
+
+        //normalized
+        var minScore = scores.Min();
+        var gapScore = scores.Max() - minScore;
+        for (int i = 0; i < bestNum; i++)
+            scores[i] = (scores[i] - minScore)/ gapScore;
+
+        scoreWithIndex.capsuleIndex = frameindex;
         scoreWithIndex.scores = scores;
 
         return scoreWithIndex;
@@ -129,6 +164,6 @@ public class CalculateCost : MotionMatcher
     public struct ScoreWithIndex
     {
         public List<float> scores;
-        public List<int> frameindex;
+        public List<int> capsuleIndex;
     }
 }

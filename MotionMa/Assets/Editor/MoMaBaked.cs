@@ -419,9 +419,9 @@ public class MoMaBakedEditor : EditorWindow
 
         Transform rootMotionBaker = new GameObject().transform;
 
-        for (int x = 0; x < clips.Count; x++)
+        for (int x = 0; x < clips.Count * 2; x++)
         {
-            AnimationClip animClip = clips[x];
+            AnimationClip animClip = clips[(int)(x/2f)];
 
             if (bakeAnims.ContainsKey(animClip.name) && bakeAnims[animClip.name] == false)
             {
@@ -467,12 +467,12 @@ public class MoMaBakedEditor : EditorWindow
         }
 
         int animCount = 0;
-        for (int j = 0; j < clips.Count; j++)
+        for (int j = 0; j < clips.Count * 2; j++)
         {
             //Vector3.zero, Quaternion.identity
             sampleGO.transform.position = Vector3.zero;
             sampleGO.transform.rotation = Quaternion.identity;
-            AnimationClip animClip = clips[j];
+            AnimationClip animClip = clips[(int)(j / 2f)];
             AnimClip motionData = meshAnimationList.AnimClips[j];
             int bakeFrames = Mathf.CeilToInt(animClip.length * fps);
 
@@ -490,7 +490,10 @@ public class MoMaBakedEditor : EditorWindow
 
                 frame++;
             }
-            meshAnimationList.AnimClips[j].Name += "_InPlace";
+            //AssetDatabase.CreateAsset(meshAnimationList.AnimClips[j], assetFolder + meshAnimationList.AnimClips[j].Name + "_Root.asset");
+            if(j%2 == 0)
+                meshAnimationList.AnimClips[j].Name += "_InPlace";
+            
             AssetDatabase.CreateAsset(meshAnimationList.AnimClips[j], assetFolder + meshAnimationList.AnimClips[j].Name + "_Root.asset");
             animCount++;
         }

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: RealDataAnim
   m_EditorClassIdentifier: 
   AnimClips:
+  - {fileID: 11400000, guid: 39c15a7edb3fcee019e4d3c5b0a046b6, type: 2}
   - {fileID: 11400000, guid: 62cb9b2e7fbe18686a7f60aa9855e52b, type: 2}
   - {fileID: 11400000, guid: 781ef34e16f7cfca190f99a6da690bb0, type: 2}
-  MagicClips:
-  - {fileID: 11400000, guid: 781ef34e16f7cfca190f99a6da690bb0, type: 2}
-  - {fileID: 11400000, guid: 39c15a7edb3fcee019e4d3c5b0a046b6, type: 2}
+  - {fileID: 11400000, guid: 4ed44df28b6612049ae2145d8e89dd74, type: 2}

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: MainCharacter_Tpose_MotionField
   m_EditorClassIdentifier: 
   AnimClips:
-  - {fileID: 11400000, guid: 4ed44df28b6612049ae2145d8e89dd74, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: b67769fee8ed2c140b42d566098ecd75, type: 2}
+  - {fileID: 11400000, guid: cb794d68ff0504f4582730cb37e6024a, type: 2}

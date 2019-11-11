@@ -123,19 +123,19 @@ public class PreProcess : MonoBehaviour
     {
         float maxSpeed = 0.01f;
 
-        for (int i = 0; i < AllAnimations.AnimClips.Count; i++)
-            if (!AllAnimations.AnimClips[i].Name.Contains("InPlace"))
-                for (int j = 1; j < AllAnimations.AnimClips[i].Frames.Count; j++)
-                {
-                    var joint = AllAnimations.AnimClips[i].Frames[j].JointPoints.Find(x => x.Name.Contains("Root"));
-                    var jointBefore = AllAnimations.AnimClips[i].Frames[j - 1].JointPoints.Find(x => x.Name.Contains("Root"));
-                    joint.Position.y = 0;
-                    jointBefore.Position.y = 0;
-                    //distance / time = speed
-                    var speed = ((joint.Position - jointBefore.Position)/ (1f / FrameRate)).magnitude;
-                    if (speed > maxSpeed)
-                        maxSpeed = speed;
-                }
+        //for (int i = 0; i < AllAnimations.AnimClips.Count; i++)
+        //    if (!AllAnimations.AnimClips[i].Name.Contains("InPlace"))
+        //        for (int j = 1; j < AllAnimations.AnimClips[i].Frames.Count; j++)
+        //        {
+        //            var joint = AllAnimations.AnimClips[i].Frames[j].JointPoints.Find(x => x.Name.Contains("Root"));
+        //            var jointBefore = AllAnimations.AnimClips[i].Frames[j - 1].JointPoints.Find(x => x.Name.Contains("Root"));
+        //            joint.Position.y = 0;
+        //            jointBefore.Position.y = 0;
+        //            //distance / time = speed
+        //            var speed = ((joint.Position - jointBefore.Position)/ (1f / FrameRate)).magnitude;
+        //            if (speed > maxSpeed)
+        //                maxSpeed = speed;
+        //        }
 
         //return maxSpeed;
         return 1;

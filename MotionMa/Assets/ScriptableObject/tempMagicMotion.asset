@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: tempMagicMotion
   m_EditorClassIdentifier: 
   CapsuleNum: 0
-  AnimClipName: 
+  AnimClipName: Attack03_L
