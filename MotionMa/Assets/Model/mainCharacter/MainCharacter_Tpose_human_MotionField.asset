@@ -12,12 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4304635306edf4892a99bd0906805448, type: 3}
   m_Name: MainCharacter_Tpose_human_MotionField
   m_EditorClassIdentifier: 
-  AnimClips:
-  - {fileID: 11400000, guid: e8cae9507cba23c4ebe090a1f25b9ee8, type: 2}
-  - {fileID: 11400000, guid: 39c15a7edb3fcee019e4d3c5b0a046b6, type: 2}
-  - {fileID: 11400000, guid: 1af9f63f7b383324098cb301ee165097, type: 2}
-  - {fileID: 11400000, guid: 62cb9b2e7fbe18686a7f60aa9855e52b, type: 2}
-  - {fileID: 11400000, guid: d34fe2e13e93c564eb63d0d99d440b68, type: 2}
-  - {fileID: 11400000, guid: 781ef34e16f7cfca190f99a6da690bb0, type: 2}
-  - {fileID: 0}
-  - {fileID: 11400000, guid: 4ed44df28b6612049ae2145d8e89dd74, type: 2}
+  AnimClips: []

@@ -23,6 +23,7 @@ public class PreProcess : MonoBehaviour
     //Assume we know the frame rate is 30;
     public int FrameRate = 30;
     private float _maxSpeedInAnim = 0.001f;
+    private int _countCapsuleNum = 0;
 
     public void PreProcessTrajectory()
     {
@@ -79,7 +80,7 @@ public class PreProcess : MonoBehaviour
     private void GetAnimaitionTrajectory(AnimClip animClip, int animIndex, bool isMagic)
     {
         // if(!isMagic)
-            AnimationTrajectory.ObtainRootFromAnim(Second, SaveInSecond, FrameRate,
+            AnimationTrajectory.ObtainRootFromAnim(Second, SaveInSecond, FrameRate, ref _countCapsuleNum,
                       animClip, animIndex, Speed, AnimationsPreProcess.FrameCapsules, _maxSpeedInAnim);
         // else
         //     AnimationTrajectory.ObtainRootFromAnim(Second, SaveInSecond, FrameRate,

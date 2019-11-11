@@ -23,11 +23,13 @@ public class PlayerTrajectory : MonoBehaviour
 
     public AnimationCapsules AnimationTrajectories;
     public AnimationClips AnimationClips;
+    public AnimationClips DeadAnimationClips;
     public Result Results;
     public bool Blend = false;
     //it is okay for static?
     public CapsuleScriptObject PlayerTrajectoryCapusule;
     public MagicMotions AttackMotions;
+
 
     //for debug
     public Vector3 Velocity;
@@ -48,6 +50,7 @@ public class PlayerTrajectory : MonoBehaviour
 
     private MotionMatcher _motionMatcher;
     private Dictionary<string, Transform> _skeletonJoints = new Dictionary<string, Transform>();
+    //private bool _testPlayAnim  = false;
 
 
     //i can't believe it is too long
@@ -83,9 +86,15 @@ public class PlayerTrajectory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             _attack = "Attack";
 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PlayDeadAnim();
+            //_testPlayAnim = true;
+        }
 
+        //if(!_testPlayAnim)
         if (Blend)
-            UpdateWithBlendInOneFrame(thisClip, thisClipNum, rotationPlayer);
+            UpdateWithBlend(thisClip, thisClipNum, rotationPlayer);
         else
             UpdateWithoutBlend(thisClip, thisClipNum, rotationPlayer);
 
@@ -337,7 +346,22 @@ public class PlayerTrajectory : MonoBehaviour
     }
 
 
+    public void PlayDeadAnim()
+    {
+        var deadAnimIndex = Random.Range(0, DeadAnimationClips.AnimClips.Count - 1);
+        StartCoroutine(PlayOneWholeAnimation(DeadAnimationClips.AnimClips[deadAnimIndex]));
+    }
 
+
+    private IEnumerator PlayOneWholeAnimation(AnimClip animClip)
+    {
+        for (int i = 0; i < animClip.Frames.Count; i++)
+        {
+            FrameToJoints(_skeletonJoints, animClip.Frames[i]);
+            yield return null;
+        }
+
+    }
 
 
 

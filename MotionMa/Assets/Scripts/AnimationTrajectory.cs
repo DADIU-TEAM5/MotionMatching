@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnimationTrajectory : PreProcess
 {
 
-    public static void ObtainRootFromAnim(float second, int saveInSecond, int frameRate,
+    public static void ObtainRootFromAnim(float second, int saveInSecond, int frameRate, ref int countCapsuleNum,
                                     AnimClip animClip, int animIndex, int speed, List<Capsule> capsules, float maxSpeedInAnim)
     {
 
@@ -36,6 +36,7 @@ public class AnimationTrajectory : PreProcess
             capsule.AnimClipName = animClip.Name;
             capsule.FrameNum = index;
             capsule.AnimClipIndex = animIndex;
+            capsule.CapsuleIndex = countCapsuleNum++;
             //key joints
             //for (int i = 0; i < animClip.Frames[index].JointPoints.Count; i++)
             //{

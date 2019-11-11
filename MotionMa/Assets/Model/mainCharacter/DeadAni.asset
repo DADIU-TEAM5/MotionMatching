@@ -10,10 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4304635306edf4892a99bd0906805448, type: 3}
-  m_Name: RealDataAnim
+  m_Name: DeadAni
   m_EditorClassIdentifier: 
-  AnimClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  AnimClips: []

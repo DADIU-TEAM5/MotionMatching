@@ -42,11 +42,12 @@ public class CalculateCost : MotionMatcher
             var sumScore = jointScore.scores[i] + bestTrajectIndexes.scores[i];
 
             //for debug
-            if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[i]].AnimClipName.Contains("Idle_R"))
-            {
-                Debug.Log("Idle_R joint score" + jointScore.scores[BestIndex]);
-                Debug.Log("Idle_R trajectory score" + bestTrajectIndexes.scores[BestIndex]);
-            }
+            //if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[i]].AnimClipName.Contains("Idle_R"))
+            //{
+            //    Debug.Log("Idle_R joint score" + jointScore.scores[BestIndex]);
+            //    Debug.Log("Idle_R trajectory score" + bestTrajectIndexes.scores[BestIndex]);
+            //    Debug.Log("sum idle r" + (bestTrajectIndexes.scores[BestIndex] + jointScore.scores[BestIndex]));
+            //}
 
             if (sumScore < bestScore)
             {
@@ -55,6 +56,12 @@ public class CalculateCost : MotionMatcher
             }
         }
         //for debug
+        if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[BestIndex]].AnimClipName.Contains("Run"))
+        {
+            Debug.Log("joint score" + jointScore.scores[BestIndex]);
+            //Debug.Log("trajectory score" + bestTrajectIndexes.scores[BestIndex]);
+            //Debug.Log("sum score" + bestScore);
+        }
         if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[BestIndex]].AnimClipName.Contains("Idle_L"))
         {
             Debug.Log("joint score" + jointScore.scores[BestIndex]);
@@ -152,8 +159,8 @@ public class CalculateCost : MotionMatcher
         //assume future length == history
         for (int i = 0; i < frame.TrajectoryFuture.Length; i++)
         {
-            var futurePos = (frame.TrajectoryFuture[i] - current.TrajectoryFuture[i]).magnitude;
-            var historyPos = (frame.TrajectoryHistory[i] - current.TrajectoryHistory[i]).magnitude;
+            var futurePos = Vector3.Magnitude(frame.TrajectoryFuture[i] - current.TrajectoryFuture[i]);
+            var historyPos = Vector3.Magnitude(frame.TrajectoryHistory[i] - current.TrajectoryHistory[i]);
             trajectoryCost += (futurePos + historyPos);
         }
 
