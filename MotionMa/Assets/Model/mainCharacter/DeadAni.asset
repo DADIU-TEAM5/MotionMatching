@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4304635306edf4892a99bd0906805448, type: 3}
   m_Name: DeadAni
   m_EditorClassIdentifier: 
-  AnimClips: []
+  AnimClips:
+  - {fileID: 11400000, guid: df42798f076e91c4e880346999b15c9c, type: 2}
+  - {fileID: 11400000, guid: 8d788c37f8d5cb54aa36e940c24465ee, type: 2}
+  - {fileID: 11400000, guid: 2b78769a2a59ee245997b54943d791a0, type: 2}
+  - {fileID: 11400000, guid: b85044a1cf076c04f9af9d07335d2685, type: 2}

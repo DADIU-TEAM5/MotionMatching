@@ -51,6 +51,7 @@ public class PreProcess : MonoBehaviour
                 // }
         }
         GetMagicMotion();
+        KeyJointsToInPlace(AnimationsPreProcess.FrameCapsules, AnimationsPlay);
         EditorUtility.SetDirty(AnimationsPreProcess);
         EditorUtility.SetDirty(AnimationsPlay);
         EditorUtility.SetDirty(MagicMotions);
@@ -87,6 +88,32 @@ public class PreProcess : MonoBehaviour
         //               animClip, animIndex, Speed, AnimationsPreProcess.MagicCapsules, _maxSpeedInAnim);
     }
 
+
+    //after get the trajectory, change the key joints to InPlace
+    //in fact, it can be done by getting the key joints in InPlace Animation
+    private void KeyJointsToInPlace(List<Capsule> frameCapsules, AnimationClips inPlaceAnimationClips)
+    {
+        for(int i = 0; i < frameCapsules.Count; i++)
+        {
+            var animIndex = frameCapsules[i].AnimClipIndex;
+            var InPlaceAnimFrame = inPlaceAnimationClips.AnimClips[animIndex].Frames[frameCapsules[i].FrameNum];
+            for (int j = 0; j < frameCapsules[i].KeyJoints.Count; j++)
+            {
+                //update later
+                for(int k = 0; k < InPlaceAnimFrame.JointPoints.Count; k++)
+                {
+                    if (InPlaceAnimFrame.JointPoints[k].Name.Contains(frameCapsules[i].KeyJoints[j].Name))
+                    {
+                        frameCapsules[i].KeyJoints[j] = InPlaceAnimFrame.JointPoints[k];
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+
     private void GetCorrespondingAnimations(string inPlaceAnimationName, int animIndex, bool isMagic)
     {
         var name = inPlaceAnimationName.Replace("_InPlace", "");
@@ -100,7 +127,6 @@ public class PreProcess : MonoBehaviour
             }
         }
     }
-
 
 
     private void GetMagicMotion()

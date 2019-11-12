@@ -75,7 +75,7 @@ public class CalculateCost : MotionMatcher
     private static float TestCapusuleJointCost(Capsule animationCapsule, Capsule current)
     {
         float allCost = 0;
-        for (int j = 0; j < animationCapsule.KeyJoints.Count; j++)
+        for (int j = 1; j < animationCapsule.KeyJoints.Count; j++)
         {
             allCost += BoneCost(animationCapsule.KeyJoints[j], current.KeyJoints[j]);
         }
@@ -159,8 +159,8 @@ public class CalculateCost : MotionMatcher
         //assume future length == history
         for (int i = 0; i < frame.TrajectoryFuture.Length; i++)
         {
-            var futurePos = Vector3.Magnitude(frame.TrajectoryFuture[i] - current.TrajectoryFuture[i]);
-            var historyPos = Vector3.Magnitude(frame.TrajectoryHistory[i] - current.TrajectoryHistory[i]);
+            var futurePos = Vector3.Distance(frame.TrajectoryFuture[i] , current.TrajectoryFuture[i]);
+            var historyPos = Vector3.Distance(frame.TrajectoryHistory[i] , current.TrajectoryHistory[i]);
             trajectoryCost += (futurePos + historyPos);
         }
 
