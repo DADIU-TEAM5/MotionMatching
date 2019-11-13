@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56adef75226e0446ab99b264bc41b516, type: 3}
-  m_Name: Idle_L_Root
+  m_Name: Idle_L_Root 1
   m_EditorClassIdentifier: 
   Name: Idle_L_InPlace
   ClipLengthInMilliseconds: 0

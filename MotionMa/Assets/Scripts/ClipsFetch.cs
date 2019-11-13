@@ -18,7 +18,7 @@ public class ClipsFetch : MonoBehaviour
     public float value;
     public int index;
     public string ClipName;
-    public int Scale;
+    //public int Scale=1;
     //public string ClipPath = "Assets/TestNew.asset";
     private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
 

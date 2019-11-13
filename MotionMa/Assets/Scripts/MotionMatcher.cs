@@ -38,6 +38,13 @@ public class MotionMatcher
         else
         {
             result.FrameNum++;
+            if (result.CapsuleNum < animationCapsules.FrameCapsules.Count - 1)
+                result.CapsuleNum++;
+            else
+            {
+                result.FrameNum = animationCapsules.FrameCapsules[0].FrameNum;
+                result.CapsuleNum = 0;
+            }
         }
     }
 
