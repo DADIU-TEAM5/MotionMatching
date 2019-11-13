@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using UnityEditor;
 
 public class TransToRoot : MonoBehaviour
 {
@@ -54,6 +54,8 @@ public class TransToRoot : MonoBehaviour
             }
             RootMotionAnim.Frames[i].JointPoints = joints;
         }
+
+        EditorUtility.SetDirty(RootMotionAnim);
     }
 
     public void FrameToJoints(AnimationFrame frame)

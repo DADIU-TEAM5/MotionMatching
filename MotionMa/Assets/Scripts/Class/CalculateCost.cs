@@ -56,18 +56,18 @@ public class CalculateCost : MotionMatcher
             }
         }
         //for debug
-        if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[BestIndex]].AnimClipName.Contains("Run"))
-        {
-            Debug.Log("joint score" + jointScore.scores[BestIndex]);
-            //Debug.Log("trajectory score" + bestTrajectIndexes.scores[BestIndex]);
-            //Debug.Log("sum score" + bestScore);
-        }
-        if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[BestIndex]].AnimClipName.Contains("Idle_L"))
-        {
-            Debug.Log("joint score" + jointScore.scores[BestIndex]);
-            Debug.Log("trajectory score" + bestTrajectIndexes.scores[BestIndex]);
-            Debug.Log("sum score" + bestScore);
-        }
+        //if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[BestIndex]].AnimClipName.Contains("Run"))
+        //{
+        //    Debug.Log("joint score" + jointScore.scores[BestIndex]);
+        //    //Debug.Log("trajectory score" + bestTrajectIndexes.scores[BestIndex]);
+        //    //Debug.Log("sum score" + bestScore);
+        //}
+        //if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[BestIndex]].AnimClipName.Contains("Idle_L"))
+        //{
+        //    Debug.Log("joint score" + jointScore.scores[BestIndex]);
+        //    Debug.Log("trajectory score" + bestTrajectIndexes.scores[BestIndex]);
+        //    Debug.Log("sum score" + bestScore);
+        //}
 
         return bestTrajectIndexes.capsuleIndex[BestIndex];
     }
