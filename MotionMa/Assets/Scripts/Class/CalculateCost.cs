@@ -26,6 +26,7 @@ public class CalculateCost : MotionMatcher
             //var jointcost = JointsCost(animationClips.AnimClips[animCap.AnimClipIndex].Frames[animCap.FrameNum],
             //                            animationClips.AnimClips[current.AnimClipIndex].Frames[current.FrameNum]);
             // see if it is correct for current index
+           
             var jointCost = TestCapusuleJointCost(animCap, animationCapsules.FrameCapsules[current.CapsuleIndex]);
             jointScore.scores.Add(jointCost);
         }
