@@ -126,7 +126,7 @@ public class PlayerTrajectory : MonoBehaviour
         {
             _motionMatcher.GetMotionAndFrame(_attack, AttackMotions, AnimationTrajectories, PlayerTrajectoryCapusule,
                                               Results, AnimationClips, DifferentClipLength);
-            
+
             _tempMoMaTime = 0;
             _attack = null;
             bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
@@ -142,7 +142,9 @@ public class PlayerTrajectory : MonoBehaviour
 
         }
         else
+        {
             Results.FrameNum++;
+        }
 
 
         PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
