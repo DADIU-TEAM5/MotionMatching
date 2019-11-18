@@ -35,8 +35,8 @@ public class PlayerTrajectory : MonoBehaviour
     public Vector3 Velocity;
     public Vector3 Direction;
 
-    private Queue<Vector3> _history = new Queue<Vector3>();
-    private List<Vector3> _future = new List<Vector3>();
+    private Queue<Trajectory> _history = new Queue<Trajectory>();
+    private List<Trajectory> _future = new List<Trajectory>();
     private float _timer;
     private float _tempMoMaTime;
     private int _stratFrame = 3; //assume we know... todo get it!!!
@@ -108,7 +108,7 @@ public class PlayerTrajectory : MonoBehaviour
         var currentRot = transform.rotation;
 
 
-        HistoryTrajectory(currentPos);
+        HistoryTrajectory(currentPos, _history.ToArray());
         PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = _history.ToArray();
 
 
@@ -126,36 +126,52 @@ public class PlayerTrajectory : MonoBehaviour
         {
             _motionMatcher.GetMotionAndFrame(_attack, AttackMotions, AnimationTrajectories, PlayerTrajectoryCapusule,
                                               Results, AnimationClips, DifferentClipLength);
-            
+
             _tempMoMaTime = 0;
             _attack = null;
-            bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
-                          && (Mathf.Abs(thisClipNum - Results.FrameNum) < DifferentClipLength));
+            //bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
+            //              && (Mathf.Abs(thisClipNum - Results.FrameNum) < DifferentClipLength));
 
-            //todo if same motion, result changes (should have another struct contrl)
-            if (isSimilarMotion)
-            {
-                Results.AnimClipIndex = thisClip;
-                Results.FrameNum = thisClipNum;
-                Results.FrameNum++;
+            ////todo if same motion, result changes (should have another struct contrl)
+            //if (isSimilarMotion)
+            //{
+            //    Results.AnimClipIndex = thisClip;
+            //    Results.FrameNum = thisClipNum;
+            //    Results.FrameNum++;
 
 
-                //if (Results.CapsuleNum < AnimationTrajectories.FrameCapsules[Results.CapsuleNum].CapsuleEnd)
-                //{
-                //    Results.CapsuleNum++;
-                //    Results.FrameNum = AnimationTrajectories.FrameCapsules[Results.CapsuleNum].FrameNum;
-                //}
-                //else
-                //{
-                //    var beginIndex = AnimationTrajectories.FrameCapsules[Results.CapsuleNum].CapsuleBegin;
-                //    Results.FrameNum = AnimationTrajectories.FrameCapsules[beginIndex].FrameNum;
-                //    Results.CapsuleNum = beginIndex;
-                //}
-            }
+            //    if (Results.CapsuleNum < AnimationTrajectories.FrameCapsules[Results.CapsuleNum].CapsuleEnd)
+            //    {
+            //        Results.CapsuleNum++;
+            //        Results.FrameNum = AnimationTrajectories.FrameCapsules[Results.CapsuleNum].FrameNum;
+            //    }
+            //    else
+            //    {
+            //        var beginIndex = AnimationTrajectories.FrameCapsules[Results.CapsuleNum].CapsuleBegin;
+            //        Results.FrameNum = AnimationTrajectories.FrameCapsules[beginIndex].FrameNum;
+            //        Results.CapsuleNum = beginIndex;
+            //    }
+            //}
+
+            //var beginIndex = AnimationTrajectories.FrameCapsules[Results.CapsuleNum].CapsuleBegin;
+            Results.FrameNum = AnimationTrajectories.FrameCapsules[Results.CapsuleNum].FrameNum;
 
         }
         else
+        {
             Results.FrameNum++;
+            if (Results.CapsuleNum < AnimationTrajectories.FrameCapsules[Results.CapsuleNum].CapsuleEnd)
+            {
+                Results.CapsuleNum++;
+                Results.FrameNum = AnimationTrajectories.FrameCapsules[Results.CapsuleNum].FrameNum;
+            }
+            else
+            {
+                var beginIndex = AnimationTrajectories.FrameCapsules[Results.CapsuleNum].CapsuleBegin;
+                Results.FrameNum = AnimationTrajectories.FrameCapsules[beginIndex].FrameNum;
+                Results.CapsuleNum = beginIndex;
+            }
+        }
 
 
         PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
@@ -278,20 +294,24 @@ public class PlayerTrajectory : MonoBehaviour
     }
 
 
-    private void transToRelative(Vector3[] vector3s, Vector3 current)
+    private void transToRelative(Trajectory[] vector3s, Vector3 current)
     {
         for (int i = 0; i < vector3s.Length; i++)
         {
-            vector3s[i] = transform.InverseTransformDirection((vector3s[i] - current)); //change it to relative
+            vector3s[i].Position = transform.InverseTransformDirection((vector3s[i].Position - current)); //change it to relative
         }
     }
 
     private void InitializeTrajectory()
     {
+        
         while (_history.Count < SaveInSecond)
         {
-            _history.Enqueue(transform.localPosition);
-            _future.Add(transform.localPosition);
+            Trajectory trajectory = new Trajectory();
+            trajectory.Position = transform.localPosition;
+            trajectory.Direction = new Vector3(0, 0, 0);
+            _history.Enqueue(trajectory);
+            _future.Add(trajectory);
         }
     }
 
@@ -306,26 +326,32 @@ public class PlayerTrajectory : MonoBehaviour
         return inputVel;
     }
 
-    private void HistoryTrajectory(Vector3 currentPos)
+    private void HistoryTrajectory(Vector3 currentPos, Trajectory[] historyTrajectory)
     {
         //save History only in the gap
+        //todo see if the memory keep raising by only use this
+        Trajectory trajectory = new Trajectory();
         if (_timer > (1f / AnimationFrameRate))
         {
             _timer = 0;
+
+            var lastPos = historyTrajectory[0].Position;
+            trajectory.Position = currentPos;
+            trajectory.Direction = lastPos - currentPos;
+
             _history.Dequeue();
-            _history.Enqueue(currentPos);
+            _history.Enqueue(trajectory);
         }
     }
 
     private void FuturePredict(Vector3 currentPos, Vector3 inputVel, Quaternion currentRot)
     {
-        _future[0] = currentPos;
+        _future[0].Position = currentPos;
 
         var rotation = Quaternion.Euler(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * PredictSpeed);
         Direction = Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * PredictSpeed;
 
 
-        Velocity = inputVel;
         for (int i = 0; i < SaveInSecond; i++)
         {
             var increase = 1f /  AnimationFrameRate * i;//Second / SaveInSecond * i;
@@ -333,9 +359,24 @@ public class PlayerTrajectory : MonoBehaviour
             var angle_increase = Quaternion.EulerRotation(gap_increase);
             var gap = (inputVel * increase);
             var futureP = (currentPos + angle_increase * currentRot * gap);
-            _future[i] = futureP;
+            _future[i].Position = futureP;
         }
 
+
+        //add direction
+        for(int i =0; i < SaveInSecond - 1; i++)
+        {
+            _future[i].Direction = _future[i + 1].Position - _future[i].Position;
+        }
+
+        {
+            var increase = 1f / AnimationFrameRate * SaveInSecond;//Second / SaveInSecond * i;
+            var gap_increase = Quaternion.ToEulerAngles(rotation) * increase;
+            var angle_increase = Quaternion.EulerRotation(gap_increase);
+            var gap = (inputVel * increase);
+            var futureP = (currentPos + angle_increase * currentRot * gap);
+            _future[SaveInSecond - 1].Direction =  _future[SaveInSecond - 1].Position - futureP;
+        }
     }
 
 

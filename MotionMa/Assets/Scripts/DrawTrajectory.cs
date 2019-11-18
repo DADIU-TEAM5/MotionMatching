@@ -26,13 +26,13 @@ public class DrawTrajectory : MonoBehaviour
 
         for (int i = 0; i < capsuleScriptObject.Capsule.TrajectoryHistory.Length; i++)
         {
-            Gizmos.DrawSphere(transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryHistory[i])+ transformToShowFrom.position, 0.1f);
+            Gizmos.DrawSphere(transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryHistory[i].Position)+ transformToShowFrom.position, 0.1f);
         }
 
         Gizmos.color = Color.blue;
         for (int i = 0; i < capsuleScriptObject.Capsule.TrajectoryFuture.Length; i++)
         {
-            Gizmos.DrawSphere(transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryFuture[i]) + transformToShowFrom.position, 0.1f);
+            Gizmos.DrawSphere(transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryFuture[i].Position) + transformToShowFrom.position, 0.1f);
         }
     }
 }

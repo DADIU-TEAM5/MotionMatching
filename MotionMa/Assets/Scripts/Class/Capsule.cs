@@ -16,7 +16,7 @@ public class Capsule
 
 
     public Vector3 CurrentPosition;
-    public Vector3[] TrajectoryFuture;
-    public Vector3[] TrajectoryHistory;
+    public Trajectory[] TrajectoryFuture;
+    public Trajectory[] TrajectoryHistory;
 
 }

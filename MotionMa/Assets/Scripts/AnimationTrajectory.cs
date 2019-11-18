@@ -23,8 +23,8 @@ public class AnimationTrajectory : PreProcess
 
             var capsule = new Capsule();
             var positions = new List<Vector3>();
-            var fureturepositions = new List<Vector3>();
-            var historypositions = new List<Vector3>();
+            var fureturepositions = new List<Trajectory>();
+            var historypositions = new List<Trajectory>();
 
             var currentJoint = animClip.Frames[index].JointPoints.Find(x => x.Name.Contains("Hips"));
             capsule.CurrentPosition = currentJoint.Position;
@@ -57,20 +57,25 @@ public class AnimationTrajectory : PreProcess
 
     private static void GetTrajectory(int saveInSecond, int saveGap, Capsule currentCapsule,
                                 AnimClip animClip, int index, int speed,
-                                List<Vector3> fureturepositions,
-                                List<Vector3> historypositions, float maxSpeedInAnim)
+                                List<Trajectory> fureturepositions,
+                                List<Trajectory> historypositions, float maxSpeedInAnim)
     {
-        for (int i = 0; i < saveInSecond; i++)
+        List<Vector3> futurePositionsList = new List<Vector3>();
+        List<Vector3> historyPositionsList = new List<Vector3>();
+
+        for (int i = 0; i < saveInSecond + 1; i++)
         {
             var futureindex = index + i * saveGap;
             var furetureJoint = animClip.Frames[futureindex].JointPoints.Find(x => x.Name.Contains("Hips"));
 
-            
+
             var futureRelativePos = (furetureJoint.Position - currentCapsule.CurrentPosition) * speed * maxSpeedInAnim;
             //futureRelativePos.y = 0; // assum we have no jump now
-            var futureRotatedBackPos = Quaternion.Inverse(furetureJoint.Rotation)* futureRelativePos;
+            var futureRotatedBackPos = Quaternion.Inverse(furetureJoint.Rotation) * futureRelativePos;
             futureRotatedBackPos.y = 0;
-            fureturepositions.Add(futureRotatedBackPos);
+
+
+            futurePositionsList.Add(futureRotatedBackPos);
 
 
             //same for history
@@ -81,10 +86,26 @@ public class AnimationTrajectory : PreProcess
             //hisRelativePos.y = 0;
             var hisRotatedBackPos = Quaternion.Inverse(hisJoint.Rotation) * hisRelativePos;
             hisRotatedBackPos.y = 0;
-            historypositions.Add(hisRotatedBackPos);
+            historyPositionsList.Add(hisRotatedBackPos);
         }
-    }
 
+        for (int i = 0; i < saveInSecond; i++)
+        {
+            var trajectory = new Trajectory();
+            trajectory.Position = futurePositionsList[i];
+            trajectory.Direction = futurePositionsList[i] - futurePositionsList[i + 1];
+            fureturepositions.Add(trajectory);
+        }
+
+        for (int i = 0; i < saveInSecond; i++)
+        {
+            var trajectory = new Trajectory();
+            trajectory.Position = historyPositionsList[i];
+            trajectory.Direction = historyPositionsList[i + 1] - historyPositionsList[i];
+            historypositions.Add(trajectory);
+        }
+
+    }
     private static void GetKeyJoints(AnimationFrame animationFrame, ref Capsule capsule)
     {
         capsule.KeyJoints = new List<AnimationJointPoint>();
