@@ -39,6 +39,7 @@ public class PlayerTrajectory : MonoBehaviour
     private List<Vector3> _future = new List<Vector3>();
     private float _timer;
     private float _tempMoMaTime;
+    private float _timerWhyIHaveALot;
     private int _stratFrame = 3; //assume we know... todo get it!!!
     private bool _blendFlag = false;
     private int _forBlendPlay = 0;
@@ -50,6 +51,7 @@ public class PlayerTrajectory : MonoBehaviour
 
     private MotionMatcher _motionMatcher;
     private Dictionary<string, Transform> _skeletonJoints = new Dictionary<string, Transform>();
+    float _lastAttackTime;
     //private bool _testPlayAnim  = false;
 
 
@@ -61,11 +63,12 @@ public class PlayerTrajectory : MonoBehaviour
 
         _motionMatcher = new MotionMatcher();
         PlayerTrajectoryCapusule.Capsule = new Capsule();
-
+        _timerWhyIHaveALot = 0;
         _timer = 0;
         _tempMoMaTime = 0;
         Results.FrameNum = 0;
         Results.AnimClipIndex = 0;
+        _lastAttackTime = 0;
     }
 
     // Update is called once per frame
@@ -73,6 +76,8 @@ public class PlayerTrajectory : MonoBehaviour
     {
         _timer += Time.deltaTime;
         _tempMoMaTime += Time.deltaTime;
+        _timerWhyIHaveALot += Time.deltaTime;
+
         var inputs = Vector3.zero;
 
         int thisClip = Results.AnimClipIndex;
@@ -83,8 +88,26 @@ public class PlayerTrajectory : MonoBehaviour
 
         Vector3 inputVel = UpdatePlayerState(inputs);
         GetRelativeTrajectory(inputVel);
-        if (Input.GetKeyDown(KeyCode.Space))
-            _attack = "Attack";
+
+
+
+        if (Input.GetKeyDown(KeyCode.Space) && _lastAttackTime < float.Epsilon)
+        //_attack = "Attack";
+        {
+            _lastAttackTime = _timerWhyIHaveALot;
+            PlayAnimByIndex(4);
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && (_timerWhyIHaveALot - _lastAttackTime) < 0.1)
+        {
+            _lastAttackTime = _timerWhyIHaveALot;
+            PlayAnimByIndex(3);
+        }
+        else
+        {
+            _lastAttackTime = 0;
+        }
+
+
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -98,6 +121,12 @@ public class PlayerTrajectory : MonoBehaviour
         else
             UpdateWithoutBlend(thisClip, thisClipNum, rotationPlayer);
 
+    }
+
+
+    public void PlayAnimByIndex(int AnimIdex)
+    {
+        StartCoroutine(PlayOneWholeAnimation(AnimationClips.AnimClips[AnimIdex]));
     }
 
 

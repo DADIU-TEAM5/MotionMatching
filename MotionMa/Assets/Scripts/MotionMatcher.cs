@@ -6,14 +6,14 @@ using System.Linq;
 public class MotionMatcher
 {
 
-    public void GetMotionAndFrame(string attackTag, MagicMotions magicMotions, AnimationCapsules animationCapsules, CapsuleScriptObject current, 
+    public void GetMotionAndFrame(string attackTag, MagicMotions magicMotions, AnimationCapsules animationCapsules, CapsuleScriptObject current,
                                     Result result, AnimationClips animationClips, int differentClipLength)
     {
         int bestCapsuleIndex = 0;
         if (attackTag == null)
-            {
-                bestCapsuleIndex = CalculateCost.GetBestFrameIndex(animationCapsules, current.Capsule, animationClips,magicMotions);
-            }
+        {
+            bestCapsuleIndex = CalculateCost.GetBestFrameIndex(animationCapsules, current.Capsule, animationClips, magicMotions);
+        }
         else
         {
             //
@@ -23,12 +23,10 @@ public class MotionMatcher
         }
 
         var bestFrame = animationCapsules.FrameCapsules[bestCapsuleIndex];
-        //bool isSameLocation = (bestCapsuleIndex == result.CapsuleNum) 
-        //                        || ((bestFrame.AnimClipIndex == result.AnimClipIndex) 
-        //                        && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
+        bool isSameLocation = (bestCapsuleIndex == result.CapsuleNum)
+                                || ((bestFrame.AnimClipIndex == result.AnimClipIndex)
+                                && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
 
-        bool isSameLocation = ((bestFrame.AnimClipIndex == result.AnimClipIndex)
-                                && (Mathf.Abs(bestCapsuleIndex - result.CapsuleNum) < differentClipLength));
 
         if (!isSameLocation)
         {
@@ -40,26 +38,15 @@ public class MotionMatcher
         else
         {
             result.FrameNum++;
-            //if (result.CapsuleNum < animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleEnd)
-            //{
-            //    result.CapsuleNum++;
-            //    result.FrameNum = animationCapsules.FrameCapsules[result.CapsuleNum].FrameNum;
-            //}
-            //else
-            //{
-            //    var beginIndex = animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleBegin;
-            //    result.FrameNum = animationCapsules.FrameCapsules[beginIndex].FrameNum;
-            //    result.CapsuleNum = beginIndex;
-            //}
         }
     }
 
     //we cannot find the animation every time
     private int FindTagCapsule(string attackTag, MagicMotions magicMotions)
     {
-        for(int i=0; i < magicMotions.AttackMotions.Count; i++)
+        for (int i = 0; i < magicMotions.AttackMotions.Count; i++)
         {
-            if( magicMotions.AttackMotions[i].AnimClipName.Contains(attackTag))
+            if (magicMotions.AttackMotions[i].AnimClipName.Contains(attackTag))
             {
                 return magicMotions.AttackMotions[i].CapsuleNum;
             }

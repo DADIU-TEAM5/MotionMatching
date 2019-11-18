@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Results
   m_EditorClassIdentifier: 
   ClipName: Idle_R
-  FrameNum: 54
+  FrameNum: 26
   AnimClipIndex: 1
-  CapsuleNum: 45
+  CapsuleNum: 36
