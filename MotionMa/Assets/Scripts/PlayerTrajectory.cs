@@ -160,7 +160,6 @@ public class PlayerTrajectory : MonoBehaviour
         else
             Results.FrameNum++;
 <<<<<<< HEAD
-<<<<<<< HEAD
             if (Results.CapsuleNum < AnimationTrajectories.FrameCapsules[Results.CapsuleNum].CapsuleEnd)
             {
                 Results.CapsuleNum++;
@@ -173,8 +172,6 @@ public class PlayerTrajectory : MonoBehaviour
                 Results.CapsuleNum = beginIndex;
             }
         }
-=======
->>>>>>> parent of e124bb7... before broken
 =======
 >>>>>>> parent of e124bb7... before broken
 
