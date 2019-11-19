@@ -15,4 +15,6 @@ public class Capsule
     public Vector3[] TrajectoryFuture;
     public Vector3[] TrajectoryHistory;
 
+    public Vector3[] TrajectoryDirctionFuture;
+    public Vector3[] TrajectoryDirctionHistory;
 }

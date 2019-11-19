@@ -37,6 +37,8 @@ public class PlayerTrajectory : MonoBehaviour
 
     private Queue<Vector3> _history = new Queue<Vector3>();
     private List<Vector3> _future = new List<Vector3>();
+    private Queue<Vector3> _historyDirection = new Queue<Vector3>();
+    private List<Vector3> _futureDirection = new List<Vector3>();
     private float _timer;
     private float _tempMoMaTime;
     private int _stratFrame = 3; //assume we know... todo get it!!!
@@ -110,10 +112,12 @@ public class PlayerTrajectory : MonoBehaviour
 
         HistoryTrajectory(currentPos);
         PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = _history.ToArray();
+        PlayerTrajectoryCapusule.Capsule.TrajectoryDirctionHistory = _historyDirection.ToArray();
 
 
         FuturePredict(currentPos, inputVel, currentRot);
-        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = _future.ToArray();
+        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = _futureDirection.ToArray();
+        PlayerTrajectoryCapusule.Capsule.TrajectoryDirctionHistory = _historyDirection.ToArray();
 
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
@@ -278,7 +282,9 @@ public class PlayerTrajectory : MonoBehaviour
         while (_history.Count < SaveInSecond)
         {
             _history.Enqueue(transform.localPosition);
+            _historyDirection.Enqueue(Vector3.zero);
             _future.Add(transform.localPosition);
+            _futureDirection.Add(Vector3.zero);
         }
     }
 
@@ -299,8 +305,13 @@ public class PlayerTrajectory : MonoBehaviour
         if (_timer > (1f / AnimationFrameRate))
         {
             _timer = 0;
+            var lastPos = _history.ToArray()[SaveInSecond - 1];
+           
             _history.Dequeue();
             _history.Enqueue(currentPos);
+
+            _historyDirection.Dequeue();
+            _historyDirection.Enqueue(lastPos - currentPos);
         }
     }
 
@@ -321,6 +332,20 @@ public class PlayerTrajectory : MonoBehaviour
             var gap = (inputVel * increase);
             var futureP = (currentPos + angle_increase * currentRot * gap);
             _future[i] = futureP;
+        }
+
+        for (int i = 0; i < SaveInSecond - 1; i++)
+        {
+            _futureDirection[i] = _future[i + 1] - _future[i];
+        }
+
+        {
+            var increase = 1f / AnimationFrameRate * SaveInSecond;//Second / SaveInSecond * i;
+            var gap_increase = Quaternion.ToEulerAngles(rotation) * increase;
+            var angle_increase = Quaternion.EulerRotation(gap_increase);
+            var gap = (inputVel * increase);
+            var futureP = (currentPos + angle_increase * currentRot * gap);
+            _futureDirection[SaveInSecond - 1] = _future[SaveInSecond - 1] - futureP;
         }
 
     }

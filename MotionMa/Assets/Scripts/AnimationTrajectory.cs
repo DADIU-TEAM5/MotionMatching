@@ -20,19 +20,23 @@ public class AnimationTrajectory : PreProcess
             var positions = new List<Vector3>();
             var fureturepositions = new List<Vector3>();
             var historypositions = new List<Vector3>();
+            var fureturepositionsDirection = new List<Vector3>();
+            var historypositionsDirection = new List<Vector3>();
 
             var currentJoint = animClip.Frames[index].JointPoints.Find(x => x.Name.Contains("Hips"));
             capsule.CurrentPosition = currentJoint.Position;
             var currentRotation = currentJoint.Rotation;
 
 
-            GetTrajectory(saveInSecond,saveGap, capsule,
-                            animClip, index, speed,
+            GetTrajectory(saveInSecond,saveGap, capsule, animClip, index, speed,
+                            fureturepositionsDirection, historypositionsDirection,
                             fureturepositions, historypositions, maxSpeedInAnim);
 
             //assign values
             capsule.TrajectoryFuture = fureturepositions.ToArray();
             capsule.TrajectoryHistory = historypositions.ToArray();
+            capsule.TrajectoryDirctionFuture = fureturepositionsDirection.ToArray();
+            capsule.TrajectoryDirctionHistory = historypositionsDirection.ToArray();
             capsule.AnimClipName = animClip.Name;
             capsule.FrameNum = index;
             capsule.AnimClipIndex = animIndex;
@@ -49,11 +53,11 @@ public class AnimationTrajectory : PreProcess
     }
 
     private static void GetTrajectory(int saveInSecond, int saveGap, Capsule currentCapsule,
-                                AnimClip animClip, int index, int speed,
-                                List<Vector3> fureturepositions,
+                                AnimClip animClip, int index, int speed, List<Vector3> futureDirection,
+                                List<Vector3> historyDirection, List<Vector3> fureturepositions,
                                 List<Vector3> historypositions, float maxSpeedInAnim)
     {
-        for (int i = 0; i < saveInSecond; i++)
+        for (int i = 0; i < saveInSecond+ 1; i++)
         {
             var futureindex = index + i * saveGap;
             var furetureJoint = animClip.Frames[futureindex].JointPoints.Find(x => x.Name.Contains("Hips"));
@@ -64,7 +68,7 @@ public class AnimationTrajectory : PreProcess
             var futureRotatedBackPos = Quaternion.Inverse(furetureJoint.Rotation)* futureRelativePos;
             futureRotatedBackPos.y = 0;
             fureturepositions.Add(futureRotatedBackPos);
-
+            
 
             //same for history
             var historyIndex = index - i * saveGap;
@@ -76,6 +80,17 @@ public class AnimationTrajectory : PreProcess
             hisRotatedBackPos.y = 0;
             historypositions.Add(hisRotatedBackPos);
         }
+
+        /*add direction*/
+        for(int i = 0; i < saveInSecond; i++)
+        {
+            historyDirection.Add(historypositions[i + 1] - historypositions[i]);
+            futureDirection.Add(fureturepositions[i] - fureturepositions[i + 1]);
+        }
+
+        historypositions.RemoveAt(historypositions.Count - 1);
+        fureturepositions.RemoveAt(fureturepositions.Count - 1);
+
     }
 
     private static void GetKeyJoints(AnimationFrame animationFrame, ref Capsule capsule)
