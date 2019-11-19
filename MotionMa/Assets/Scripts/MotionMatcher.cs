@@ -23,15 +23,12 @@ public class MotionMatcher
         }
 
         var bestFrame = animationCapsules.FrameCapsules[bestCapsuleIndex];
-        bool isSameLocation = (bestCapsuleIndex == result.CapsuleNum) 
-                                || ((bestFrame.AnimClipIndex == result.AnimClipIndex) 
-                                && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
+        //bool isSameLocation = (bestCapsuleIndex == result.CapsuleNum) 
+        //                        || ((bestFrame.AnimClipIndex == result.AnimClipIndex) 
+        //                        && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
 
-<<<<<<< HEAD
         bool isSameLocation = ((bestFrame.AnimClipIndex == result.AnimClipIndex)
                                 && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
-=======
->>>>>>> parent of e124bb7... before broken
 
         if (!isSameLocation)
         {
@@ -43,17 +40,16 @@ public class MotionMatcher
         else
         {
             result.FrameNum++;
-<<<<<<< HEAD
             if (result.CapsuleNum < animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleEnd)
             {
-=======
-            if (result.CapsuleNum < animationCapsules.FrameCapsules.Count - 1)
->>>>>>> parent of e124bb7... before broken
                 result.CapsuleNum++;
+                result.FrameNum = animationCapsules.FrameCapsules[result.CapsuleNum].FrameNum;
+            }
             else
             {
-                result.FrameNum = animationCapsules.FrameCapsules[0].FrameNum;
-                result.CapsuleNum = 0;
+                var beginIndex = animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleBegin;
+                result.FrameNum = animationCapsules.FrameCapsules[beginIndex].FrameNum;
+                result.CapsuleNum = beginIndex;
             }
         }
     }
