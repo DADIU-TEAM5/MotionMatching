@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: Results
   m_EditorClassIdentifier: 
 <<<<<<< HEAD:MotionMa/Assets/ScriptableObjects/Results.asset
+<<<<<<< HEAD:MotionMa/Assets/ScriptableObjects/Results.asset
   ClipName: RunCircle
   FrameNum: 11
   AnimClipIndex: 0
   CapsuleNum: 166
 =======
+=======
+>>>>>>> parent of e124bb7... before broken:MotionMa/Assets/ScriptableObject/Results.asset
   ClipName: Idle_L
   FrameNum: 34
   AnimClipIndex: 1

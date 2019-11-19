@@ -28,8 +28,11 @@ public class MotionMatcher
                                 && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         bool isSameLocation = ((bestFrame.AnimClipIndex == result.AnimClipIndex)
                                 && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
+=======
+>>>>>>> parent of e124bb7... before broken
 =======
 >>>>>>> parent of e124bb7... before broken
 
@@ -44,8 +47,12 @@ public class MotionMatcher
         {
             result.FrameNum++;
 <<<<<<< HEAD
+<<<<<<< HEAD
             if (result.CapsuleNum < animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleEnd)
             {
+=======
+            if (result.CapsuleNum < animationCapsules.FrameCapsules.Count - 1)
+>>>>>>> parent of e124bb7... before broken
 =======
             if (result.CapsuleNum < animationCapsules.FrameCapsules.Count - 1)
 >>>>>>> parent of e124bb7... before broken
