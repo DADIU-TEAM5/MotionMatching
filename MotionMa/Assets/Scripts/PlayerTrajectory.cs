@@ -335,7 +335,7 @@ public class PlayerTrajectory : MonoBehaviour
         {
             _timer = 0;
 
-            var lastPos = historyTrajectory[SaveInSecond-1].Position;
+            var lastPos = historyTrajectory[0].Position;
             trajectory.Position = currentPos;
             trajectory.Direction = lastPos - currentPos;
 
