@@ -25,9 +25,13 @@ public class FetchEditor : Editor
             _clipsFetch.CutAnimation();
         }
 
-        if (GUILayout.Button("CombineAnimation"))
+        if (GUILayout.Button("Test"))
         {
-           _clipsFetch.CombineAnimation();
+            for(int i = 0; i < 100; i++)
+            {
+                _clipsFetch.value = i * 0.001f;
+                _clipsFetch.GetFrame();
+            }
         }
     }
 }

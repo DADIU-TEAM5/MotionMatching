@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Assertions;
-using UnityEditor;
+
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -11,7 +11,6 @@ public class ClipsFetch : MonoBehaviour
 {
     
     public AnimClip AnimationClip;
-    public AnimClip AnimClip2;
     //public AnimClipCSV OriginalClip;
     public AnimClip NewClip;
     public Transform Skeleton;
@@ -45,26 +44,9 @@ public class ClipsFetch : MonoBehaviour
 
             NewClip.Frames.Add(AnimationClip.Frames[i]);
         }
-        EditorUtility.SetDirty(NewClip);
+        
     }
-    public void CombineAnimation()
-    {
-        //AnimClip NewClip = ScriptableObject.CreateInstance<AnimClip>();
-        //UnityEditor.AssetDatabase.CreateAsset(NewClip, ClipPath);
-        //Object o = UnityEditor.AssetDatabase.LoadAssetAtPath(ClipPath, typeof(AnimClip));
-        NewClip.Name = ClipName;
-        NewClip.Frames.RemoveRange(0, NewClip.Frames.Count);
-        for (int i = 0; i < AnimationClip.Frames.Count; i++)
-        {
-            NewClip.Frames.Add(AnimationClip.Frames[i]);
-        }
-        for (int i = 0; i < AnimClip2.Frames.Count; i++)
-        {
-            NewClip.Frames.Add(AnimClip2.Frames[i]);
-        }
-        EditorUtility.SetDirty(NewClip);
-
-    }
+    
 
     public void GetFrame()
 
