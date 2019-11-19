@@ -40,8 +40,8 @@ public class CalculateCost : MotionMatcher
             jointScore.scores[i] = (jointScore.scores[i] - minScore) / gapScore;
 
         for(int i = 0; i < jointScore.scores.Count; i++) {
-            var sumScore = jointScore.scores[i];
-            //+ bestTrajectIndexes.scores[i]
+            var sumScore = jointScore.scores[i];// + bestTrajectIndexes.scores[i];
+
             //for debug
             //if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[i]].AnimClipName.Contains("Idle_R"))
             //{

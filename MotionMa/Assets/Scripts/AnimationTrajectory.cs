@@ -13,14 +13,9 @@ public class AnimationTrajectory : PreProcess
         var startFrame = saveGap * saveInSecond;
         var endFrame = animClip.Frames.Count - saveGap * saveInSecond;
         //var capsules = new List<Capsule>();
-        var capsuleBegin = countCapsuleNum;
-        var capsuleEnd = countCapsuleNum + endFrame - startFrame - 1;
-
-        //int footStepBefore, footStep, footStepBehind;//
-
+        
         for (int index = startFrame; index < endFrame; index++)
         {
-
             var capsule = new Capsule();
             var positions = new List<Vector3>();
             var fureturepositions = new List<Trajectory>();
@@ -42,8 +37,6 @@ public class AnimationTrajectory : PreProcess
             capsule.FrameNum = index;
             capsule.AnimClipIndex = animIndex;
             capsule.CapsuleIndex = countCapsuleNum++;
-            capsule.CapsuleBegin = capsuleBegin;
-            capsule.CapsuleEnd = capsuleEnd;
             //key joints
             //for (int i = 0; i < animClip.Frames[index].JointPoints.Count; i++)
             //{
