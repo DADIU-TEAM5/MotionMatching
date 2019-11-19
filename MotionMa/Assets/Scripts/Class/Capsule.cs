@@ -9,7 +9,11 @@ public class Capsule
     public int FrameNum;
     public int AnimClipIndex;
     public int CapsuleIndex;
+    public int CapsuleBegin;
+    public int CapsuleEnd;
     public List<AnimationJointPoint> KeyJoints;
+    public bool FootStep;
+
 
     public Vector3 CurrentPosition;
     public Trajectory[] TrajectoryFuture;

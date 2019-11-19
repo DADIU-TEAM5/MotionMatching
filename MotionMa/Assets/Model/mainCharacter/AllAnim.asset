@@ -10,8 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4304635306edf4892a99bd0906805448, type: 3}
-  m_Name: MainCharacter_Tpose_MotionField
+  m_Name: AllAnim
   m_EditorClassIdentifier: 
   AnimClips:
+  - {fileID: 11400000, guid: 95405910354af9a488e7848f4198ac8f, type: 2}
+  - {fileID: 11400000, guid: d34fe2e13e93c564eb63d0d99d440b68, type: 2}
+  - {fileID: 11400000, guid: 6a7ae2656e44b5349983b060ce8e171a, type: 2}
+  - {fileID: 11400000, guid: 4122ca4894233904daa4a8071b9178aa, type: 2}
+  - {fileID: 11400000, guid: 4abef4bb5ea5e0a4b8c5fd34f2590df6, type: 2}
+  - {fileID: 11400000, guid: da08e0a3775321b4192e559e7cbaf9a3, type: 2}
+  - {fileID: 11400000, guid: bda644e96bbceb84992f5775f0e25b02, type: 2}
+  - {fileID: 11400000, guid: 6c363062c838f4545875dc67182e5a36, type: 2}
   - {fileID: 11400000, guid: 3656a6d3baa1ec843880abe399131e28, type: 2}
   - {fileID: 11400000, guid: 3338d6fbed7fb8446825d29a0bd1a19b, type: 2}

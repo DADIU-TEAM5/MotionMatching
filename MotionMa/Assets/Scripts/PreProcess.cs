@@ -24,6 +24,7 @@ public class PreProcess : MonoBehaviour
     public int FrameRate = 30;
     private float _maxSpeedInAnim = 0.001f;
     private int _countCapsuleNum = 0;
+    
 
     public void PreProcessTrajectory()
     {
@@ -74,6 +75,7 @@ public class PreProcess : MonoBehaviour
         AnimationsPreProcess.FrameCapsules = new List<Capsule>();
         // AnimationsPreProcess.MagicCapsules = new List<Capsule>();
         _maxSpeedInAnim = 1f / GetMaxSpeed();
+        _countCapsuleNum = 0;
 
     }
 
@@ -167,4 +169,7 @@ public class PreProcess : MonoBehaviour
         //return maxSpeed;
         return 1;
     }
+
+
+
 }

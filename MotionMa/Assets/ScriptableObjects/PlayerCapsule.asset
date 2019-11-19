@@ -12,6 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc30da6ddb5fb44e99f0214be014529f, type: 3}
   m_Name: PlayerCapsule
   m_EditorClassIdentifier: 
-  CurrentPosition: {x: 0, y: 0, z: 0}
-  TrajectoryFuture: []
-  TrajectoryHistory: []
+  Capsule:
+    AnimClipName: Idle_R
+    FrameNum: 54
+    AnimClipIndex: 1
+    CapsuleIndex: 45
+    CapsuleBegin: 0
+    CapsuleEnd: 0
+    KeyJoints: []
+    FootStep: 0
+    CurrentPosition: {x: 0, y: 0, z: 0}
+    TrajectoryFuture:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    TrajectoryHistory:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
