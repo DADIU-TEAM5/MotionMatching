@@ -28,7 +28,7 @@ public class MotionMatcher
         //                        && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
 
         bool isSameLocation = ((bestFrame.AnimClipIndex == result.AnimClipIndex)
-                                && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
+                                && (Mathf.Abs(bestCapsuleIndex - result.CapsuleNum) < differentClipLength));
 
         if (!isSameLocation)
         {
@@ -40,17 +40,17 @@ public class MotionMatcher
         else
         {
             result.FrameNum++;
-            if (result.CapsuleNum < animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleEnd)
-            {
-                result.CapsuleNum++;
-                result.FrameNum = animationCapsules.FrameCapsules[result.CapsuleNum].FrameNum;
-            }
-            else
-            {
-                var beginIndex = animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleBegin;
-                result.FrameNum = animationCapsules.FrameCapsules[beginIndex].FrameNum;
-                result.CapsuleNum = beginIndex;
-            }
+            //if (result.CapsuleNum < animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleEnd)
+            //{
+            //    result.CapsuleNum++;
+            //    result.FrameNum = animationCapsules.FrameCapsules[result.CapsuleNum].FrameNum;
+            //}
+            //else
+            //{
+            //    var beginIndex = animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleBegin;
+            //    result.FrameNum = animationCapsules.FrameCapsules[beginIndex].FrameNum;
+            //    result.CapsuleNum = beginIndex;
+            //}
         }
     }
 
