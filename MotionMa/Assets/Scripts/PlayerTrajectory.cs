@@ -126,7 +126,7 @@ public class PlayerTrajectory : MonoBehaviour
         {
             _motionMatcher.GetMotionAndFrame(_attack, AttackMotions, AnimationTrajectories, PlayerTrajectoryCapusule,
                                               Results, AnimationClips, DifferentClipLength);
-
+            
             _tempMoMaTime = 0;
             _attack = null;
             //bool isSimilarMotion = ((thisClip == Results.AnimClipIndex)
@@ -158,8 +158,8 @@ public class PlayerTrajectory : MonoBehaviour
 
         }
         else
-        {
             Results.FrameNum++;
+<<<<<<< HEAD
             if (Results.CapsuleNum < AnimationTrajectories.FrameCapsules[Results.CapsuleNum].CapsuleEnd)
             {
                 Results.CapsuleNum++;
@@ -172,6 +172,8 @@ public class PlayerTrajectory : MonoBehaviour
                 Results.CapsuleNum = beginIndex;
             }
         }
+=======
+>>>>>>> parent of e124bb7... before broken
 
 
         PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
