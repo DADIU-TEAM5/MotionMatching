@@ -23,12 +23,10 @@ public class MotionMatcher
         }
 
         var bestFrame = animationCapsules.FrameCapsules[bestCapsuleIndex];
-        //bool isSameLocation = (bestCapsuleIndex == result.CapsuleNum) 
-        //                        || ((bestFrame.AnimClipIndex == result.AnimClipIndex) 
-        //                        && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
+        bool isSameLocation = (bestCapsuleIndex == result.CapsuleNum) 
+                                || ((bestFrame.AnimClipIndex == result.AnimClipIndex) 
+                                && (Mathf.Abs(bestFrame.FrameNum - result.FrameNum) < differentClipLength));
 
-        bool isSameLocation = ((bestFrame.AnimClipIndex == result.AnimClipIndex)
-                                && (Mathf.Abs(bestCapsuleIndex - result.CapsuleNum) < differentClipLength));
 
         if (!isSameLocation)
         {
@@ -39,17 +37,13 @@ public class MotionMatcher
         }
         else
         {
-            //result.FrameNum++;
-            if (result.CapsuleNum < animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleEnd)
-            {
+            result.FrameNum++;
+            if (result.CapsuleNum < animationCapsules.FrameCapsules.Count - 1)
                 result.CapsuleNum++;
-                result.FrameNum = animationCapsules.FrameCapsules[result.CapsuleNum].FrameNum;
-            }
             else
             {
-                var beginIndex = animationCapsules.FrameCapsules[result.CapsuleNum].CapsuleBegin;
-                result.FrameNum = animationCapsules.FrameCapsules[beginIndex].FrameNum;
-                result.CapsuleNum = beginIndex;
+                result.FrameNum = animationCapsules.FrameCapsules[0].FrameNum;
+                result.CapsuleNum = 0;
             }
         }
     }

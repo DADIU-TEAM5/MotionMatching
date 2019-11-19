@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce2ec2ae93474e4d9c1a83cdefbed95, type: 3}
   m_Name: Results
   m_EditorClassIdentifier: 
-  ClipName: Idle_R
-  FrameNum: 54
+  ClipName: Idle_L
+  FrameNum: 34
   AnimClipIndex: 1
   CapsuleNum: 45
