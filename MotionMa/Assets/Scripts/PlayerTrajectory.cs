@@ -514,7 +514,7 @@ public class PlayerTrajectory : MonoBehaviour
         }
     }
 
-
+    //
 
     private void BlendJoints(AnimationJointPoint startjointPoint, AnimationJointPoint endjointPoint,
                              Transform joint, float blendDegree)
