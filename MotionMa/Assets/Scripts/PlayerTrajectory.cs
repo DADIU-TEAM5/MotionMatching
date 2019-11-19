@@ -35,7 +35,7 @@ public class PlayerTrajectory : MonoBehaviour
     public Vector3 Velocity;
     public Vector3 Direction;
 
-    private List<Trajectory> _history = new List<Trajectory>();
+    private Queue<Trajectory> _history = new Queue<Trajectory>();
     private List<Trajectory> _future = new List<Trajectory>();
     private float _timer;
     private float _tempMoMaTime;
@@ -310,7 +310,7 @@ public class PlayerTrajectory : MonoBehaviour
             Trajectory trajectory = new Trajectory();
             trajectory.Position = transform.localPosition;
             trajectory.Direction = new Vector3(0, 0, 0);
-            _history.Add(trajectory);
+            _history.Enqueue(trajectory);
             _future.Add(trajectory);
         }
     }
@@ -330,19 +330,17 @@ public class PlayerTrajectory : MonoBehaviour
     {
         //save History only in the gap
         //todo see if the memory keep raising by only use this
-        //Trajectory trajectory = new Trajectory();
+        Trajectory trajectory = new Trajectory();
         if (_timer > (1f / AnimationFrameRate))
         {
             _timer = 0;
-  
-            historyTrajectory[0] = historyTrajectory[1];
-            historyTrajectory[1] = historyTrajectory[2];
-            var lastPos = historyTrajectory[SaveInSecond-1].Position;
-            historyTrajectory[2].Position = currentPos;
-            historyTrajectory[2].Direction = lastPos - currentPos;
 
-            //_history.Dequeue();
-            //_history.Enqueue(trajectory);
+            var lastPos = historyTrajectory[SaveInSecond-1].Position;
+            trajectory.Position = currentPos;
+            trajectory.Direction = lastPos - currentPos;
+
+            _history.Dequeue();
+            _history.Enqueue(trajectory);
         }
     }
 
