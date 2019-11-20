@@ -10,7 +10,7 @@ public class PlayerTrajectory : MonoBehaviour
     public float Second = 1f;
     public int SaveInSecond = 10;
     public int PredictSpeed = 20;
-    [Range(0.1f, 2f)]
+    [Range(0.01f, 2f)]
     public float MoMaUpdateTime = 0.1f;
     [Range(0, 1)]
     public float BlendDegree = 0.5f;
@@ -120,7 +120,7 @@ public class PlayerTrajectory : MonoBehaviour
         PlayerTrajectoryCapusule.Capsule.TrajectoryDirctionHistory = _historyDirection.ToArray();
 
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
-        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
+        //transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
     }
 
     private void UpdateWithoutBlend(int thisClip, int thisClipNum, Vector3 rotationPlayer)
@@ -151,7 +151,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
                                                 Results, AnimationClips, _skeletonJoints);
-        transform.Rotate(rotationPlayer);
+        //transform.Rotate(rotationPlayer);
     }
 
 
@@ -409,7 +409,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         FrameToJoints(skeletonJoints,
                        animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
-        transform.Rotate(rotationPlayer);
+        //transform.Rotate(rotationPlayer);
     }
 
     public void FrameToJoints(
@@ -457,7 +457,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         BlendAnimation(beginFrameIndex, bestFrameIndex, skeletonJoints,
             areadlyBlendedTimes, animationClips.AnimClips[beginAnimIndex], animationClips.AnimClips[result.AnimClipIndex], blendDegree);
-        transform.Rotate(rotationEular);
+        //transform.Rotate(rotationEular);
     }
 
 
