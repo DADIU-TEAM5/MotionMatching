@@ -22,17 +22,25 @@ public class DrawTrajectory : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        //Gizmos.color = Color.red;
 
         for (int i = 0; i < capsuleScriptObject.Capsule.TrajectoryHistory.Length; i++)
         {
-            Gizmos.DrawSphere(transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryHistory[i])+ transformToShowFrom.position, 0.1f);
+            var pos = transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryHistory[i]) + transformToShowFrom.position;
+            var dir = transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryDirctionHistory[i]);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(pos, 0.1f);
+            DrawArrow.ForGizmo(pos, dir, Color.red);
         }
 
-        Gizmos.color = Color.blue;
+        //Gizmos.color = Color.blue;
         for (int i = 0; i < capsuleScriptObject.Capsule.TrajectoryFuture.Length; i++)
         {
-            Gizmos.DrawSphere(transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryFuture[i]) + transformToShowFrom.position, 0.1f);
+            var pos = transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryFuture[i]) + transformToShowFrom.position;
+            var dir = transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryDirctionFuture[i]);
+            
+            Gizmos.DrawSphere(pos, 0.1f);
+            DrawArrow.ForGizmo(pos, dir, Color.red);
         }
     }
 }

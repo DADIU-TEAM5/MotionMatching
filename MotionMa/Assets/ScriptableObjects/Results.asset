@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Results
   m_EditorClassIdentifier: 
   ClipName: RunCircle
-  FrameNum: 18
+  FrameNum: 258
   AnimClipIndex: 0
-  CapsuleNum: 9
+  CapsuleNum: 249

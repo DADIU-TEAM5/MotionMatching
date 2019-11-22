@@ -110,17 +110,17 @@ public class PlayerTrajectory : MonoBehaviour
         var currentRot = transform.rotation;
 
 
-        HistoryTrajectory(currentPos);
+        HistoryTrajectory(currentPos, currentRot);
         PlayerTrajectoryCapusule.Capsule.TrajectoryHistory = _history.ToArray();
         PlayerTrajectoryCapusule.Capsule.TrajectoryDirctionHistory = _historyDirection.ToArray();
 
 
         FuturePredict(currentPos, inputVel, currentRot);
-        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = _futureDirection.ToArray();
-        PlayerTrajectoryCapusule.Capsule.TrajectoryDirctionHistory = _historyDirection.ToArray();
+        PlayerTrajectoryCapusule.Capsule.TrajectoryFuture = _future.ToArray();
+        PlayerTrajectoryCapusule.Capsule.TrajectoryDirctionFuture = _futureDirection.ToArray();
 
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
-        //transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
+        transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
     }
 
     private void UpdateWithoutBlend(int thisClip, int thisClipNum, Vector3 rotationPlayer)
@@ -151,7 +151,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
                                                 Results, AnimationClips, _skeletonJoints);
-        //transform.Rotate(rotationPlayer);
+        transform.Rotate(rotationPlayer);
     }
 
 
@@ -299,7 +299,7 @@ public class PlayerTrajectory : MonoBehaviour
         return inputVel;
     }
 
-    private void HistoryTrajectory(Vector3 currentPos)
+    private void HistoryTrajectory(Vector3 currentPos, Quaternion currentRot)
     {
         //save History only in the gap
         if (_timer > (1f / AnimationFrameRate))
@@ -311,7 +311,7 @@ public class PlayerTrajectory : MonoBehaviour
             _history.Enqueue(currentPos);
 
             _historyDirection.Dequeue();
-            _historyDirection.Enqueue(lastPos - currentPos);
+            _historyDirection.Enqueue(Quaternion.Inverse(currentRot) * (currentPos - lastPos) );
         }
     }
 
@@ -336,7 +336,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         for (int i = 0; i < SaveInSecond - 1; i++)
         {
-            _futureDirection[i] = _future[i + 1] - _future[i];
+            _futureDirection[i] = Quaternion.Inverse(currentRot) * (_future[i + 1] - _future[i]) ;
         }
 
         {
@@ -345,7 +345,7 @@ public class PlayerTrajectory : MonoBehaviour
             var angle_increase = Quaternion.EulerRotation(gap_increase);
             var gap = (inputVel * increase);
             var futureP = (currentPos + angle_increase * currentRot * gap);
-            _futureDirection[SaveInSecond - 1] = _future[SaveInSecond - 1] - futureP;
+            _futureDirection[SaveInSecond - 1] = Quaternion.Inverse(currentRot) * (futureP - _future[SaveInSecond - 1]);
         }
 
     }
@@ -409,7 +409,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         FrameToJoints(skeletonJoints,
                        animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
-        //transform.Rotate(rotationPlayer);
+        transform.Rotate(rotationPlayer);
     }
 
     public void FrameToJoints(
@@ -430,8 +430,10 @@ public class PlayerTrajectory : MonoBehaviour
 
     private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint)
     {
-        joint.rotation = transform.rotation * jointPoint.Rotation;
-        joint.position = transform.TransformDirection(jointPoint.Position) + transform.position;
+        //joint.rotation = transform.rotation * jointPoint.Rotation;
+        joint.rotation = jointPoint.Rotation;
+        //joint.position = transform.TransformDirection(jointPoint.Position) + transform.position;
+        joint.position = jointPoint.Position + transform.position;
     }
 
 

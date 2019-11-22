@@ -84,8 +84,8 @@ public class AnimationTrajectory : PreProcess
         /*add direction*/
         for(int i = 0; i < saveInSecond; i++)
         {
-            historyDirection.Add(historypositions[i + 1] - historypositions[i]);
-            futureDirection.Add(fureturepositions[i] - fureturepositions[i + 1]);
+            historyDirection.Add(historypositions[i] - historypositions[i + 1] );
+            futureDirection.Add(fureturepositions[i + 1] - fureturepositions[i]);
         }
 
         historypositions.RemoveAt(historypositions.Count - 1);
