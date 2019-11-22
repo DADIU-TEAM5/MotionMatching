@@ -291,7 +291,7 @@ public class PlayerTrajectory : MonoBehaviour
     private Vector3 UpdatePlayerState(Vector3 inputs)
     {
         inputs.z = Input.GetAxis("Vertical");
-
+        inputs.x = Input.GetAxis("Horizontal");
         //get input velocity to move
         var inputVel = inputs * Speed;
         transform.Translate(inputVel * Time.deltaTime);
@@ -322,7 +322,7 @@ public class PlayerTrajectory : MonoBehaviour
         var rotation = Quaternion.Euler(Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * PredictSpeed);
         Direction = Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed * PredictSpeed;
 
-
+        rotation = Quaternion.Euler(Vector3.zero);
         Velocity = inputVel;
         for (int i = 0; i < SaveInSecond; i++)
         {
