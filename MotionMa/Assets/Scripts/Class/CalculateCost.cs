@@ -161,7 +161,13 @@ public class CalculateCost : MotionMatcher
         {
             var futurePos = Vector3.Distance(frame.TrajectoryFuture[i] , current.TrajectoryFuture[i]);
             var historyPos = Vector3.Distance(frame.TrajectoryHistory[i] , current.TrajectoryHistory[i]);
-            trajectoryCost += (futurePos + historyPos);
+
+            //direction
+            var futurePosDir = Vector3.Distance(frame.TrajectoryDirctionFuture[i], current.TrajectoryDirctionFuture[i]);
+            var historyPosDir = Vector3.Distance(frame.TrajectoryDirctionHistory[i], current.TrajectoryDirctionHistory[i]);
+
+            //trajectoryCost += ((futurePos + historyPos) + (futurePosDir + historyPosDir)*10000);
+            trajectoryCost += ((futurePos ) + (futurePosDir) );
         }
 
         return trajectoryCost;

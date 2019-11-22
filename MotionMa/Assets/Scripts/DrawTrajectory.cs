@@ -30,7 +30,7 @@ public class DrawTrajectory : MonoBehaviour
             var dir = transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryDirctionHistory[i]);
             Gizmos.color = Color.blue;
             Gizmos.DrawSphere(pos, 0.1f);
-            DrawArrow.ForGizmo(pos, dir, Color.red);
+            DrawArrow.ForGizmo(pos, dir, Color.green);
         }
 
         //Gizmos.color = Color.blue;
@@ -40,7 +40,7 @@ public class DrawTrajectory : MonoBehaviour
             var dir = transformToShowFrom.TransformVector(capsuleScriptObject.Capsule.TrajectoryDirctionFuture[i]);
             
             Gizmos.DrawSphere(pos, 0.1f);
-            DrawArrow.ForGizmo(pos, dir, Color.red);
+            DrawArrow.ForGizmo(pos, dir, Color.yellow);
         }
     }
 }

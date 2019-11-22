@@ -151,7 +151,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
                                                 Results, AnimationClips, _skeletonJoints);
-        transform.Rotate(rotationPlayer);
+        //transform.Rotate(rotationPlayer);
     }
 
 
@@ -409,7 +409,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         FrameToJoints(skeletonJoints,
                        animationClips.AnimClips[result.AnimClipIndex].Frames[result.FrameNum]);
-        transform.Rotate(rotationPlayer);
+        //transform.Rotate(rotationPlayer);
     }
 
     public void FrameToJoints(

@@ -21,8 +21,9 @@ public class DrawForTs : MonoBehaviour
         {
             var pos = transformToShowFrom.TransformVector(animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryHistory[i]) + transformToShowFrom.position;
             var dir = transformToShowFrom.TransformVector(animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryDirctionHistory[i]);
+            //Gizmos.color = Color.blue;
             Gizmos.DrawSphere(pos, 0.1f);
-            DrawArrow.ForGizmo(pos, dir);
+            DrawArrow.ForGizmo(pos, dir,Color.green);
         }
 
         Gizmos.color = Color.green;
@@ -31,7 +32,7 @@ public class DrawForTs : MonoBehaviour
             var pos = transformToShowFrom.TransformVector(animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryFuture[i]) + transformToShowFrom.position;
             var dir = transformToShowFrom.TransformVector(animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryDirctionFuture[i]);
             Gizmos.DrawSphere(pos, 0.1f);
-            DrawArrow.ForGizmo(pos, dir);
+            DrawArrow.ForGizmo(pos, dir, Color.yellow);
             //Gizmos.DrawSphere(transformToShowFrom.TransformVector(animationCapsules.FrameCapsules[result.CapsuleNum].TrajectoryFuture[i]) + transformToShowFrom.position, 0.1f);
         }
     }

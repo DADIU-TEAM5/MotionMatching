@@ -11,7 +11,9 @@ public class ClipsFetch : MonoBehaviour
 {
     
     public AnimClip AnimationClip;
+    public AnimationClips PlayAnimations;
     //public AnimClipCSV OriginalClip;
+    public AnimationCapsules AnimationCapsules;
     public AnimClip NewClip;
     public Transform Skeleton;
     public int StartFrame, EndFrame;
@@ -21,7 +23,8 @@ public class ClipsFetch : MonoBehaviour
     //public int Scale=1;
     //public string ClipPath = "Assets/TestNew.asset";
     private Dictionary<string, Transform> SkeletonJoints = new Dictionary<string, Transform>();
-
+    private int ClipNum;
+    private int FrameNum;
     void Awake()
     {
         //transf(Skeleton);
@@ -51,8 +54,12 @@ public class ClipsFetch : MonoBehaviour
     public void GetFrame()
 
     {
-        index = (int)(value * AnimationClip.Frames.Count);
-        FrameToJoints(AnimationClip.Frames[index]);
+           
+        index = (int)(value * AnimationCapsules.FrameCapsules.Count);
+        ClipNum = AnimationCapsules.FrameCapsules[index].AnimClipIndex;
+        FrameNum = AnimationCapsules.FrameCapsules[index].FrameNum;
+
+        FrameToJoints(PlayAnimations.AnimClips[ClipNum].Frames[FrameNum]);
         //Debug.Log(SkeletonJoints["mixamorig:Hips"].position);
     }
 
@@ -108,5 +115,28 @@ public class ClipsFetch : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        //Gizmos.color = Color.red;
+
+        for (int i = 0; i < AnimationCapsules.FrameCapsules[index].TrajectoryHistory.Length; i++)
+        {
+            var pos = Skeleton.TransformVector(AnimationCapsules.FrameCapsules[index].TrajectoryHistory[i]) + Skeleton.position;
+            var dir = Skeleton.TransformVector(AnimationCapsules.FrameCapsules[index].TrajectoryDirctionHistory[i]);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(pos, 0.1f);
+            DrawArrow.ForGizmo(pos, dir, Color.green);
+        }
+
+        //Gizmos.color = Color.blue;
+        for (int i = 0; i < AnimationCapsules.FrameCapsules[index].TrajectoryFuture.Length; i++)
+        {
+            var pos = Skeleton.TransformVector(AnimationCapsules.FrameCapsules[index].TrajectoryFuture[i]) + Skeleton.position;
+            var dir = Skeleton.TransformVector(AnimationCapsules.FrameCapsules[index].TrajectoryDirctionFuture[i]);
+
+            Gizmos.DrawSphere(pos, 0.1f);
+            DrawArrow.ForGizmo(pos, dir, Color.yellow);
+        }
+    }
 
 }

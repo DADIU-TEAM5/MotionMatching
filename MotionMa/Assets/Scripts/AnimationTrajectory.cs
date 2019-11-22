@@ -65,7 +65,8 @@ public class AnimationTrajectory : PreProcess
             
             var futureRelativePos = (furetureJoint.Position - currentCapsule.CurrentPosition) * speed * maxSpeedInAnim;
             //futureRelativePos.y = 0; // assum we have no jump now
-            var futureRotatedBackPos = Quaternion.Inverse(furetureJoint.Rotation)* futureRelativePos;
+            //var futureRotatedBackPos = Quaternion.Inverse(furetureJoint.Rotation)* futureRelativePos;
+            var futureRotatedBackPos = futureRelativePos;
             futureRotatedBackPos.y = 0;
             fureturepositions.Add(futureRotatedBackPos);
             
@@ -76,7 +77,8 @@ public class AnimationTrajectory : PreProcess
 
             var hisRelativePos = (hisJoint.Position - currentCapsule.CurrentPosition) * speed * maxSpeedInAnim;
             //hisRelativePos.y = 0;
-            var hisRotatedBackPos = Quaternion.Inverse(hisJoint.Rotation) * hisRelativePos;
+            //var hisRotatedBackPos = Quaternion.Inverse(hisJoint.Rotation) * hisRelativePos;
+            var hisRotatedBackPos = hisRelativePos;
             hisRotatedBackPos.y = 0;
             historypositions.Add(hisRotatedBackPos);
         }
