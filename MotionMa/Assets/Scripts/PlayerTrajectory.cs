@@ -55,6 +55,12 @@ public class PlayerTrajectory : MonoBehaviour
     //private bool _testPlayAnim  = false;
 
 
+
+
+    //let's try to use the animator control
+
+
+
     //i can't believe it is too long
     void Start()
     {
@@ -416,15 +422,30 @@ public class PlayerTrajectory : MonoBehaviour
                               Dictionary<string, Transform> skeletonJoints,
                               AnimationFrame frame)
     {
+        //Quaternion rotation = Quaternion.identity;
+        //Vector3 position = Vector3.zero;
+        Vector3 rotationEular = Vector3.zero; ;
+
         foreach (var jointPoint in frame.JointPoints)
         {
             if (!skeletonJoints.Keys.Contains(jointPoint.Name))
             {
                 continue;
             }
+           
+
             var joint = skeletonJoints[jointPoint.Name];
+            //if (jointPoint.Name == "mixamorig:Hips")
+            //{
+            //    //rotation = joint.rotation;
+            //    //position = joint.position;
+            //    //position.y = 0;
+            //    rotationEular = Quaternion.ToEulerAngles(joint.rotation);
+            //}
             ApplyJointPointToJoint(jointPoint, joint);
         }
+
+        //transform.Rotate(rotationEular);
     }
 
 

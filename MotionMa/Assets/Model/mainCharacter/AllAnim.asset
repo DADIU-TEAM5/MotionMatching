@@ -15,3 +15,15 @@ MonoBehaviour:
   AnimClips:
   - {fileID: 11400000, guid: 3656a6d3baa1ec843880abe399131e28, type: 2}
   - {fileID: 11400000, guid: 3338d6fbed7fb8446825d29a0bd1a19b, type: 2}
+  - {fileID: 11400000, guid: d34fe2e13e93c564eb63d0d99d440b68, type: 2}
+  - {fileID: 11400000, guid: 95405910354af9a488e7848f4198ac8f, type: 2}
+  - {fileID: 11400000, guid: da08e0a3775321b4192e559e7cbaf9a3, type: 2}
+  - {fileID: 11400000, guid: 4abef4bb5ea5e0a4b8c5fd34f2590df6, type: 2}
+  - {fileID: 11400000, guid: 2aa301ca0457e794482e22684da8cd56, type: 2}
+  - {fileID: 11400000, guid: ea77c83f072cbe74ca7a97935f97a28f, type: 2}
+  - {fileID: 11400000, guid: 525fcc4f5d40d334d93feff14dc4f280, type: 2}
+  - {fileID: 11400000, guid: e78b80da18c35a24396af55d1a5b6b3b, type: 2}
+  - {fileID: 11400000, guid: f9de16361128ce146b24834488b19270, type: 2}
+  - {fileID: 11400000, guid: 5e96e11260281474094ee09cffbdf12c, type: 2}
+  - {fileID: 11400000, guid: f7d0210187fd26f43bca9c418b283d9f, type: 2}
+  - {fileID: 11400000, guid: 7059e1b28493ac342ae9d6d7ab7e0014, type: 2}
