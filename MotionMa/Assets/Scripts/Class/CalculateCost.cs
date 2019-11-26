@@ -39,7 +39,7 @@ public class CalculateCost : MotionMatcher
             jointScore.scores[i] = (jointScore.scores[i] - minScore) / gapScore;
 
         for(int i = 0; i < jointScore.scores.Count; i++) {
-            var sumScore = jointScore.scores[i] + bestTrajectIndexes.scores[i] * 1 / 2;
+            var sumScore = jointScore.scores[i]; //* 1 / 5 + bestTrajectIndexes.scores[i] 
 
             //for debug
             //if (animationCapsules.FrameCapsules[bestTrajectIndexes.capsuleIndex[i]].AnimClipName.Contains("Idle_R"))
@@ -166,7 +166,7 @@ public class CalculateCost : MotionMatcher
             var futurePosDir = Vector3.Distance(frame.TrajectoryDirctionFuture[i], current.TrajectoryDirctionFuture[i]);
             var historyPosDir = Vector3.Distance(frame.TrajectoryDirctionHistory[i], current.TrajectoryDirctionHistory[i]);
 
-            trajectoryCost += ((futurePos + historyPos) + (futurePosDir + historyPosDir));
+            trajectoryCost += ((futurePos + historyPos) + (futurePosDir + historyPosDir) );
             //trajectoryCost += ((futurePos ) + (futurePosDir) );
         }
 
