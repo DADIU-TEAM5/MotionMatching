@@ -125,7 +125,7 @@ public class PlayerTrajectory : MonoBehaviour
         }
 
         //if(!_testPlayAnim)
-        if (inputVel.sqrMagnitude > 0)
+        if (inputVel.sqrMagnitude > 0 && PlayerTrajectoryCapusule.Capsule.TrajectoryHistory[SaveInSecond-1].sqrMagnitude <1)
         {
             if (Blend)
                 UpdateWithBlend(thisClip, thisClipNum, rotationPlayer);
