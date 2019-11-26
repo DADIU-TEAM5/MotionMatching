@@ -21,6 +21,7 @@ public class PlayerTrajectory : MonoBehaviour
     public int AnimationFrameRate = 30;
 
 
+
     public AnimationCapsules AnimationTrajectories;
     public AnimationClips AnimationClips;
     public AnimationClips DeadAnimationClips;
@@ -29,7 +30,7 @@ public class PlayerTrajectory : MonoBehaviour
     //it is okay for static?
     public CapsuleScriptObject PlayerTrajectoryCapusule;
     public MagicMotions AttackMotions;
-
+    public AnimClip IdleAnim;
 
     //for debug
     public Vector3 Velocity;
@@ -45,15 +46,17 @@ public class PlayerTrajectory : MonoBehaviour
     private bool _blendFlag = false;
     private int _forBlendPlay = 0;
     private string _attack = null;
-
+    private int countIdle = 0;
     //for test
     private int _beginFrame;
     private int _beginAnimClip;
 
     private MotionMatcher _motionMatcher;
     private Dictionary<string, Transform> _skeletonJoints = new Dictionary<string, Transform>();
+    private Quaternion _faceDirection = Quaternion.identity;
+    private float _realTimer;
     //private bool _testPlayAnim  = false;
-
+    public Transform character;
 
 
 
@@ -71,9 +74,11 @@ public class PlayerTrajectory : MonoBehaviour
         PlayerTrajectoryCapusule.Capsule = new Capsule();
 
         _timer = 0;
+        _realTimer = 0;
         _tempMoMaTime = 0;
         Results.FrameNum = 0;
         Results.AnimClipIndex = 0;
+        countIdle = 0;
     }
 
     // Update is called once per frame
@@ -81,6 +86,7 @@ public class PlayerTrajectory : MonoBehaviour
     {
         _timer += Time.deltaTime;
         _tempMoMaTime += Time.deltaTime;
+        _realTimer += Time.deltaTime;
         var inputs = Vector3.zero;
 
         int thisClip = Results.AnimClipIndex;
@@ -88,6 +94,21 @@ public class PlayerTrajectory : MonoBehaviour
 
 
         var rotationPlayer = Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed;
+
+        //if (Mathf.Abs(rotationPlayer.y) / RotationSpeed > 0.2)
+        //    _faceDirection = Quaternion.EulerRotation(rotationPlayer);
+
+        if (Input.GetAxis("Horizontal") > 0)
+            _faceDirection =Quaternion.EulerRotation(0, 90, 0);
+        else if(Input.GetAxis("Horizontal") < 0)
+            _faceDirection = Quaternion.EulerRotation(0, -90, 0);
+
+
+        if (Input.GetAxis("Vertical") > 0)
+            _faceDirection = Quaternion.EulerRotation(0, 0, 0);
+        else if (Input.GetAxis("Vertical") < 0)
+            _faceDirection = Quaternion.EulerRotation(0, 180,0 );
+
 
         Vector3 inputVel = UpdatePlayerState(inputs);
         GetRelativeTrajectory(inputVel);
@@ -101,13 +122,41 @@ public class PlayerTrajectory : MonoBehaviour
         }
 
         //if(!_testPlayAnim)
-        if (Blend)
-            UpdateWithBlend(thisClip, thisClipNum, rotationPlayer);
+        if (inputVel.sqrMagnitude > 0)
+        {
+            if (Blend)
+                UpdateWithBlend(thisClip, thisClipNum, rotationPlayer);
+            else
+                UpdateWithoutBlend(thisClip, thisClipNum, rotationPlayer);
+        }
         else
-            UpdateWithoutBlend(thisClip, thisClipNum, rotationPlayer);
+        {
+           
+           
+            playIdle(Vector3.zero);
+            //character.Rotate(_faceDirection*10);
+            //_faceDirection = Vector3.zero;
+        }
+
 
     }
 
+
+    private void playIdle(Vector3 rotationPlayer)
+    {
+        int index;
+        if (countIdle < IdleAnim.Frames.Count)
+            index = countIdle++;
+        else
+        {
+            countIdle = 0;
+            index = 0;
+        }
+
+        FrameToJointsWorld(_skeletonJoints,
+                        IdleAnim.Frames[index]);
+        //transform.Rotate(rotationPlayer);
+    }
 
     //todo add attack motion
     private void GetRelativeTrajectory(Vector3 inputVel)
@@ -157,7 +206,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         PlayAnimationJoints(rotationPlayer, PlayerTrajectoryCapusule,
                                                 Results, AnimationClips, _skeletonJoints);
-        //transform.Rotate(rotationPlayer);
+        //character.Rotate(rotationPlayer);
     }
 
 
@@ -442,13 +491,42 @@ public class PlayerTrajectory : MonoBehaviour
             //    //position.y = 0;
             //    rotationEular = Quaternion.ToEulerAngles(joint.rotation);
             //}
+            //if (jointPoint.Name == "mixamorig:Hips")
+            //{
+            //    _faceDirection = new Vector3(joint.rotation.x,0, joint.rotation.z);
+            //    //position = joint.position;
+            //    //position.y = 0;
+            //    //rotationEular = Quaternion.ToEulerAngles(joint.rotation);
+            //}
             ApplyJointPointToJoint(jointPoint, joint);
         }
 
         //transform.Rotate(rotationEular);
     }
 
+    public void FrameToJointsWorld(
+                             Dictionary<string, Transform> skeletonJoints,
+                             AnimationFrame frame)
+    {
+        //Quaternion rotation = Quaternion.identity;
+        //Vector3 position = Vector3.zero;
+        Vector3 rotationEular = Vector3.zero; ;
 
+        foreach (var jointPoint in frame.JointPoints)
+        {
+            if (!skeletonJoints.Keys.Contains(jointPoint.Name))
+            {
+                continue;
+            }
+
+
+            var joint = skeletonJoints[jointPoint.Name];
+
+            ApplyJointPointToJointWorld(jointPoint, joint);
+        }
+
+        //transform.Rotate(rotationEular);
+    }
     private void ApplyJointPointToJoint(AnimationJointPoint jointPoint, Transform joint)
     {
         //joint.rotation = transform.rotation * jointPoint.Rotation;
@@ -459,7 +537,13 @@ public class PlayerTrajectory : MonoBehaviour
 
 
 
-
+    private void ApplyJointPointToJointWorld(AnimationJointPoint jointPoint, Transform joint)
+    {
+        joint.rotation = _faceDirection * jointPoint.Rotation;
+        //joint.rotation = jointPoint.Rotation;
+        joint.position = _faceDirection * (jointPoint.Position) + transform.position;
+        //joint.position = jointPoint.Position + transform.position;
+    }
 
 
 
