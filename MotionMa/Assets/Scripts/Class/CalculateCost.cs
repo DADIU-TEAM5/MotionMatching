@@ -103,7 +103,7 @@ public class CalculateCost : MotionMatcher
                                             Capsule current, MagicMotions MagicMotionNames)
     {
 
-        int bestNum = 30;
+        int bestNum = 200;
         ScoreWithIndex scoreWithIndex;
         List<float> scores = new List<float>();
         List<int> frameindex = new List<int>();
@@ -166,8 +166,8 @@ public class CalculateCost : MotionMatcher
             var futurePosDir = Vector3.Distance(frame.TrajectoryDirctionFuture[i], current.TrajectoryDirctionFuture[i]);
             var historyPosDir = Vector3.Distance(frame.TrajectoryDirctionHistory[i], current.TrajectoryDirctionHistory[i]);
 
-            //trajectoryCost += ((futurePos + historyPos) + (futurePosDir + historyPosDir));
-            trajectoryCost += ((futurePos ) + (futurePosDir) );
+            trajectoryCost += ((futurePos + historyPos) + (futurePosDir + historyPosDir));
+            //trajectoryCost += ((futurePos ) + (futurePosDir) );
         }
 
         return trajectoryCost;

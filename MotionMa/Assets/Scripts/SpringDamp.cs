@@ -93,9 +93,12 @@ public class SpringDamp : MonoBehaviour
         }
     }
 
-    private void FutureWithSpring(Vector3 currentPos, List<Vector3> futures)
+
+    private void FutureWithSpring(Vector3 inputVel)
     {
-        
+        var inputRot = Vector3.up * Input.GetAxis("Horizontal") * RotationSpeed;
+        var angularVelocity = Quaternion.Euler(inputRot / (1 / 30));
+
     }
 
     private void FuturePredict(Vector3 currentPos, Vector3 inputVel,
