@@ -112,6 +112,9 @@ public class PlayerTrajectory : MonoBehaviour
 
         Vector3 inputVel = UpdatePlayerState(inputs);
         GetRelativeTrajectory(inputVel);
+        BlendAnimTrajectory(PlayerTrajectoryCapusule.Capsule, AnimationTrajectories.FrameCapsules[Results.CapsuleNum]);
+
+
         if (Input.GetKeyDown(KeyCode.Space))
             _attack = "Attack";
 
@@ -138,7 +141,7 @@ public class PlayerTrajectory : MonoBehaviour
             //_faceDirection = Vector3.zero;
         }
 
-
+        
     }
 
 
@@ -176,6 +179,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryHistory, currentPos);
         transToRelative(PlayerTrajectoryCapusule.Capsule.TrajectoryFuture, currentPos);
+        
     }
 
     private void UpdateWithoutBlend(int thisClip, int thisClipNum, Vector3 rotationPlayer)
@@ -209,7 +213,26 @@ public class PlayerTrajectory : MonoBehaviour
         //character.Rotate(rotationPlayer);
     }
 
+    private void BlendAnimTrajectory(Capsule player, Capsule anim)
+    {
+        for (int i = 0; i < anim.TrajectoryFuture.Length; i++)
+        {
+            //test == player this frame, then test next frame
+            player.TrajectoryDirctionFuture[i] = GetLerpFromVector3(player.TrajectoryDirctionFuture[i], anim.TrajectoryDirctionFuture[i], 0.3f);
+            player.TrajectoryDirctionHistory[i] = GetLerpFromVector3(player.TrajectoryDirctionHistory[i], anim.TrajectoryDirctionHistory[i], 0.3f);
+            player.TrajectoryFuture[i] = GetLerpFromVector3(player.TrajectoryFuture[i], anim.TrajectoryFuture[i], 0.3f);
+            player.TrajectoryHistory[i] = GetLerpFromVector3(player.TrajectoryHistory[i], anim.TrajectoryHistory[i], 0.3f);
+        }
+    }
 
+    private Vector3 GetLerpFromVector3(Vector3 v1, Vector3 v2, float lerpValue)
+    {
+        var lerpVector = Vector3.zero;
+        lerpVector.x = Mathf.Lerp(v1.x, v2.x, lerpValue);
+        lerpVector.y = Mathf.Lerp(v1.y, v2.y, lerpValue);
+        lerpVector.z = Mathf.Lerp(v1.z, v2.z, lerpValue);
+        return lerpVector;
+    }
 
 
 

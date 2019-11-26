@@ -4956,7 +4956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 10
-  RotationSpeed: 5
+  RotationSpeed: 3
   Second: 1
   SaveInSecond: 5
   PredictSpeed: 30

@@ -103,7 +103,7 @@ public class CalculateCost : MotionMatcher
                                             Capsule current, MagicMotions MagicMotionNames)
     {
 
-        int bestNum = 50;
+        int bestNum = 30;
         ScoreWithIndex scoreWithIndex;
         List<float> scores = new List<float>();
         List<int> frameindex = new List<int>();
