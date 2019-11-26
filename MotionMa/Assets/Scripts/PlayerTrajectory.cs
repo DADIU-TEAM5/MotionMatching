@@ -107,12 +107,12 @@ public class PlayerTrajectory : MonoBehaviour
         if (Input.GetAxis("Vertical") > 0)
             _faceDirection = Quaternion.EulerRotation(0, 0, 0);
         else if (Input.GetAxis("Vertical") < 0)
-            _faceDirection = Quaternion.EulerRotation(0, 180,0 );
+            _faceDirection = Quaternion.EulerRotation(0, 179,0 );
 
 
         Vector3 inputVel = UpdatePlayerState(inputs);
         GetRelativeTrajectory(inputVel);
-        BlendAnimTrajectory(PlayerTrajectoryCapusule.Capsule, AnimationTrajectories.FrameCapsules[Results.CapsuleNum + 5]);
+        BlendAnimTrajectory(PlayerTrajectoryCapusule.Capsule, AnimationTrajectories.FrameCapsules[Results.CapsuleNum]);
 
 
         if (Input.GetKeyDown(KeyCode.Space))
