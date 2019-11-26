@@ -112,7 +112,7 @@ public class PlayerTrajectory : MonoBehaviour
 
         Vector3 inputVel = UpdatePlayerState(inputs);
         GetRelativeTrajectory(inputVel);
-        BlendAnimTrajectory(PlayerTrajectoryCapusule.Capsule, AnimationTrajectories.FrameCapsules[Results.CapsuleNum]);
+        BlendAnimTrajectory(PlayerTrajectoryCapusule.Capsule, AnimationTrajectories.FrameCapsules[Results.CapsuleNum + 5]);
 
 
         if (Input.GetKeyDown(KeyCode.Space))
