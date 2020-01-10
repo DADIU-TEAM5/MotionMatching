@@ -155,15 +155,15 @@ public class AnimationCSVImporter
             parsedValue = float.Parse(value);
 
             int start = 0;
-            if (value.Contains("-"))
-            {
-                start++;
-            }
+            //if (value.Contains("-"))
+            //{
+            //    start++;
+            //}
 
-            for (int j = start; j < valueLength - 2; j++)
-            {
-                parsedValue *= 0.1f;
-            }
+            //for (int j = start; j < valueLength - 2; j++)
+            //{
+            //    parsedValue *= 0.1f;
+            //}
 
         }
         else

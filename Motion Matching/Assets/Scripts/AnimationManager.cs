@@ -43,7 +43,7 @@ public class AnimationManager : MonoBehaviour
 
     private void ApplyJointPointToJoint(MotionJointPoint jointPoint, Transform joint) {
         // Based on negative joint
-        var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
+        //var newEulerRot = jointPoint.Rotation * Quaternion.Inverse(jointPoint.BaseRotation);
         //var newEulerRot = jointPoint.Rotation * jointPoint.BaseRotation;
         //joint.rotation = newEulerRot;
         joint.rotation = Skeleton.rotation * jointPoint.LocalRotation;
